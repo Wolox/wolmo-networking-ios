@@ -1,5 +1,5 @@
-github "ReactiveCocoa/ReactiveCocoa" "5.0.0-alpha.5"
-github "Wolox/wolmo-core-ios" ~> 1.0.1
+github "ReactiveCocoa/ReactiveCocoa" ~> 5.0.1
 github "thoughtbot/Argo" ~> 4.1.1
 github "thoughtbot/Curry" ~> 3.0.0
 github "Alamofire/Alamofire" ~> 4.3.0
+github "Alamofire/AlamofireNetworkActivityIndicator" ~> 2.1.0
