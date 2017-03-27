@@ -30,6 +30,10 @@ public extension AlamofireLogger {
         if let headers = request.allHTTPHeaderFields {
             logHeaders(headers: headers as [String : AnyObject])
         }
+        
+        if let body: Data = request.httpBody {
+            logBody(body: body)
+        }
     }
     
     func logResponse(response: URLResponse, data: Data? = .none) {
@@ -51,20 +55,10 @@ public extension AlamofireLogger {
             logHeaders(headers: headers)
         }
         
-        guard let data: Data = data as Data? else { return }
-        
-        do {
-            let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers)
-            let pretty = try JSONSerialization.data(withJSONObject: json, options: .prettyPrinted)
-            
-            if let string = NSString(data: pretty, encoding: String.Encoding.utf8.rawValue) {
-                print("JSON: \(string)")
-            }
-        } catch {
-            if let string = NSString(data: data, encoding: String.Encoding.utf8.rawValue) {
-                print("Data: \(string)")
-            }
+        if let body: Data = data {
+            logBody(body: body)
         }
+        
     }
     
     func logError(error: Error) {
@@ -89,6 +83,21 @@ private extension AlamofireLogger {
             print("  \(key) : \(value)")
         }
         print("]")
+    }
+    
+    func logBody(body: Data) {
+        do {
+            let json = try JSONSerialization.jsonObject(with: body, options: .mutableContainers)
+            let pretty = try JSONSerialization.data(withJSONObject: json, options: .prettyPrinted)
+            
+            if let string = NSString(data: pretty, encoding: String.Encoding.utf8.rawValue) {
+                print("JSON: \(string)")
+            }
+        } catch {
+            if let string = NSString(data: body, encoding: String.Encoding.utf8.rawValue) {
+                print("Data: \(string)")
+            }
+        }
     }
     
 }
