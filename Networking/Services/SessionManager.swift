@@ -18,6 +18,7 @@ public protocol SessionManagerType {
     var currentUser: AuthenticableUser? { get }
     var sessionToken: String? { get }
     
+    var sessionSignal: Signal<Bool, NoError> { get }
     var userSignal: Signal<AuthenticableUser?, NoError> { get }
     
     func setCurrentUserFetcher(currentUserFetcher: CurrentUserFetcherType)
