@@ -13,7 +13,7 @@ import ReactiveSwift
 internal class LocalRequestExecutor: RequestExecutorType {
     
     func performRequest(method: NetworkingMethod,
-                        _ url: URL,
+                        url: URL,
                         parameters: [String: Any]? = .none,
                         headers: [String: String]? = .none) -> HTTPResponseProducer {
         let path = buildPath(method: method, url: url)

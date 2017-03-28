@@ -16,7 +16,7 @@ public protocol RequestExecutorType {
     
     func performRequest(
         method: NetworkingMethod,
-        _ url: URL,
+        url: URL,
         parameters: [String: Any]?,
         headers: [String: String]?) -> HTTPResponseProducer
     
@@ -32,7 +32,7 @@ internal final class RequestExecutor: RequestExecutorType {
     
     func performRequest(
         method: NetworkingMethod,
-        _ url: URL,
+        url: URL,
         parameters: [String: Any]? = .none,
         headers: [String: String]? = .none) -> HTTPResponseProducer {
             return _sessionManager

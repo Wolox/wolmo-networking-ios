@@ -119,7 +119,7 @@ extension AbstractRepository: RepositoryType {
         
         return _requestExecutor.performRequest(
             method: method,
-            URL!,
+            url: URL!,
             parameters: parameters,
             headers: authenticationHeaders
         ).flatMapError { self.mapError(error: $0) }
@@ -172,7 +172,7 @@ fileprivate extension AbstractRepository {
         let URL = buildURL(path: path)
         guard URL != .none else { return SignalProducer(error: .invalidURL) }
         
-        return _requestExecutor.performRequest(method: method, URL!, parameters: parameters, headers: headers)
+        return _requestExecutor.performRequest(method: method, url: URL!, parameters: parameters, headers: headers)
             .flatMapError { self.mapError(error: $0) }
             .flatMap(.concat) { _, _, data in self.deserializeData(data: data, decoder: decoder) }
     }
@@ -186,7 +186,7 @@ fileprivate extension AbstractRepository {
         let URL = buildURL(path: path)
         guard URL != .none else { return SignalProducer(error: .invalidURL) }
         
-        return _requestExecutor.performRequest(method: method, URL!, parameters: parameters, headers: headers)
+        return _requestExecutor.performRequest(method: method, url: URL!, parameters: parameters, headers: headers)
             .flatMapError { self.mapError(error: $0) }
             .flatMap(.concat) { _, response, data -> SignalProducer<T, RepositoryError> in
                 if response.statusCode != 202 {
