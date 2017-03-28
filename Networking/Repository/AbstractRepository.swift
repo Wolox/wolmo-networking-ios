@@ -104,7 +104,7 @@ extension AbstractRepository: RepositoryType {
             method: method,
             path: path,
             parameters: parameters,
-            headers: nil,
+            headers: .none,
             decoder: decoder)
     }
     
