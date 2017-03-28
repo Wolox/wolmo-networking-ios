@@ -17,7 +17,7 @@ public enum NetworkingMethod: String {
 internal extension NetworkingMethod {
     
     func toHTTPMethod() -> HTTPMethod {
-        return HTTPMethod(rawValue: self.rawValue.uppercased())!
+        return HTTPMethod(rawValue: rawValue.uppercased())!
     }
     
 }

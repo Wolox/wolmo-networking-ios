@@ -72,7 +72,7 @@ extension AbstractRepository: RepositoryType {
         decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError> {
         guard _sessionManager.isLoggedIn else { return SignalProducer(error: .unauthenticatedSession) }
         
-        return self.performRequestExecution(
+        return performRequestExecution(
             method: method,
             path: path,
             parameters: parameters,
@@ -87,7 +87,7 @@ extension AbstractRepository: RepositoryType {
         decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError> {
         guard _sessionManager.isLoggedIn else { return SignalProducer(error: .unauthenticatedSession) }
         
-        return self.performPollingRequestExecution(
+        return performPollingRequestExecution(
             method: method,
             path: path,
             parameters: parameters,
@@ -100,7 +100,7 @@ extension AbstractRepository: RepositoryType {
         path: String,
         parameters: [String: Any]?,
         decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError> {
-        return self.performRequestExecution(
+        return performRequestExecution(
             method: method,
             path: path,
             parameters: parameters,
@@ -155,8 +155,8 @@ fileprivate extension AbstractRepository {
             }
         }
         if let failureReason = error.error.userInfo[NSLocalizedFailureReasonErrorKey] as? String {
-            if self._sessionManager.isLoggedIn && failureReason.contains(String(401)) {
-                self._sessionManager.expire()
+            if _sessionManager.isLoggedIn && failureReason.contains(String(401)) {
+                _sessionManager.expire()
                 return SignalProducer(error: .unauthenticatedSession)
             }
         }
