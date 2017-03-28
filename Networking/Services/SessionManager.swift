@@ -35,8 +35,8 @@ final public class SessionManager: SessionManagerType {
     fileprivate let _keychain: KeychainSwift
     fileprivate var _currentUserFetcher: CurrentUserFetcherType?
     
-    fileprivate var _sessionToken: String? = .none
-    fileprivate var _user: AuthenticableUser? = .none
+    public fileprivate(set) var sessionToken: String? = .none
+    public fileprivate(set) var currentUser: AuthenticableUser? = .none
     
     public let sessionSignal: Signal<Bool, NoError>
     fileprivate let _sessionObserver: Signal<Bool, NoError>.Observer
@@ -56,12 +56,12 @@ final public class SessionManager: SessionManagerType {
     }
     
     public func bootstrap() {
-        _sessionToken = getSessionToken()
+        sessionToken = getSessionToken()
         _sessionObserver.send(value: isLoggedIn)
         _currentUserFetcher?.fetchCurrentUser().startWithResult { [unowned self] in
             switch $0 {
             case .success(let user):
-                self._user = user
+                self.currentUser = user
                 self._userObserver.send(value: user)
             case .failure(_):
                 break
@@ -71,14 +71,6 @@ final public class SessionManager: SessionManagerType {
     
     public var isLoggedIn: Bool {
         return sessionToken != .none
-    }
-    
-    public var currentUser: AuthenticableUser? {
-        return _user
-    }
-    
-    public var sessionToken: String? {
-        return _sessionToken
     }
     
     deinit {
@@ -115,7 +107,7 @@ private extension SessionManager {
     
     func notifyObservers() {
         _sessionObserver.send(value: isLoggedIn)
-        _userObserver.send(value: _user)
+        _userObserver.send(value: currentUser)
     }
     
     func updateSession(user: AuthenticableUser?) {
@@ -126,14 +118,14 @@ private extension SessionManager {
     }
     
     func clearSession() {
-        _user = .none
-        _sessionToken = .none
+        currentUser = .none
+        sessionToken = .none
         clearSessionToken()
     }
     
     func saveSession(user: AuthenticableUser) {
-        _user = user
-        _sessionToken = user.sessionToken
+        currentUser = user
+        sessionToken = user.sessionToken
         if let sessionToken = user.sessionToken {
             // This should always happen.
             saveSessionToken(sessionToken: sessionToken)
