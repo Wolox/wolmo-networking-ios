@@ -12,12 +12,17 @@ import Result
 
 internal class SessionManagerMock: SessionManagerType {
     
+    var sessionSignal: Signal<Bool, NoError> = Signal<Bool, NoError>.pipe().0
     var userSignal: Signal<AuthenticableUser?, NoError> = Signal<AuthenticableUser?, NoError>.pipe().0
     
     var _currentUser: AuthenticableUser? = .none
     var _sessionToken: String? = .none
     
-    func bootstrapSession() {
+    func bootstrap() {
+        
+    }
+    
+    func setCurrentUserFetcher(currentUserFetcher: CurrentUserFetcherType) {
         
     }
     

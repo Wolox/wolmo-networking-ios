@@ -86,7 +86,7 @@ private extension AppDelegate {
         
         // Bootstrap session
         
-        sessionManager.bootstrapSession()
+        sessionManager.bootstrap()
         
         // Create repository and perform requests.
         

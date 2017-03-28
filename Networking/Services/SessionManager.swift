@@ -12,7 +12,7 @@ import KeychainSwift
 
 public protocol SessionManagerType {
     
-    func bootstrapSession()
+    func bootstrap()
     
     var isLoggedIn: Bool { get }
     var currentUser: AuthenticableUser? { get }
@@ -55,7 +55,7 @@ final public class SessionManager: SessionManagerType {
         _currentUserFetcher = currentUserFetcher
     }
     
-    public func bootstrapSession() {
+    public func bootstrap() {
         _sessionToken = getSessionToken()
         _sessionObserver.send(value: isLoggedIn)
         _currentUserFetcher?.fetchCurrentUser().startWithResult { [unowned self] in
