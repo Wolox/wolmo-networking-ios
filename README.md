@@ -78,7 +78,7 @@ When creating a repository instance it expects an instance of [NetworkingConfigu
 
 The properties configurable from there are:
 
-- `useSecureConnection: Bool`: `true` for `https` and `false` for `http`.
+- `useSecureConnection: Bool`: `true` for `https` and `false` for `http`. In case this is disabled, the proper exception must be added to `Info.plist` file in the project.
 - `domainURL: String`: API domain.
 - `subdomainURL: String`: API subdomain.
 - `versionAPI: String`: API version.
