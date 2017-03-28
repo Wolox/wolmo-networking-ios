@@ -127,8 +127,9 @@ private extension SessionManager {
         currentUser = user
         sessionToken = user.sessionToken
         if let sessionToken = user.sessionToken {
-            // This should always happen.
             saveSessionToken(sessionToken: sessionToken)
+        } else {
+            fatalError("Authenticated user has no session token, unable to save session in SessionManager")
         }
     }
     
