@@ -40,7 +40,7 @@ public protocol RepositoryType {
     
 }
 
-open class AbstractRepository: RepositoryType {
+open class AbstractRepository {
     
     fileprivate let _networkingConfiguration: NetworkingConfiguration
     
@@ -63,7 +63,7 @@ open class AbstractRepository: RepositoryType {
     
 }
 
-public extension AbstractRepository {
+extension AbstractRepository: RepositoryType {
 
     public func performRequest<T>(
         method: NetworkingMethod,
