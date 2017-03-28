@@ -58,6 +58,8 @@ The framework allows to create agile HTTP repositories by extending [AbstractRep
 
 In case a custom repository should fetch a single or a collection of models, they must implement `Decodable` (see [Argo](https://github.com/thoughtbot/Argo)). This way they can be automatically decoded by the framework. Check [UserDemo](NetworkingDemo/UserDemo.swift) or [Entity](NetworkingDemo/Entity.swift).
 
+In case the entity is too complex, it's possible to get the error: `Expression was too complex to be solved in reasonable time`. In this case check this [Argo issue](https://github.com/thoughtbot/Argo/issues/5) for a workaround.
+
 ### Error handling
 
 Every implemented repository is thought to return a `Result` instance (see [Result](https://github.com/antitypical/Result)) in which the value is typed in the expected response type, and the error is always a [RepositoryError](Networking/Repository/RepositoryError.swift).
