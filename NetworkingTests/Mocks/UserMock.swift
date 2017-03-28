@@ -6,8 +6,7 @@
 //  Copyright © 2017 Wolox. All rights reserved.
 //
 
-import Foundation
-@testable import Networking
+import Networking
 
 internal struct UserMock: AuthenticableUser {
     

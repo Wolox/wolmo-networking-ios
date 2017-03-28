@@ -8,7 +8,7 @@
 
 import Quick
 import Nimble
-@testable import Networking
+import Networking
 
 class EntityRepositorySpec: QuickSpec {
     

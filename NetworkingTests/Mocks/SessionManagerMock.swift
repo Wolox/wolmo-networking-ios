@@ -8,7 +8,7 @@
 
 import ReactiveSwift
 import Result
-@testable import Networking
+import Networking
 
 internal class SessionManagerMock: SessionManagerType {
     

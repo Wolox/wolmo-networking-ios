@@ -6,7 +6,6 @@
 //  Copyright © 2017 Wolox. All rights reserved.
 //
 
-import Foundation
 import ReactiveSwift
 @testable import Networking
 
