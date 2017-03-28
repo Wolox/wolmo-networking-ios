@@ -24,7 +24,7 @@ extension Entity: Decodable {
         return curry(Entity.init)
             <^> json <| "id"
             <*> json <| "name"
-            <*> (json <|? "optional" <|> pure(nil))
+            <*> (json <|? "optional" <|> pure(.none))
     }
     
 }
