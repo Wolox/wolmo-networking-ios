@@ -25,9 +25,9 @@ public struct NetworkingConfiguration {
     
     public init(useSecureConnection: Bool = true,
                 domainURL: String,
-                subdomainURL: String,
-                versionAPI: String,
-                usePinningCertificate: Bool) {
+                subdomainURL: String = "",
+                versionAPI: String = "",
+                usePinningCertificate: Bool = false) {
         _useSecureConnection = useSecureConnection
         _domainURL = domainURL
         _subdomainURL = subdomainURL

@@ -80,9 +80,9 @@ The properties configurable from there are:
 
 - `useSecureConnection: Bool`: `true` for `https` and `false` for `http`. In case this is disabled, the proper exception must be added to `Info.plist` file in the project.
 - `domainURL: String`: API domain.
-- `subdomainURL: String`: API subdomain.
-- `versionAPI: String`: API version.
-- `usePinningCertificate: Bool`: enables SSL Pinning (see next section).
+- `subdomainURL: String`: API subdomain (optional parameter).
+- `versionAPI: String`: API version (optional parameter)
+- `usePinningCertificate: Bool`: enables SSL Pinning (false by default) (see next section).
 
 ### Enable SSL Pinning
 
