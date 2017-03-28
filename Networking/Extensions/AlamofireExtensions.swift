@@ -48,7 +48,6 @@ internal extension Alamofire.DataRequest {
                     observable.sendCompleted()
                 }
             }
-
         }
     }
     
