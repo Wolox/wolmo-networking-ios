@@ -20,6 +20,8 @@ public protocol SessionManagerType {
     
     var userSignal: Signal<AuthenticableUser?, NoError> { get }
     
+    func setCurrentUserFetcher(currentUserFetcher: CurrentUserFetcherType)
+    
     func login(user: AuthenticableUser)
     func update(user: AuthenticableUser)
     func logout()
