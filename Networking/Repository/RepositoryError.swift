@@ -8,17 +8,12 @@
 
 import Argo
 
-// I don't think having this protocol has any purpose.
-public protocol RepositoryErrorType: Error {
-    
-}
-
 // This is to be implemented by the final user to model custom errors related with the project itself.
 public protocol CustomRepositoryErrorType: Error {
     
 }
 
-public enum RepositoryError: RepositoryErrorType {
+public enum RepositoryError: Error {
     case invalidURL
     case requestError(ResponseError)
     case noNetworkConnection
