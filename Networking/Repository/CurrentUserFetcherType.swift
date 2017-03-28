@@ -10,6 +10,6 @@ import ReactiveSwift
 
 public protocol CurrentUserFetcherType {
 
-    func fetchCurrentUser() -> SignalProducer<User, RepositoryError>
+    func fetchCurrentUser() -> SignalProducer<AuthenticableUser, RepositoryError>
     
 }

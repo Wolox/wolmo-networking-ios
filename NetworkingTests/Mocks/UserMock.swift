@@ -9,7 +9,7 @@
 import Foundation
 @testable import Networking
 
-internal struct UserMock: User {
+internal struct UserMock: AuthenticableUser {
     
     var sessionToken: String? {
         return "fake-session-token"

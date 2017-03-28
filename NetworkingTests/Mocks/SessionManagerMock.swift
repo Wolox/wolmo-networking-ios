@@ -12,9 +12,9 @@ import Result
 
 internal class SessionManagerMock: SessionManagerType {
     
-    var userSignal: Signal<User?, NoError> = Signal<User?, NoError>.pipe().0
+    var userSignal: Signal<AuthenticableUser?, NoError> = Signal<AuthenticableUser?, NoError>.pipe().0
     
-    var _currentUser: User? = .none
+    var _currentUser: AuthenticableUser? = .none
     var _sessionToken: String? = .none
     
     func bootstrapSession() {
@@ -25,7 +25,7 @@ internal class SessionManagerMock: SessionManagerType {
         return _sessionToken != .none
     }
     
-    var currentUser: User? {
+    var currentUser: AuthenticableUser? {
         return _currentUser
     }
     
@@ -33,12 +33,12 @@ internal class SessionManagerMock: SessionManagerType {
         return _currentUser?.sessionToken
     }
     
-    func login(user: User) {
+    func login(user: AuthenticableUser) {
         _currentUser = user
         _sessionToken = user.sessionToken
     }
     
-    func update(user: User) {
+    func update(user: AuthenticableUser) {
         _currentUser = user
         _sessionToken = user.sessionToken
     }

@@ -11,7 +11,7 @@ import Argo
 import Curry
 import Runes
 
-struct UserDemo: User {
+struct UserDemo: AuthenticableUser {
     
     let sessionToken: String?
     let id: Int //swift-lint:disable:this variable_name

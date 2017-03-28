@@ -15,13 +15,13 @@ public protocol SessionManagerType {
     func bootstrapSession()
     
     var isLoggedIn: Bool { get }
-    var currentUser: User? { get }
+    var currentUser: AuthenticableUser? { get }
     var sessionToken: String? { get }
     
-    var userSignal: Signal<User?, NoError> { get }
+    var userSignal: Signal<AuthenticableUser?, NoError> { get }
     
-    func login(user: User)
-    func update(user: User)
+    func login(user: AuthenticableUser)
+    func update(user: AuthenticableUser)
     func logout()
     func expire()
     
@@ -33,18 +33,18 @@ final public class SessionManager: SessionManagerType {
     fileprivate var _currentUserFetcher: CurrentUserFetcherType?
     
     fileprivate var _sessionToken: String? = .none
-    fileprivate var _user: User? = .none
+    fileprivate var _user: AuthenticableUser? = .none
     
     public let sessionSignal: Signal<Bool, NoError>
     fileprivate let _sessionObserver: Signal<Bool, NoError>.Observer
     
-    public let userSignal: Signal<User?, NoError>
-    fileprivate let _userObserver: Signal<User?, NoError>.Observer
+    public let userSignal: Signal<AuthenticableUser?, NoError>
+    fileprivate let _userObserver: Signal<AuthenticableUser?, NoError>.Observer
     
     public init(keychain: KeychainSwift = KeychainSwift()) {
         _keychain = keychain
         (sessionSignal, _sessionObserver) = Signal<Bool, NoError>.pipe()
-        (userSignal, _userObserver) = Signal<User?, NoError>.pipe()
+        (userSignal, _userObserver) = Signal<AuthenticableUser?, NoError>.pipe()
     }
     
     public func setCurrentUserFetcher(currentUserFetcher: CurrentUserFetcherType) {
@@ -70,7 +70,7 @@ final public class SessionManager: SessionManagerType {
         return sessionToken != .none
     }
     
-    public var currentUser: User? {
+    public var currentUser: AuthenticableUser? {
         return _user
     }
     
@@ -87,12 +87,12 @@ final public class SessionManager: SessionManagerType {
 
 public extension SessionManager {
     
-    public func login(user: User) {
+    public func login(user: AuthenticableUser) {
         updateSession(user: user)
         notifyObservers()
     }
     
-    public func update(user: User) {
+    public func update(user: AuthenticableUser) {
         updateSession(user: user)
     }
     
@@ -115,7 +115,7 @@ private extension SessionManager {
         _userObserver.send(value: _user)
     }
     
-    func updateSession(user: User?) {
+    func updateSession(user: AuthenticableUser?) {
         switch user {
         case .none: clearSession()
         case .some(let user): saveSession(user: user)
@@ -128,7 +128,7 @@ private extension SessionManager {
         clearSessionToken()
     }
     
-    func saveSession(user: User) {
+    func saveSession(user: AuthenticableUser) {
         _user = user
         _sessionToken = user.sessionToken
         if let sessionToken = user.sessionToken {

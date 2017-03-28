@@ -11,7 +11,7 @@
 		E13DC6441E6DD5440099FA75 /* Runes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E17F82AC1E37E5EE00DE8C76 /* Runes.framework */; };
 		E13DC6471E6DD5440099FA75 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E157DA761E3158EA004586CB /* Result.framework */; };
 		E13DC6491E6DD5440099FA75 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E157DA661E315532004586CB /* Alamofire.framework */; };
-		E13DC64E1E6DD8150099FA75 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E133203F1E36747B008206C0 /* User.swift */; };
+		E13DC64E1E6DD8150099FA75 /* AuthenticableUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E133203F1E36747B008206C0 /* AuthenticableUser.swift */; };
 		E13DC64F1E6DD8150099FA75 /* NetworkingConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13320431E36AEF5008206C0 /* NetworkingConfiguration.swift */; };
 		E13DC6501E6DD8150099FA75 /* NetworkingMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13320471E3785DE008206C0 /* NetworkingMethod.swift */; };
 		E13DC6511E6DD8150099FA75 /* AlamofireExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13320391E3296AE008206C0 /* AlamofireExtensions.swift */; };
@@ -113,7 +113,7 @@
 		E13320351E32969E008206C0 /* RequestExecutor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RequestExecutor.swift; path = Repository/RequestExecutor.swift; sourceTree = "<group>"; };
 		E13320391E3296AE008206C0 /* AlamofireExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlamofireExtensions.swift; path = Extensions/AlamofireExtensions.swift; sourceTree = "<group>"; };
 		E133203A1E3296AE008206C0 /* AlamofireLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlamofireLogger.swift; path = Extensions/AlamofireLogger.swift; sourceTree = "<group>"; };
-		E133203F1E36747B008206C0 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = Model/User.swift; sourceTree = "<group>"; };
+		E133203F1E36747B008206C0 /* AuthenticableUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AuthenticableUser.swift; path = Model/AuthenticableUser.swift; sourceTree = "<group>"; };
 		E13320431E36AEF5008206C0 /* NetworkingConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkingConfiguration.swift; path = Model/NetworkingConfiguration.swift; sourceTree = "<group>"; };
 		E13320451E378582008206C0 /* NetworkingSessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkingSessionManager.swift; path = Repository/NetworkingSessionManager.swift; sourceTree = "<group>"; };
 		E13320471E3785DE008206C0 /* NetworkingMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkingMethod.swift; path = Model/NetworkingMethod.swift; sourceTree = "<group>"; };
@@ -237,7 +237,7 @@
 		E133203E1E367469008206C0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				E133203F1E36747B008206C0 /* User.swift */,
+				E133203F1E36747B008206C0 /* AuthenticableUser.swift */,
 				E13320431E36AEF5008206C0 /* NetworkingConfiguration.swift */,
 				E13320471E3785DE008206C0 /* NetworkingMethod.swift */,
 			);
@@ -582,7 +582,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E13DC64E1E6DD8150099FA75 /* User.swift in Sources */,
+				E13DC64E1E6DD8150099FA75 /* AuthenticableUser.swift in Sources */,
 				E13DC64F1E6DD8150099FA75 /* NetworkingConfiguration.swift in Sources */,
 				E13DC6501E6DD8150099FA75 /* NetworkingMethod.swift in Sources */,
 				E13DC6511E6DD8150099FA75 /* AlamofireExtensions.swift in Sources */,

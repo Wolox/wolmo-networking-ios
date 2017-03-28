@@ -19,7 +19,7 @@ internal class CurrentUserFetcher: AbstractRepository, CurrentUserFetcherType {
     private static let UserPath = "users/"
     private static let CurrentUserPath = "me"
     
-    func fetchCurrentUser() -> SignalProducer<User, RepositoryError> {
+    func fetchCurrentUser() -> SignalProducer<AuthenticableUser, RepositoryError> {
         let path = CurrentUserFetcher.UserPath + CurrentUserFetcher.CurrentUserPath
         return performRequest(method: .get, path: path, parameters: .none) {
             let decoded: Decoded<UserDemo> = decode($0)
