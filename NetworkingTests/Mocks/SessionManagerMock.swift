@@ -12,8 +12,16 @@ import Networking
 
 internal class SessionManagerMock: SessionManagerType {
     
-    var sessionSignal: Signal<Bool, NoError> = Signal<Bool, NoError>.pipe().0
-    var userSignal: Signal<AuthenticableUser?, NoError> = Signal<AuthenticableUser?, NoError>.pipe().0
+    var sessionSignal: Signal<Bool, NoError>
+    var userSignal: Signal<AuthenticableUser?, NoError>
+    
+    fileprivate let _sessionObserver: Signal<Bool, NoError>.Observer
+    fileprivate let _userObserver: Signal<AuthenticableUser?, NoError>.Observer
+    
+    init() {
+        (sessionSignal, _sessionObserver) = Signal<Bool, NoError>.pipe()
+        (userSignal, _userObserver) = Signal<AuthenticableUser?, NoError>.pipe()
+    }
     
     var _currentUser: AuthenticableUser? = .none
     var _sessionToken: String? = .none
@@ -56,6 +64,11 @@ internal class SessionManagerMock: SessionManagerType {
     func logout() {
         _currentUser = .none
         _sessionToken = .none
+    }
+    
+    deinit {
+        _userObserver.sendCompleted()
+        _sessionObserver.sendCompleted()
     }
     
 }
