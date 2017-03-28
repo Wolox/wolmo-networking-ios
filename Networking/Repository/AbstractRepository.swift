@@ -150,7 +150,7 @@ fileprivate extension AbstractRepository {
     
     func mapError<T>(error: ResponseError) -> SignalProducer<T, RepositoryError> {
         if let connectionError = error.error.userInfo[NSLocalizedDescriptionKey] as? String {
-            if connectionError.contains("Internet connection") {
+            if connectionError.lowercased().contains("internet connection") {
                 return SignalProducer(error: .noNetworkConnection)
             }
         }
