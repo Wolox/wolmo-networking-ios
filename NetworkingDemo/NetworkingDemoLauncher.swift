@@ -59,7 +59,7 @@ private extension NetworkingDemoLauncher {
         
         repository.fetchEntities().startWithResult {
             switch $0 {
-            case .success(let notifications): print("\(notifications)")
+            case .success(let entities): print("\(entities)")
             case .failure(let error):  print("\(error)")
             }
         }
