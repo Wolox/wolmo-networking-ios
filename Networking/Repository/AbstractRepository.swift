@@ -71,13 +71,8 @@ extension AbstractRepository: RepositoryType {
         parameters: [String: Any]?,
         decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError> {
         guard _sessionManager.isLoggedIn else { return SignalProducer(error: .unauthenticatedSession) }
-        
-        return performRequestExecution(
-            method: method,
-            path: path,
-            parameters: parameters,
-            headers: authenticationHeaders,
-            decoder: decoder)
+        return perform(method: method, path: path, parameters: parameters, headers: authenticationHeaders)
+            .flatMap(.concat) { _, _, data in self.deserializeData(data: data, decoder: decoder) }
     }
     
     public func performPollingRequest<T>(
@@ -86,13 +81,14 @@ extension AbstractRepository: RepositoryType {
         parameters: [String: Any]?,
         decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError> {
         guard _sessionManager.isLoggedIn else { return SignalProducer(error: .unauthenticatedSession) }
-        
-        return performPollingRequestExecution(
-            method: method,
-            path: path,
-            parameters: parameters,
-            headers: authenticationHeaders,
-            decoder: decoder)
+        return perform(method: method, path: path, parameters: parameters, headers: authenticationHeaders)
+            .flatMap(.concat) { _, response, data -> SignalProducer<T, RepositoryError> in
+                if response.statusCode != 202 {
+                    return self.deserializeData(data: data, decoder: decoder)
+                }
+                return self.performPollingRequest(method: method, path: path, parameters: parameters, decoder: decoder)
+                    .start(on: DelayedScheduler(delay: 1.0))
+        }
     }
     
     public func performAuthenticationRequest<T>(
@@ -100,12 +96,8 @@ extension AbstractRepository: RepositoryType {
         path: String,
         parameters: [String: Any]?,
         decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError> {
-        return performRequestExecution(
-            method: method,
-            path: path,
-            parameters: parameters,
-            headers: .none,
-            decoder: decoder)
+        return perform(method: method, path: path, parameters: parameters, headers: .none)
+            .flatMap(.concat) { _, _, data in self.deserializeData(data: data, decoder: decoder) }
     }
     
     public func performRequest(
@@ -113,14 +105,7 @@ extension AbstractRepository: RepositoryType {
         path: String,
         parameters: [String: Any]?) -> SignalProducer<(URLRequest, HTTPURLResponse, Data), RepositoryError> {
         guard _sessionManager.isLoggedIn else { return SignalProducer(error: .unauthenticatedSession) }
-        guard let URL = buildURL(path: path) else { return SignalProducer(error: .invalidURL) }
-        
-        return _requestExecutor.perform(
-            method: method,
-            url: URL,
-            parameters: parameters,
-            headers: authenticationHeaders
-        ).flatMapError { self.mapError(error: $0) }
+        return perform(method: method, path: path, parameters: parameters, headers: authenticationHeaders)
     }
     
 }
@@ -161,41 +146,17 @@ fileprivate extension AbstractRepository {
         return SignalProducer(error: .requestError(error))
     }
     
-    func performRequestExecution<T>(
+    func perform(
         method: NetworkingMethod,
         path: String,
         parameters: [String: Any]?,
-        headers: [String: String]?,
-        decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError> {
-        guard let URL = buildURL(path: path) else { return SignalProducer(error: .invalidURL) }
+        headers: [String: String]?) -> SignalProducer<(URLRequest, HTTPURLResponse, Data), RepositoryError> {
+        guard let url = buildURL(path: path) else { return SignalProducer(error: .invalidURL) }
         
-        return _requestExecutor.perform(method: method, url: URL, parameters: parameters, headers: headers)
+        return _requestExecutor.perform(method: method, url: url, parameters: parameters, headers: headers)
             .flatMapError { self.mapError(error: $0) }
-            .flatMap(.concat) { _, _, data in self.deserializeData(data: data, decoder: decoder) }
     }
     
-    func performPollingRequestExecution<T>(
-        method: NetworkingMethod,
-        path: String,
-        parameters: [String: Any]?,
-        headers: [String: String]?,
-        decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError> {
-        guard let URL = buildURL(path: path) else { return SignalProducer(error: .invalidURL) }
-        
-        return _requestExecutor.perform(method: method, url: URL, parameters: parameters, headers: headers)
-            .flatMapError { self.mapError(error: $0) }
-            .flatMap(.concat) { _, response, data -> SignalProducer<T, RepositoryError> in
-                if response.statusCode != 202 {
-                    return self.deserializeData(data: data, decoder: decoder)
-                }
-                return self.performPollingRequestExecution(method: method,
-                    path: path,
-                    parameters: parameters,
-                    headers: headers,
-                    decoder: decoder
-                ).start(on: DelayedScheduler(delay: 1.0))
-            }
-        }
 }
 
 fileprivate extension JSONSerialization {
