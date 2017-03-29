@@ -11,10 +11,10 @@ import ReactiveSwift
 
 internal class LocalRequestExecutor: RequestExecutorType {
     
-    func performRequest(method: NetworkingMethod,
-                        url: URL,
-                        parameters: [String: Any]? = .none,
-                        headers: [String: String]? = .none) -> HTTPResponseProducer {
+    func perform(method: NetworkingMethod,
+                 url: URL,
+                 parameters: [String: Any]? = .none,
+                 headers: [String: String]? = .none) -> HTTPResponseProducer {
         let path = buildPath(method: method, url: url)
         
         if let filePath = jsonPathForFile(name: path) {

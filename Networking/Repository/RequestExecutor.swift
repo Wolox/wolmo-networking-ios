@@ -14,7 +14,7 @@ public typealias HTTPResponseProducer = SignalProducer<(URLRequest, HTTPURLRespo
 
 public protocol RequestExecutorType {
     
-    func performRequest(
+    func perform(
         method: NetworkingMethod,
         url: URL,
         parameters: [String: Any]?,
@@ -30,7 +30,7 @@ internal final class RequestExecutor: RequestExecutorType {
         _sessionManager = sessionManager
     }
     
-    func performRequest(
+    func perform(
         method: NetworkingMethod,
         url: URL,
         parameters: [String: Any]? = .none,

@@ -115,7 +115,7 @@ extension AbstractRepository: RepositoryType {
         guard _sessionManager.isLoggedIn else { return SignalProducer(error: .unauthenticatedSession) }
         guard let URL = buildURL(path: path) else { return SignalProducer(error: .invalidURL) }
         
-        return _requestExecutor.performRequest(
+        return _requestExecutor.perform(
             method: method,
             url: URL,
             parameters: parameters,
@@ -169,7 +169,7 @@ fileprivate extension AbstractRepository {
         decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError> {
         guard let URL = buildURL(path: path) else { return SignalProducer(error: .invalidURL) }
         
-        return _requestExecutor.performRequest(method: method, url: URL, parameters: parameters, headers: headers)
+        return _requestExecutor.perform(method: method, url: URL, parameters: parameters, headers: headers)
             .flatMapError { self.mapError(error: $0) }
             .flatMap(.concat) { _, _, data in self.deserializeData(data: data, decoder: decoder) }
     }
@@ -182,7 +182,7 @@ fileprivate extension AbstractRepository {
         decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError> {
         guard let URL = buildURL(path: path) else { return SignalProducer(error: .invalidURL) }
         
-        return _requestExecutor.performRequest(method: method, url: URL, parameters: parameters, headers: headers)
+        return _requestExecutor.perform(method: method, url: URL, parameters: parameters, headers: headers)
             .flatMapError { self.mapError(error: $0) }
             .flatMap(.concat) { _, response, data -> SignalProducer<T, RepositoryError> in
                 if response.statusCode != 202 {
