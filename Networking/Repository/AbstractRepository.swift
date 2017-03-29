@@ -65,6 +65,8 @@ open class AbstractRepository {
 
 extension AbstractRepository: RepositoryType {
 
+    private static let RetryStatusCode = 202
+    
     public func performRequest<T>(
         method: NetworkingMethod,
         path: String,
@@ -83,7 +85,7 @@ extension AbstractRepository: RepositoryType {
         guard _sessionManager.isLoggedIn else { return SignalProducer(error: .unauthenticatedSession) }
         return perform(method: method, path: path, parameters: parameters, headers: authenticationHeaders)
             .flatMap(.concat) { _, response, data -> SignalProducer<T, RepositoryError> in
-                if response.statusCode != 202 {
+                if response.statusCode != AbstractRepository.RetryStatusCode {
                     return self.deserializeData(data: data, decoder: decoder)
                 }
                 return self.performPollingRequest(method: method, path: path, parameters: parameters, decoder: decoder)
