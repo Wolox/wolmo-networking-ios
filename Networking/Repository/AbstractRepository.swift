@@ -113,13 +113,11 @@ extension AbstractRepository: RepositoryType {
         path: String,
         parameters: [String: Any]?) -> SignalProducer<(URLRequest, HTTPURLResponse, Data), RepositoryError> {
         guard _sessionManager.isLoggedIn else { return SignalProducer(error: .unauthenticatedSession) }
-        
-        let URL = buildURL(path: path)
-        guard URL != .none else { return SignalProducer(error: .invalidURL) }
+        guard let URL = buildURL(path: path) else { return SignalProducer(error: .invalidURL) }
         
         return _requestExecutor.performRequest(
             method: method,
-            url: URL!,
+            url: URL,
             parameters: parameters,
             headers: authenticationHeaders
         ).flatMapError { self.mapError(error: $0) }
@@ -169,10 +167,9 @@ fileprivate extension AbstractRepository {
         parameters: [String: Any]?,
         headers: [String: String]?,
         decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError> {
-        let URL = buildURL(path: path)
-        guard URL != .none else { return SignalProducer(error: .invalidURL) }
+        guard let URL = buildURL(path: path) else { return SignalProducer(error: .invalidURL) }
         
-        return _requestExecutor.performRequest(method: method, url: URL!, parameters: parameters, headers: headers)
+        return _requestExecutor.performRequest(method: method, url: URL, parameters: parameters, headers: headers)
             .flatMapError { self.mapError(error: $0) }
             .flatMap(.concat) { _, _, data in self.deserializeData(data: data, decoder: decoder) }
     }
@@ -183,10 +180,9 @@ fileprivate extension AbstractRepository {
         parameters: [String: Any]?,
         headers: [String: String]?,
         decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError> {
-        let URL = buildURL(path: path)
-        guard URL != .none else { return SignalProducer(error: .invalidURL) }
+        guard let URL = buildURL(path: path) else { return SignalProducer(error: .invalidURL) }
         
-        return _requestExecutor.performRequest(method: method, url: URL!, parameters: parameters, headers: headers)
+        return _requestExecutor.performRequest(method: method, url: URL, parameters: parameters, headers: headers)
             .flatMapError { self.mapError(error: $0) }
             .flatMap(.concat) { _, response, data -> SignalProducer<T, RepositoryError> in
                 if response.statusCode != 202 {
