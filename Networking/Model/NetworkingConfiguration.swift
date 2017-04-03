@@ -18,20 +18,20 @@ public struct NetworkingConfiguration {
     
     fileprivate let _useSecureConnection: Bool
     fileprivate let _domainURL: String
-    fileprivate let _subdomainURL: String
-    fileprivate let _versionAPI: String
+    fileprivate let _port: Int?
+    fileprivate let _subdomainURL: String?
     
     fileprivate let _usePinningCertificate: Bool
     
     public init(useSecureConnection: Bool = true,
                 domainURL: String,
-                subdomainURL: String = "",
-                versionAPI: String = "",
+                port: Int? = .none,
+                subdomainURL: String? = .none,
                 usePinningCertificate: Bool = false) {
         _useSecureConnection = useSecureConnection
         _domainURL = domainURL
+        _port = port
         _subdomainURL = subdomainURL
-        _versionAPI = versionAPI
         _usePinningCertificate = usePinningCertificate
     }
     
@@ -39,8 +39,18 @@ public struct NetworkingConfiguration {
 
 internal extension NetworkingConfiguration {
     
-    var baseURL: String {
-        return communicationProtocol + "://" + _domainURL + subdomain + version
+    var baseURL: URL {
+        var components = URLComponents()
+        components.scheme = communicationProtocol
+        components.host = _domainURL
+        components.port = _port
+        if let subdomainURL = _subdomainURL {
+            components.path = subdomainURL
+        }
+        if let url = components.url {
+            return url
+        }
+        fatalError("Invalid URL parameters in \(String(describing: NetworkingConfiguration.self))")
     }
     
     var usePinningCertificate: Bool {
@@ -57,14 +67,6 @@ fileprivate extension NetworkingConfiguration {
     
     var communicationProtocol: String {
         return _useSecureConnection ? CommunicationProtocol.https.rawValue : CommunicationProtocol.http.rawValue
-    }
-    
-    var subdomain: String {
-        return _subdomainURL.characters.count > 0 ? "/" + _subdomainURL : ""
-    }
-    
-    var version: String {
-        return _versionAPI.characters.count > 0 ? "/" + _versionAPI : ""
     }
     
 }

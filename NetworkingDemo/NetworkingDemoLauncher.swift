@@ -83,8 +83,7 @@ fileprivate extension NetworkingDemoLauncher {
         return NetworkingConfiguration(
             useSecureConnection: true,
             domainURL: "wbooks-api-stage.herokuapp.com",
-            subdomainURL: "api",
-            versionAPI: "v1",
+            subdomainURL: "/api/v1",
             usePinningCertificate: false)
     }
     

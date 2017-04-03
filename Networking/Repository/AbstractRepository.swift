@@ -117,8 +117,7 @@ fileprivate extension AbstractRepository {
     private static let SessionTokenHeader = "Authorization"
     
     func buildURL(path: String) -> URL? {
-        let fullURL = _networkingConfiguration.baseURL + "/" + path
-        return URL(string: fullURL)
+        return _networkingConfiguration.baseURL.appendingPathComponent(path)
     }
     
     var authenticationHeaders: [String: String] {

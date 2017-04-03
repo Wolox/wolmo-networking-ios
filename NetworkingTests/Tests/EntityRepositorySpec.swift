@@ -23,9 +23,9 @@ class EntityRepositorySpec: QuickSpec {
             sessionManager.login(user: user)
             
             let networkingConfiguration = NetworkingConfiguration(useSecureConnection: true,
-                                                                  domainURL: "localhost:XXXX",
-                                                                  subdomainURL: "local-path",
-                                                                  versionAPI: "1.0",
+                                                                  domainURL: "localhost",
+                                                                  port: 8080,
+                                                                  subdomainURL: "/local-path-1.0",
                                                                   usePinningCertificate: false)
             
             repository = EntityRepository(networkingConfiguration:networkingConfiguration,
