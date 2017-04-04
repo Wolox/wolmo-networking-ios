@@ -14,10 +14,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+    private let networkingDemoLauncher = NetworkingDemoLauncher()
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        let launcher = NetworkingDemoLauncher()
-        launcher.launch()
-        
+
+        networkingDemoLauncher.launch()
+
         return true
     }
 
