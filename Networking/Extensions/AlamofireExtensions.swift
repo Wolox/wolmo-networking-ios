@@ -26,11 +26,8 @@ internal extension Alamofire.DataRequest {
             
             guard self.request != .none else { return }
             
-            AlamofireLogger.sharedInstance.logRequest(request: self.request!)
-            
             self.response { dataResponse in
                 if let error = dataResponse.error {
-                    AlamofireLogger.sharedInstance.logError(error: error)
                     
                     let bodyDecode: () throws -> AnyObject = {
                         let data = dataResponse.data!
@@ -43,7 +40,6 @@ internal extension Alamofire.DataRequest {
                     let response = dataResponse.response!
                     let data = dataResponse.data!
                     
-                    AlamofireLogger.sharedInstance.logResponse(response: response, data: data)
                     observable.send(value: (request, response, data))
                     observable.sendCompleted()
                 }

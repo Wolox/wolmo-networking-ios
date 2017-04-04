@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E111AE0C1E92D96000DE0C33 /* AlamofireNetworkActivityLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E111AE0B1E92D96000DE0C33 /* AlamofireNetworkActivityLogger.framework */; };
 		E124C13E1E8C3586001F7588 /* NetworkingConfigurationSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = E124C13D1E8C3586001F7588 /* NetworkingConfigurationSpec.swift */; };
 		E13DC6431E6DD4E40099FA75 /* Networking.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1434DD41E6A177F00D5C6D2 /* Networking.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E13DC6441E6DD5440099FA75 /* Runes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E17F82AC1E37E5EE00DE8C76 /* Runes.framework */; };
@@ -16,7 +17,6 @@
 		E13DC64F1E6DD8150099FA75 /* NetworkingConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13320431E36AEF5008206C0 /* NetworkingConfiguration.swift */; };
 		E13DC6501E6DD8150099FA75 /* NetworkingMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13320471E3785DE008206C0 /* NetworkingMethod.swift */; };
 		E13DC6511E6DD8150099FA75 /* AlamofireExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13320391E3296AE008206C0 /* AlamofireExtensions.swift */; };
-		E13DC6521E6DD8150099FA75 /* AlamofireLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = E133203A1E3296AE008206C0 /* AlamofireLogger.swift */; };
 		E13DC6531E6DD8150099FA75 /* DecodedExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E190F0151E521A0B00DCDBD8 /* DecodedExtension.swift */; };
 		E13DC6541E6DD8150099FA75 /* AbstractRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13320341E32969E008206C0 /* AbstractRepository.swift */; };
 		E13DC6551E6DD8150099FA75 /* RequestExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13320351E32969E008206C0 /* RequestExecutor.swift */; };
@@ -106,6 +106,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E111AE0B1E92D96000DE0C33 /* AlamofireNetworkActivityLogger.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AlamofireNetworkActivityLogger.framework; path = Carthage/Build/iOS/AlamofireNetworkActivityLogger.framework; sourceTree = SOURCE_ROOT; };
 		E124C13D1E8C3586001F7588 /* NetworkingConfigurationSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkingConfigurationSpec.swift; sourceTree = "<group>"; };
 		E12A24291E676FC700CCF53F /* SessionManagerMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SessionManagerMock.swift; path = Mocks/SessionManagerMock.swift; sourceTree = "<group>"; };
 		E12A242A1E676FC700CCF53F /* UserMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserMock.swift; path = Mocks/UserMock.swift; sourceTree = "<group>"; };
@@ -115,7 +116,6 @@
 		E13320341E32969E008206C0 /* AbstractRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AbstractRepository.swift; path = Repository/AbstractRepository.swift; sourceTree = "<group>"; };
 		E13320351E32969E008206C0 /* RequestExecutor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RequestExecutor.swift; path = Repository/RequestExecutor.swift; sourceTree = "<group>"; };
 		E13320391E3296AE008206C0 /* AlamofireExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlamofireExtensions.swift; path = Extensions/AlamofireExtensions.swift; sourceTree = "<group>"; };
-		E133203A1E3296AE008206C0 /* AlamofireLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlamofireLogger.swift; path = Extensions/AlamofireLogger.swift; sourceTree = "<group>"; };
 		E133203F1E36747B008206C0 /* AuthenticableUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AuthenticableUser.swift; path = Model/AuthenticableUser.swift; sourceTree = "<group>"; };
 		E13320431E36AEF5008206C0 /* NetworkingConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkingConfiguration.swift; path = Model/NetworkingConfiguration.swift; sourceTree = "<group>"; };
 		E13320451E378582008206C0 /* NetworkingSessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkingSessionManager.swift; path = Repository/NetworkingSessionManager.swift; sourceTree = "<group>"; };
@@ -171,6 +171,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E111AE0C1E92D96000DE0C33 /* AlamofireNetworkActivityLogger.framework in Frameworks */,
 				E1A90ED01E82BD6B00DB1781 /* AlamofireNetworkActivityIndicator.framework in Frameworks */,
 				E13DC6441E6DD5440099FA75 /* Runes.framework in Frameworks */,
 				E13DC6471E6DD5440099FA75 /* Result.framework in Frameworks */,
@@ -232,7 +233,6 @@
 			isa = PBXGroup;
 			children = (
 				E13320391E3296AE008206C0 /* AlamofireExtensions.swift */,
-				E133203A1E3296AE008206C0 /* AlamofireLogger.swift */,
 				E190F0151E521A0B00DCDBD8 /* DecodedExtension.swift */,
 			);
 			name = Extensions;
@@ -267,6 +267,7 @@
 		E157DA721E315553004586CB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E111AE0B1E92D96000DE0C33 /* AlamofireNetworkActivityLogger.framework */,
 				E1A90ED11E82C8EF00DB1781 /* KeychainSwift.framework */,
 				E1A90ECE1E81C68E00DB1781 /* AlamofireNetworkActivityIndicator.framework */,
 				E1E2A7981E7077B60052542B /* Networking.xcodeproj */,
@@ -561,6 +562,7 @@
 				"$(SRCROOT)/Carthage/Build/iOS/Alamofire.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Argo.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/AlamofireNetworkActivityIndicator.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/AlamofireNetworkActivityLogger.framework",
 			);
 			name = Carthage;
 			outputPaths = (
@@ -593,7 +595,6 @@
 				E13DC64F1E6DD8150099FA75 /* NetworkingConfiguration.swift in Sources */,
 				E13DC6501E6DD8150099FA75 /* NetworkingMethod.swift in Sources */,
 				E13DC6511E6DD8150099FA75 /* AlamofireExtensions.swift in Sources */,
-				E13DC6521E6DD8150099FA75 /* AlamofireLogger.swift in Sources */,
 				E13DC6531E6DD8150099FA75 /* DecodedExtension.swift in Sources */,
 				E1C50C611E6F589D000A71BA /* RepositoryError.swift in Sources */,
 				E13DC6541E6DD8150099FA75 /* AbstractRepository.swift in Sources */,

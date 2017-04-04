@@ -19,7 +19,7 @@ WolMo - Networking iOS is a framework which provides an easy customizable HTTP r
     * [Enable SSL Pinning](#enable-ssl-pinning)
     * [Session manager](#session-manager)
     * [Storing a User](#storing-a-user)
-    * [Enable AlamofireLogger](#enable-alamofirelogger)
+    * [Enable AlamofireNetworkActivityLogger](#enable-alamofirenetworkactivitylogger)
     * [Enable NetworkActivityIndicatorManager](#enable-networkactivityindicatormanager)
   * [Bootstrap](#bootstrap) 
   * [Contributing](#usage)
@@ -106,13 +106,17 @@ The function `update:` receiving a user can be useful to make `SessionManager` s
 
 This function fetches the current user if an instance of [CurrentUserFetcherType](Networking/Repository/CurrentUserFetcherType.swift) is provided. Since the user is not persisted in the device, and only stored in memory the user needs to be fetched every time the application is launched.
 
-### Enable `AlamofireLogger`
+### Enable `AlamofireNetworkActivityLogger`
 
-`AlamofireLogger` can be enabled by doing `AlamofireLogger.sharedInstance.logEnabled = true`. This will log in the console every request and response made. Implemented in [AlamofireLogger](Networking/Extensions/AlamofireLogger.swift).
+`AlamofireNetworkActivityLogger` (see [AlamofireNetworkActivityLogger](https://github.com/konkab/AlamofireNetworkActivityLogger)) can be enabled by doing `NetworkActivityLogger.shared.startLogging()`. This will log in the console every request and response made depending on the `logLevel`, which can be selected by assigning the property `NetworkActivityLogger.shared.level` with a value of `NetworkActivityLoggerLevel`.
+
+Check [NetworkingDemoLauncher](NetworkingDemo/NetworkingDemoLauncher.swift) for an example.
 
 ### Enable `NetworkActivityIndicatorManager`
 
-`AlamofireLogger` (see [NetworkActivityIndicatorManager](https://github.com/Alamofire/AlamofireNetworkActivityIndicator)) is available to be enabled directly by doing `NetworkActivityIndicatorManager.shared.isEnabled = true` to automatically mananger the visibility of the network activity indicator.
+`NetworkActivityIndicatorManager` (see [NetworkActivityIndicatorManager](https://github.com/Alamofire/AlamofireNetworkActivityIndicator)) is available to be enabled directly by doing `NetworkActivityIndicatorManager.shared.isEnabled = true` to automatically mananger the visibility of the network activity indicator.
+
+Check [NetworkingDemoLauncher](NetworkingDemo/NetworkingDemoLauncher.swift) for an example.
 
 ## Bootstrap
 ```

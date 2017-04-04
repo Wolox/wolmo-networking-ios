@@ -9,13 +9,14 @@
 import Foundation
 import Networking
 import AlamofireNetworkActivityIndicator
+import AlamofireNetworkActivityLogger
 
 class NetworkingDemoLauncher {
     
     fileprivate let _sessionManager = SessionManager()
     
     func launch() {
-        enableAlamofireLogger()
+        enableAlamofireNetworkActivityLogger()
         enableNetworkActivityIndicatorManager()
         authenticateFakeUser()
         injectCurrentUserFetcher()
@@ -27,8 +28,9 @@ class NetworkingDemoLauncher {
 
 private extension NetworkingDemoLauncher {
     
-    func enableAlamofireLogger() {
-        AlamofireLogger.sharedInstance.logEnabled = true
+    func enableAlamofireNetworkActivityLogger() {
+        NetworkActivityLogger.shared.startLogging()
+        NetworkActivityLogger.shared.level = .debug
     }
     
     func enableNetworkActivityIndicatorManager() {
