@@ -15,13 +15,11 @@ struct UserDemo: AuthenticableUser {
     
     let sessionToken: String?
     let id: Int //swift-lint:disable:this variable_name
-    
 }
 
 extension UserDemo: Decodable {
     
     public static func decode(_ json: JSON) -> Decoded<UserDemo> {
-        
         return curry(UserDemo.init)
             <^> json <|? "session_token"
             <*> json <| "id"
