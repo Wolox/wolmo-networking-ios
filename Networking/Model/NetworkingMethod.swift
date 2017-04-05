@@ -10,7 +10,7 @@ import Alamofire
 
 /**
     HTTP Method definitions.
-    A wrapper of Alamofire.HTTPMethod just for avoid coupling.
+    A wrapper of Alamofire.HTTPMethod just to avoid coupling.
  */
 public enum NetworkingMethod: String {
     

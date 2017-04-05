@@ -108,7 +108,7 @@ This function fetches the current user if an instance of [CurrentUserFetcherType
 
 ### Enable `AlamofireNetworkActivityLogger`
 
-`AlamofireNetworkActivityLogger` (see [AlamofireNetworkActivityLogger](https://github.com/konkab/AlamofireNetworkActivityLogger)) can be enabled by doing `NetworkActivityLogger.shared.startLogging()`. This will log in the console every request and response made depending on the `logLevel`, which can be selected by assigning the property `NetworkActivityLogger.shared.level` with a value of `NetworkActivityLoggerLevel`.
+`AlamofireNetworkActivityLogger` (see [AlamofireNetworkActivityLogger](https://github.com/konkab/AlamofireNetworkActivityLogger)) can be enabled by doing `NetworkActivityLogger.shared.startLogging()`. This will log in the console every request and response made depending on the `logLevel`, which can be selected by assigning the property `NetworkActivityLogger.shared.level` with a value of `NetworkActivityLoggerLevel`. By default, it enables it in debug.
 
 Check [NetworkingDemoLauncher](NetworkingDemo/NetworkingDemoLauncher.swift) for an example.
 

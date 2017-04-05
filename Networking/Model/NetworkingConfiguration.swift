@@ -41,10 +41,10 @@ public struct NetworkingConfiguration {
             exclusions must be added to plist file.
             - domainURL: the base url the requests will be performed against.
             - port: the port the requests will be performed against. By default 
-            there is no any specific port.
+            there is no specific port.
             - subdomainURL: the subdomain url to be appended to domainURL to build
-            the final url. By default it's empty. This url, as a path of the domainURL
-            must start with "/".
+            the final url (it can be used to specify API versioning). By default it's empty. 
+            This url, as a path of the domainURL must start with "/".
             - usePinningCertificate: a boolean representing if SSL Pinning will be 
             enabled for the performed requests. By default it's disabled. Take into 
             account in case this is enabled, the proper certificate must be included

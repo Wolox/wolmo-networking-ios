@@ -60,7 +60,10 @@ public protocol SessionManagerType {
     /**
         Set the current user fecther used to fetch the user when the 
         session manager is bootstrapped.
-        This is necessary since the user is not stored locally.
+        Unlike the session token, the user is not stored locally
+        by the session manager. This is why it needs to be fetched 
+        during the bootstrapping.
+        This should be called before bootstrap to have effect.
      */
     func setCurrentUserFetcher(currentUserFetcher: CurrentUserFetcherType)
     
@@ -86,7 +89,8 @@ public protocol SessionManagerType {
     func update(user: AuthenticableUser)
     
     /**
-        This function must be called manually when a user is logged out.
+        This function must be called manually, apart from the server's call, 
+        to log out the user.
         It will send both a session and user notification.
      */
     func logout()
@@ -95,6 +99,7 @@ public protocol SessionManagerType {
         This function is called automatically by a repository when
         the session expires and the client is notified by the server.
         No need to be called manually.
+        It only logs out the user in the session manager and notifies.
      */
     func expire()
     
