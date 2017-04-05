@@ -66,6 +66,7 @@ private extension Alamofire.DataRequest {
     }
     
     func handleSuccess(dataResponse: DefaultDataResponse, observer: Observer<ResponseType, ResponseError>) {
+        // These properties can be unwrapped safely given no error was encountered.
         let request = dataResponse.request!
         let response = dataResponse.response!
         let data = dataResponse.data!
