@@ -141,7 +141,7 @@ class EntityRepositorySpec: QuickSpec {
                             // What is the correct way to make this enum comparison?
                             // I'd like to use a switch here, how should I declare CustomRepositoryErrorType?
                             let expectedError: CustomRepositoryErrorType = EntityRepositoryError.madeUpError
-                            expect(customError.localizedDescription == expectedError.localizedDescription).to(beTrue())
+                            expect(customError.errorName == expectedError.name).to(beTrue())
                             done()
                         default: return
                         }

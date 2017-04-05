@@ -11,6 +11,18 @@ import Argo
 // This is to be implemented by the final user to model custom errors related with the project itself.
 public protocol CustomRepositoryErrorType: Error {
     
+    /**
+        Message to describe the error.
+     */
+    var name: String { get }
+}
+
+public extension CustomRepositoryErrorType where Self: RawRepresentable {
+    
+    var name: String {
+        return String(describing: self.rawValue)
+    }
+    
 }
 
 public enum RepositoryError: Error {
@@ -20,7 +32,7 @@ public enum RepositoryError: Error {
     case unauthenticatedSession
     case jsonError(Error)
     case decodeError(Argo.DecodeError)
-    case customError(CustomRepositoryErrorType)
+    case customError(errorName: String, error: CustomRepositoryErrorType)
 }
 
 public extension RepositoryError {
@@ -33,7 +45,8 @@ public extension RepositoryError {
             if let failureReason = error.error.userInfo[NSLocalizedFailureReasonErrorKey] as? String {
                 for key in errors.keys {
                     if failureReason.contains(String(key)) {
-                        return RepositoryError.customError(errors[key]!)
+                        let error = errors[key]!
+                        return RepositoryError.customError(errorName: error.name, error: error)
                     }
                 }
             }

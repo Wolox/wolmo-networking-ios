@@ -11,7 +11,7 @@ import Networking
 import Argo
 import Result
 
-internal enum EntityRepositoryError: CustomRepositoryErrorType {
+internal enum EntityRepositoryError: String, CustomRepositoryErrorType {
     case madeUpError
 }
 
