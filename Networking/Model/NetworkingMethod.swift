@@ -8,6 +8,10 @@
 
 import Alamofire
 
+/**
+    HTTP Method definitions.
+    A wrapper of Alamofire.HTTPMethod just for avoid coupling.
+ */
 public enum NetworkingMethod: String {
     
     case options, get, head, post, put, patch, delete, trace, connect

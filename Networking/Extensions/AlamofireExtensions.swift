@@ -11,14 +11,27 @@ import ReactiveSwift
 import enum Result.Result
 
 internal typealias JSONResult = Result<AnyObject, NSError>
+
+/**
+    Tuple that represents the parameters of a request and a response.
+ */
 internal typealias ResponseType = (URLRequest, HTTPURLResponse, Data)
 
+/**
+    Error representing a response error. It includes the error itself and
+    the body received in the failed response.
+ */
 public struct ResponseError: Error {
     
     public let error: NSError
     public let body: NSDictionary?
 }
 
+/**
+    Extension that wraps Alamofire response, returning the request
+    response as a SignalProducer, where its value is a ResponseType tuple
+    and its error a ResponseError.
+ */
 internal extension Alamofire.DataRequest {
     
     func response() -> SignalProducer<ResponseType, ResponseError> {
