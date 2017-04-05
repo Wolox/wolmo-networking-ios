@@ -87,6 +87,8 @@ public extension SessionManager {
         notifyObservers()
     }
     
+    // TODO: Document this function does not notify observers, since its intended
+    // just to update the stored user without changing the session status.
     public func update(user: AuthenticableUser) {
         updateSession(user: user)
     }
