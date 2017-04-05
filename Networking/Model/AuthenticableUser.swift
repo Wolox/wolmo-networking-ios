@@ -16,7 +16,7 @@ import Foundation
  */
 public protocol AuthenticableUser {
     
-    // This should be refactored.
+    // TODO: This should be refactored.
     // Probably as a struct that holds a sessionToken and a user.
     // sessionToken should not be part of the user properties.
     var sessionToken: String? { get }
