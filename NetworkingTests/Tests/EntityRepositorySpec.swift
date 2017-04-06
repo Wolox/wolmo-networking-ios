@@ -39,7 +39,7 @@ class EntityRepositorySpec: QuickSpec {
                 repository.fetchEntity().startWithResult {
                     switch $0 {
                     case .success: done()
-                    case .failure: return
+                    case .failure: break
                     }
                 }
             }}
@@ -52,7 +52,7 @@ class EntityRepositorySpec: QuickSpec {
                 repository.fetchEntities().startWithResult {
                     switch $0 {
                     case .success: done()
-                    case .failure: return
+                    case .failure: break
                     }
                 }
             }}
@@ -64,7 +64,7 @@ class EntityRepositorySpec: QuickSpec {
             it("fetches a single entity from JSON file and fails") { waitUntil { done in
                 repository.fetchFailingEntity().startWithResult {
                     switch $0 {
-                    case .success: return
+                    case .success: break
                     case .failure: done()
                     }
                 }
@@ -90,7 +90,7 @@ class EntityRepositorySpec: QuickSpec {
                     repository.fetchFailingEntity().startWithResult {
                         switch $0 {
                         case .success: fail()
-                        case .failure: return
+                        case .failure: break
                         }
                     }
                 }}
@@ -102,7 +102,7 @@ class EntityRepositorySpec: QuickSpec {
                 it("fetches a single entity from JSON file and fails") { waitUntil { done in
                     repository.fetchFailingEntity().startWithResult {
                         switch $0 {
-                        case .success: return
+                        case .success: break
                         case .failure: done()
                         }
                     }
@@ -117,14 +117,14 @@ class EntityRepositorySpec: QuickSpec {
             it("fetches a single entity from JSON file and fails with a default error") { waitUntil { done in
                 repository.fetchDefaultFailingEntity().startWithResult {
                     switch $0 {
-                    case .success: return
+                    case .success: break
                     case .failure(let error):
                         switch error {
                         case .requestError(let requestError):
                             let expectedErrorCode = 400
                             expect(requestError.error.code == expectedErrorCode).to(beTrue())
                             done()
-                        default: return
+                        default: break
                         }
                     }
                 }
@@ -137,7 +137,7 @@ class EntityRepositorySpec: QuickSpec {
             it("fetches a single entity from JSON file and fails with a custom error") { waitUntil { done in
                 repository.fetchCustomFailingEntity().startWithResult {
                     switch $0 {
-                    case .success: return
+                    case .success: break
                     case .failure(let error):
                         switch error {
                         case .customError(let customError):
@@ -146,7 +146,7 @@ class EntityRepositorySpec: QuickSpec {
                             let expectedError: CustomRepositoryErrorType = EntityRepositoryError.madeUpError
                             expect(customError.errorName == expectedError.name).to(beTrue())
                             done()
-                        default: return
+                        default: break
                         }
                     }
                 }
