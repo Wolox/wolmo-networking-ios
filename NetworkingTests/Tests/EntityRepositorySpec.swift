@@ -76,18 +76,21 @@ class EntityRepositorySpec: QuickSpec {
             
             context("when there is an error handler") {
                 
-                beforeEach {
-                    DecodedErrorHandler.decodedErrorHandler = {
-                        // TODO: Ensure this code is executed...
-                        expect($0).notTo(beNil())
-                    }
+                afterEach {
+                    DecodedErrorHandler.decodedErrorHandler = { _ in }
                 }
                 
                 it("fetches a single entity from JSON file and fails executing error handler") { waitUntil { done in
+                    
+                    DecodedErrorHandler.decodedErrorHandler = {
+                        expect($0).notTo(beNil())
+                        done()
+                    }
+                    
                     repository.fetchFailingEntity().startWithResult {
                         switch $0 {
-                        case .success: return
-                        case .failure: done()
+                        case .success: fail()
+                        case .failure: return
                         }
                     }
                 }}
