@@ -59,9 +59,7 @@ internal class EntityRepository: AbstractRepository, EntityRepositoryType {
     func fetchCustomFailingEntity() -> SignalProducer<Entity, RepositoryError> {
         return performRequest(method: .get, path: "not-found", parameters: .none) {
             decode($0).toResult()
-        }.mapError {
-           $0.mapCustomError(errors: [400: EntityRepositoryError.madeUpError])
-        }
+        }.mapCustomError(errors: [400: EntityRepositoryError.madeUpError])
     }
     
 }

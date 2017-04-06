@@ -7,8 +7,12 @@
 //
 
 import Argo
+import ReactiveSwift
 
-// This is to be implemented by the final user to model custom errors related with the project itself.
+/**
+    Protocol intended to be implemented to model custom errors related
+    with the particular model of the developed application.
+ */
 public protocol CustomRepositoryErrorType: Error {
     
     /**
@@ -25,6 +29,9 @@ public extension CustomRepositoryErrorType where Self: RawRepresentable {
     
 }
 
+/**
+    Possible errors when performing a request.
+ */
 public enum RepositoryError: Error {
     case invalidURL
     case requestError(ResponseError)
@@ -35,11 +42,24 @@ public enum RepositoryError: Error {
     case customError(errorName: String, error: CustomRepositoryErrorType)
 }
 
-public extension RepositoryError {
+/**
+    Extension to be used in repositories after performing a request 
+    in which a custom repository error can be get.
+    This extension allows to map a response error code to a custom repository error.
+    This mapping is done by searching in the response boby for a code which will be
+    mapped to a particular custom repository error.
+ */
+public extension SignalProducer where Error == RepositoryError {
     
-    // This looks for the error code in the error string received in the response
-    // This is useful to map a requestError specified by API to a specific customError
-    func mapCustomError(errors: Dictionary<Int, CustomRepositoryErrorType>) -> RepositoryError {
+    func mapCustomError(errors: [Int: CustomRepositoryErrorType]) -> SignalProducer<Value, RepositoryError> {
+        return self.mapError { $0.mapCustomError(errors: errors) }
+    }
+    
+}
+
+private extension RepositoryError {
+    
+    func mapCustomError(errors: [Int: CustomRepositoryErrorType]) -> RepositoryError {
         switch self {
         case .requestError(let error):
             if let failureReason = error.error.userInfo[NSLocalizedFailureReasonErrorKey] as? String {
