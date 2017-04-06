@@ -34,14 +34,14 @@ public protocol SessionManagerType {
     var isLoggedIn: Bool { get }
     
     /**
+     Return the current session token in case there is an active session.
+     */
+    var sessionToken: String? { get }
+    
+    /**
         Returns the current user in case there is an active session.
      */
     var currentUser: AuthenticableUser? { get }
-    
-    /**
-        Return the current session token in case there is an active session.
-     */
-    var sessionToken: String? { get }
     
     /**
         Signal that notifies each time the session status changes.
@@ -115,19 +115,11 @@ final public class SessionManager: SessionManagerType {
     fileprivate let _keychain: KeychainSwift
     fileprivate var _currentUserFetcher: CurrentUserFetcherType?
     
-    public fileprivate(set) var sessionToken: String? = .none
-    public fileprivate(set) var currentUser: AuthenticableUser? = .none
-    
-    public let sessionSignal: Signal<Bool, NoError>
-    fileprivate let _sessionObserver: Signal<Bool, NoError>.Observer
-    
-    public let userSignal: Signal<AuthenticableUser?, NoError>
-    fileprivate let _userObserver: Signal<AuthenticableUser?, NoError>.Observer
+    fileprivate let _sessionToken = MutableProperty<String?>(.none)
+    fileprivate let _currentUser = MutableProperty<AuthenticableUser?>(.none)
     
     public init(keychain: KeychainSwift = KeychainSwift()) {
         _keychain = keychain
-        (sessionSignal, _sessionObserver) = Signal<Bool, NoError>.pipe()
-        (userSignal, _userObserver) = Signal<AuthenticableUser?, NoError>.pipe()
     }
     
     public func setCurrentUserFetcher(currentUserFetcher: CurrentUserFetcherType) {
@@ -136,16 +128,11 @@ final public class SessionManager: SessionManagerType {
     }
     
     public func bootstrap() {
-        sessionToken = getSessionToken()
-        _sessionObserver.send(value: isLoggedIn)
+        _sessionToken.value = getSessionToken()
         _currentUserFetcher?.fetchCurrentUser().startWithResult { [unowned self] in
             switch $0 {
-            case .success(let user):
-                self.currentUser = user
-                self._userObserver.send(value: user)
-            case .failure(_):
-                // TODO: Handle error here.
-                break
+            case .success(let user): self._currentUser.value = user
+            case .failure(_): break // TODO: Handle error here.
             }
         }
     }
@@ -154,9 +141,24 @@ final public class SessionManager: SessionManagerType {
         return sessionToken != .none
     }
     
-    deinit {
-        _userObserver.sendCompleted()
-        _sessionObserver.sendCompleted()
+}
+
+public extension SessionManager {
+    
+    var sessionToken: String? {
+        return _sessionToken.value
+    }
+    
+    var currentUser: AuthenticableUser? {
+        return _currentUser.value
+    }
+    
+    var sessionSignal: Signal<Bool, NoError> {
+        return _sessionToken.signal.map { $0 != .none }
+    }
+    
+    var userSignal: Signal<AuthenticableUser?, NoError> {
+        return _currentUser.signal
     }
     
 }
@@ -164,54 +166,43 @@ final public class SessionManager: SessionManagerType {
 public extension SessionManager {
     
     public func login(user: AuthenticableUser) {
-        updateSession(user: user)
-        notifyObservers()
+        saveSessionToken(user: user)
+        saveUser(user: user)
     }
     
     public func update(user: AuthenticableUser) {
-        updateSession(user: user)
+        saveUser(user: user)
     }
     
     public func logout() {
-        updateSession(user: .none)
-        notifyObservers()
+        clearSession()
     }
     
     public func expire() {
-        updateSession(user: .none)
-        notifyObservers()
+        clearSession()
     }
     
 }
 
 private extension SessionManager {
     
-    func notifyObservers() {
-        _sessionObserver.send(value: isLoggedIn)
-        _userObserver.send(value: currentUser)
-    }
-    
-    func updateSession(user: AuthenticableUser?) {
-        switch user {
-        case .none: clearSession()
-        case .some(let user): saveSession(user: user)
-        }
-    }
-    
     func clearSession() {
-        currentUser = .none
-        sessionToken = .none
+        _sessionToken.value = .none
+        _currentUser.value = .none
         clearSessionToken()
     }
     
-    func saveSession(user: AuthenticableUser) {
-        currentUser = user
-        sessionToken = user.sessionToken
+    func saveSessionToken(user: AuthenticableUser) {
+        _sessionToken.value = user.sessionToken
         if let sessionToken = user.sessionToken {
             saveSessionToken(sessionToken: sessionToken)
         } else {
             fatalError("Authenticated user has no session token, unable to save session in SessionManager")
         }
+    }
+    
+    func saveUser(user: AuthenticableUser) {
+        _currentUser.value = user
     }
     
 }
