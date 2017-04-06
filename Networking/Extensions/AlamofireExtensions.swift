@@ -62,11 +62,8 @@ private extension Alamofire.DataRequest {
         
         let error = dataResponse.error! as NSError
         let bodyResult = JSONResult(attempt: bodyDecode)
-        if let bodyError = bodyResult.error {
-            observer.send(error: ResponseError(error: bodyError, body: [:]))
-        } else {
-            observer.send(error: ResponseError(error: error, body: bodyResult.value as? NSDictionary))
-        }
+        let body = bodyResult.value as? NSDictionary ?? [:]
+        observer.send(error: ResponseError(error: error, body: body))
     }
     
     func handleSuccess(dataResponse: DefaultDataResponse, observer: Observer<ResponseType, ResponseError>) {
