@@ -37,8 +37,8 @@ internal class EntityRepository: AbstractRepository, EntityRepositoryType {
     
     func fetchEntities() -> SignalProducer<[Entity], RepositoryError> {
         return performRequest(method: .get, path: "entities", parameters: .none) {
-            if let page = $0[EntityRepository.PageKey] {
-                return decode(page!).toResult()
+            if let pageField = $0[EntityRepository.PageKey], let page = pageField {
+                return decode(page).toResult()
             }
             return Result(error: Argo.DecodeError.missingKey(EntityRepository.PageKey))
         }
