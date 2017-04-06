@@ -62,6 +62,7 @@ private extension RepositoryError {
     func mapCustomError(errors: [Int: CustomRepositoryErrorType]) -> RepositoryError {
         switch self {
         case .requestError(let error):
+            // TODO: Search error in status code instead of in the error body when API applies this refactor.
             if let failureReason = error.error.userInfo[NSLocalizedFailureReasonErrorKey] as? String {
                 for key in errors.keys {
                     if failureReason.contains(String(key)) {
