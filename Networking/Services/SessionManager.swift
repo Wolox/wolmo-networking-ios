@@ -34,7 +34,7 @@ public protocol SessionManagerType {
     var isLoggedIn: Bool { get }
     
     /**
-     Return the current session token in case there is an active session.
+        Returns the current session token in case there is an active session.
      */
     var sessionToken: String? { get }
     
