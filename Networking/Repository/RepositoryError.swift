@@ -44,9 +44,9 @@ public enum RepositoryError: Error {
 
 /**
     Extension to be used in repositories after performing a request 
-    in which a custom repository error can be get.
-    This extension allows to map a response error code to a custom repository error.
-    This mapping is done by searching in the response boby for a code which will be
+    in which a generic request or response error can be mapped with
+    a certain code to a custom repository error.
+    This mapping is done by searching in the response body for a code which will be
     mapped to a particular custom repository error.
  */
 public extension SignalProducer where Error == RepositoryError {
