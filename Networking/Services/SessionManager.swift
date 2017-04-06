@@ -129,10 +129,12 @@ final public class SessionManager: SessionManagerType {
     
     public func bootstrap() {
         _sessionToken.value = getSessionToken()
-        _currentUserFetcher?.fetchCurrentUser().startWithResult { [unowned self] in
-            switch $0 {
-            case .success(let user): self._currentUser.value = user
-            case .failure(_): break // TODO: Handle error here.
+        if isLoggedIn {
+            _currentUserFetcher?.fetchCurrentUser().startWithResult { [unowned self] in
+                switch $0 {
+                case .success(let user): self._currentUser.value = user
+                case .failure(_): break // TODO: Handle error here.
+                }
             }
         }
     }
