@@ -1,0 +1,27 @@
+//
+//  Entity.swift
+//  Networking
+//
+//  Created by Pablo Giorgi on 3/6/17.
+//  Copyright © 2017 Wolox. All rights reserved.
+//
+
+import Argo
+import Curry
+import Runes
+
+public struct Entity {
+    
+    let id: Int // swiftlint:disable:this variable_name
+    let genre: String
+}
+
+extension Entity: Decodable {
+    
+    public static func decode(_ json: JSON) -> Decoded<Entity> {
+        return curry(Entity.init)
+            <^> json <| "id"
+            <*> json <| "genre"
+    }
+    
+}

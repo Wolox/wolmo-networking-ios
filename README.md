@@ -19,7 +19,7 @@ WolMo - Networking iOS is a framework which provides an easy customizable HTTP r
     * [Enable SSL Pinning](#enable-ssl-pinning)
     * [Session manager](#session-manager)
     * [Storing a User](#storing-a-user)
-    * [Enable AlamofireLogger](#enable-alamofirelogger)
+    * [Enable AlamofireNetworkActivityLogger](#enable-alamofirenetworkactivitylogger)
     * [Enable NetworkActivityIndicatorManager](#enable-networkactivityindicatormanager)
   * [Bootstrap](#bootstrap) 
   * [Contributing](#usage)
@@ -58,6 +58,8 @@ The framework allows to create agile HTTP repositories by extending [AbstractRep
 
 In case a custom repository should fetch a single or a collection of models, they must implement `Decodable` (see [Argo](https://github.com/thoughtbot/Argo)). This way they can be automatically decoded by the framework. Check [UserDemo](NetworkingDemo/UserDemo.swift) or [Entity](NetworkingDemo/Entity.swift).
 
+In case the entity is too complex, it's possible to get the error: `Expression was too complex to be solved in reasonable time`. In this case check this [Argo issue](https://github.com/thoughtbot/Argo/issues/5) for a workaround.
+
 ### Error handling
 
 Every implemented repository is thought to return a `Result` instance (see [Result](https://github.com/antitypical/Result)) in which the value is typed in the expected response type, and the error is always a [RepositoryError](Networking/Repository/RepositoryError.swift).
@@ -78,11 +80,11 @@ When creating a repository instance it expects an instance of [NetworkingConfigu
 
 The properties configurable from there are:
 
-- `useSecureConnection: Bool`: `true` for `https` and `false` for `http`.
+- `useSecureConnection: Bool`: `true` for `https` and `false` for `http`. In case this is disabled, the proper exception must be added to `Info.plist` file in the project.
 - `domainURL: String`: API domain.
-- `subdomainURL: String`: API subdomain.
-- `versionAPI: String`: API version.
-- `usePinningCertificate: Bool`: enables SSL Pinning (see next section).
+- `port: String`: API port.
+- `subdomainURL: String`: API subdomain (optional parameter). This URL must start with `/` as required by `URLComponents`.
+- `usePinningCertificate: Bool`: enables SSL Pinning (false by default) (see next section).
 
 ### Enable SSL Pinning
 
@@ -104,13 +106,17 @@ The function `update:` receiving a user can be useful to make `SessionManager` s
 
 This function fetches the current user if an instance of [CurrentUserFetcherType](Networking/Repository/CurrentUserFetcherType.swift) is provided. Since the user is not persisted in the device, and only stored in memory the user needs to be fetched every time the application is launched.
 
-### Enable `AlamofireLogger`
+### Enable `AlamofireNetworkActivityLogger`
 
-`AlamofireLogger` can be enabled by doing `AlamofireLogger.sharedInstance.logEnabled = true`. This will log in the console every request and response made. Implemented in [AlamofireLogger](Networking/Extensions/AlamofireLogger.swift).
+`AlamofireNetworkActivityLogger` (see [AlamofireNetworkActivityLogger](https://github.com/konkab/AlamofireNetworkActivityLogger)) can be enabled by doing `NetworkActivityLogger.shared.startLogging()`. This will log in the console every request and response made depending on the `logLevel`, which can be selected by assigning the property `NetworkActivityLogger.shared.level` with a value of `NetworkActivityLoggerLevel`. By default, it enables it in debug.
+
+Check [NetworkingDemoLauncher](NetworkingDemo/NetworkingDemoLauncher.swift) for an example.
 
 ### Enable `NetworkActivityIndicatorManager`
 
-`AlamofireLogger` (see [NetworkActivityIndicatorManager](https://github.com/Alamofire/AlamofireNetworkActivityIndicator)) is available to be enabled directly by doing `NetworkActivityIndicatorManager.shared.isEnabled = true` to automatically mananger the visibility of the network activity indicator.
+`NetworkActivityIndicatorManager` (see [NetworkActivityIndicatorManager](https://github.com/Alamofire/AlamofireNetworkActivityIndicator)) is available to be enabled directly by doing `NetworkActivityIndicatorManager.shared.isEnabled = true` to automatically mananger the visibility of the network activity indicator.
+
+Check [NetworkingDemoLauncher](NetworkingDemo/NetworkingDemoLauncher.swift) for an example.
 
 ## Bootstrap
 ```
