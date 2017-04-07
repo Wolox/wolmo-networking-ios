@@ -39,7 +39,8 @@ public protocol SessionManagerType {
     var sessionToken: String? { get }
     
     /**
-        Returns the current user in case there is an active session.
+        Returns the current user in case there is an active session. 
+        A current user fetcher must be provided for this property to have a value.
      */
     var currentUser: AuthenticableUser? { get }
     
