@@ -8,6 +8,11 @@
 
 import Alamofire
 
+/**
+    Class that wraps Alamofire.SessionManager.
+    In case the networking configuration for the project enables SSL Pinning
+    this class is in charge of creating the proper server policy manager.
+ */
 internal final class NetworkingSessionManager: Alamofire.SessionManager {
     
     internal init(networkingConfiguration: NetworkingConfiguration) {
@@ -20,12 +25,21 @@ internal final class NetworkingSessionManager: Alamofire.SessionManager {
     
 }
 
+/**
+    Default session configuration which does not accept cookies by default.
+ */
 private var defaultSessionConfiguration: URLSessionConfiguration {
     let configuration = URLSessionConfiguration.default
     configuration.httpCookieStorage?.cookieAcceptPolicy = .never
     return configuration
 }
 
+/**
+    Server policy manager used in case SSL Pinning is enabled.
+    This function looks for a proper certificate in Bundle, and links it with
+    the base URL provided in networking configuration. It also validates 
+    certificate chain and the host.
+ */
 private func serverTrustPolicyManager(domainURL: String) -> ServerTrustPolicyManager {
     let serverTrustPolicies: [String: ServerTrustPolicy] = [
         domainURL: .pinCertificates(

@@ -11,28 +11,96 @@ import Alamofire
 import Argo
 import enum Result.Result
 
+/**
+    Typealias to model a closure used to decode a fetched entity.
+    Its type matches the entity type.
+    Its error is a DecodeError, in case the response does not match what the model expected.
+ */
 public typealias Decoder<T> = (AnyObject) -> Result<T, Argo.DecodeError>
 
+/**
+    Protocol which declares the different ways of performing a request.
+    Implemented by AbstractRepository.
+ */
 public protocol RepositoryType {
     
+    /**
+        Performs a request and returns a Signal producer.
+        This function fails if no user is authenticated.
+     
+        - Parameters:
+            - method: HTTP method for the request.
+            - path: path to be appended to domain URL and subdomain URL.
+            - parameters: request parameters.
+            - decoder: a closure of type Decoder
+        - Returns:
+            A SignalProducer where its value is the decoded entity and its
+            error a RepositoryError.
+     */
     func performRequest<T>(
         method: NetworkingMethod,
         path: String,
         parameters: [String: Any]?,
         decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError>
     
+    /**
+        Performs a request and returns a Signal producer.
+        This function fails if no user is authenticated.
+        In case the response status code is 202 it will keep polling 
+        until a 200/201 status code is received, in which case it will
+        decode and return the response.
+     
+        - Parameters:
+            - method: HTTP method for the request.
+            - path: path to be appended to domain URL and subdomain URL.
+            - parameters: request parameters.
+            - decoder: a closure of type Decoder
+        - Returns:
+            A SignalProducer where its value is the decoded entity and its
+            error a RepositoryError.
+     */
     func performPollingRequest<T>(
         method: NetworkingMethod,
         path: String,
         parameters: [String: Any]?,
         decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError>
     
+    /**
+        Performs a request and returns a Signal producer.
+        This function does not fail if user is not authenticated. So, this can
+        be useful to perform authentication requests as login or signup.
+     
+        - Parameters:
+            - method: HTTP method for the request.
+            - path: path to be appended to domain URL and subdomain URL.
+            - parameters: request parameters.
+            - decoder: a closure of type Decoder
+        - Returns:
+            A SignalProducer where its value is the decoded entity and its
+            error a RepositoryError.
+     */
     func performAuthenticationRequest<T>(
         method: NetworkingMethod,
         path: String,
         parameters: [String: Any]?,
         decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError>
-
+    
+    /**
+        Performs a request and returns a Signal producer.
+        This function fails if no user is authenticated.
+        As this function does not decode the entity, instead returns the request
+        and response information, it can be useful when more data is needed from
+        a request, as the status code or a header property, or whatever exceeds
+        a received entity.
+     
+        - Parameters:
+            - method: HTTP method for the request.
+            - path: path to be appended to domain URL and subdomain URL.
+            - parameters: request parameters.
+        - Returns:
+            A SignalProducer where its value is a tuple of type 
+            (URLRequest, HTTPURLResponse, Data) and its error a RepositoryError.
+     */
     func performRequest(
         method: NetworkingMethod,
         path: String,
@@ -176,6 +244,10 @@ fileprivate extension JSONSerialization {
     
 }
 
+/**
+    This class is used in the polling request executor to apply a delay
+    between the response and the next request performed.
+ */
 fileprivate final class DelayedScheduler: Scheduler {
     
     private let _queueScheduler = QueueScheduler()
