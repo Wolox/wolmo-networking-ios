@@ -79,7 +79,8 @@ private extension NetworkingDemoLauncher {
 
 fileprivate extension NetworkingDemoLauncher {
 
-    static let sessionToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxOCwidmVyaWZpY2F0aW9uX2NvZGUiOiJLVVI4NTR4V1pLODFMY25ael8yek5RVmV6RmJoUWUyc0Jkc3VCSlRKenYxS2ZkMUZ5YXFTN1lwWGtfeE44dVlRIiwicmVuZXdfaWQiOiJKazNLWFIzX3lIOXh4TVN1RXMtUVJETUh4V00xbnZHaGFVOGVQVzJzMjZabXk1alBSdld6R1NueWdzc0hVRXBXIiwibWF4aW11bV91c2VmdWxfZGF0ZSI6MTQ5MzMyNjQ0MCwiZXhwaXJhdGlvbl9kYXRlIjoxNDkwOTA3MjQwLCJ3YXJuaW5nX2V4cGlyYXRpb25fZGF0ZSI6MTQ5MDc1MjQ0MH0.JS08dl5iN0dUDG3HVTvEt2VUaVvOsnNdb_Ue6V-Pw7E"
+    // Provide a valid session token for the demo app to work properly.
+    static let sessionToken = ""
     
     var networkingConfiguration: NetworkingConfiguration {
         return NetworkingConfiguration(
