@@ -1,0 +1,5 @@
+coverage_service: coveralls
+xcodeproj: ./Networking.xcodeproj
+scheme: Networking
+ignore:
+  - NetworkingTests/*
