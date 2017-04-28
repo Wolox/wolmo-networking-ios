@@ -1,6 +1,9 @@
 ## WolMo - Networking iOS
 
-# TODO: Add badges
+[![Build Status](https://www.bitrise.io/app/ee14c324bf9e92ed.svg?token=RS3nJlQST8L2nG6tI_AsYg&branch=master)](https://www.bitrise.io/app/ee14c324bf9e92ed)
+[![GitHub release](https://img.shields.io/github/release/Wolox/wolmo-networking-ios.svg)](https://github.com/Wolox/wolmo-networking-ios/releases)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+![Swift 3](https://img.shields.io/badge/Swift-3-orange.svg)
 
 WolMo - Networking iOS is a framework which provides an easy customizable HTTP request and session manager for iOS commonly used at [Wolox](http://www.wolox.com.ar/).
 
