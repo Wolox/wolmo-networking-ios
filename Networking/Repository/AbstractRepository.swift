@@ -19,6 +19,13 @@ import enum Result.Result
 public typealias Decoder<T> = (AnyObject) -> Result<T, Argo.DecodeError>
 
 /**
+    Typealias to model a tuple of request, response and data.
+    Used as return type of functions in which there is no expected type, instead the 
+    complete request, response and data of the operation is provided.
+ */
+public typealias RawDataResponse = (URLRequest, HTTPURLResponse, Data)
+
+/**
     Protocol which declares the different ways of performing a request.
     Implemented by AbstractRepository.
  */
@@ -104,7 +111,7 @@ public protocol RepositoryType {
     func performRequest(
         method: NetworkingMethod,
         path: String,
-        parameters: [String: Any]?) -> SignalProducer<(URLRequest, HTTPURLResponse, Data), RepositoryError>
+        parameters: [String: Any]?) -> SignalProducer<RawDataResponse, RepositoryError>
     
 }
 
@@ -173,7 +180,7 @@ extension AbstractRepository: RepositoryType {
     public func performRequest(
         method: NetworkingMethod,
         path: String,
-        parameters: [String: Any]?) -> SignalProducer<(URLRequest, HTTPURLResponse, Data), RepositoryError> {
+        parameters: [String: Any]?) -> SignalProducer<RawDataResponse, RepositoryError> {
         guard _sessionManager.isLoggedIn else { return SignalProducer(error: .unauthenticatedSession) }
         return perform(method: method, path: path, parameters: parameters, headers: authenticationHeaders)
     }
@@ -219,7 +226,7 @@ fileprivate extension AbstractRepository {
         method: NetworkingMethod,
         path: String,
         parameters: [String: Any]?,
-        headers: [String: String]?) -> SignalProducer<(URLRequest, HTTPURLResponse, Data), RepositoryError> {
+        headers: [String: String]?) -> SignalProducer<RawDataResponse, RepositoryError> {
         guard let url = buildURL(path: path) else { return SignalProducer(error: .invalidURL) }
         
         return _requestExecutor.perform(method: method, url: url, parameters: parameters, headers: headers)
@@ -233,7 +240,8 @@ fileprivate extension JSONSerialization {
     // Calling this function without private prefix causes an infinite loop.
     // I couldn't figure out why it was not happening before.
     // To be fixed in code review.
-    static func privateJsonObject(with data: Data, options opt: JSONSerialization.ReadingOptions = .allowFragments) -> JSONResult {
+    static func privateJsonObject(with data: Data,
+                                  options opt: JSONSerialization.ReadingOptions = .allowFragments) -> JSONResult {
         guard data.count > 0 else { return JSONResult(value: NSDictionary()) }
         
         let decode: () throws -> AnyObject = {
@@ -261,7 +269,7 @@ fileprivate final class DelayedScheduler: Scheduler {
         self.init(futureDate: Date().addingTimeInterval(delay))
     }
     
-    func schedule(_ action: @escaping () -> ()) -> Disposable? {
+    func schedule(_ action: @escaping () -> Void) -> Disposable? {
         return _queueScheduler.schedule(after: _futureDate, action: action)
     }
     

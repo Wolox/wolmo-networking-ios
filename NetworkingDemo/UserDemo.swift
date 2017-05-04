@@ -14,7 +14,7 @@ import Runes
 struct UserDemo: AuthenticableUser {
     
     let sessionToken: String?
-    let id: Int //swift-lint:disable:this variable_name
+    let id: Int
 }
 
 extension UserDemo: Decodable {

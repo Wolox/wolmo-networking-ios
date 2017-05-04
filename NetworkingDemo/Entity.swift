@@ -12,7 +12,7 @@ import Runes
 
 public struct Entity {
     
-    let id: Int // swiftlint:disable:this variable_name
+    let id: Int
     let genre: String
 }
 

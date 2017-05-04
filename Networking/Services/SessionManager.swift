@@ -10,7 +10,6 @@ import ReactiveSwift
 import Result
 import KeychainSwift
 
-
 /**
     Protocol for session manager.
     Includes the functions to handle the different session status changes,
