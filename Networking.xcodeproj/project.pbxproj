@@ -416,6 +416,7 @@
 				E1434DD01E6A177F00D5C6D2 /* Frameworks */,
 				E1434DD11E6A177F00D5C6D2 /* Headers */,
 				E1434DD21E6A177F00D5C6D2 /* Resources */,
+				E102E43C1EBB8F8A0006E5C3 /* Swiftlint */,
 				E13DC64A1E6DD5B00099FA75 /* Carthage */,
 			);
 			buildRules = (
@@ -527,6 +528,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		E102E43C1EBB8F8A0006E5C3 /* Swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Swiftlint;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ ! -z \"$RUNNING_ON_CI\" ]\nthen\n    echo \"SwiftLint run script has been disabled\"\n    exit 0\nfi\n\nif which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+		};
 		E13DC64A1E6DD5B00099FA75 /* Carthage */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
