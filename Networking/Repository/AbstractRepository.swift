@@ -190,6 +190,8 @@ extension AbstractRepository: RepositoryType {
 fileprivate extension AbstractRepository {
     
     private static let SessionTokenHeader = "Authorization"
+    private static let NoNetworkConnectionStatusCode = 0
+    private static let UnauthorizedStatusCode = 401
     
     func buildURL(path: String) -> URL? {
         return _networkingConfiguration.baseURL.appendingPathComponent(path)
@@ -208,16 +210,14 @@ fileprivate extension AbstractRepository {
     }
     
     func mapError<T>(error: ResponseError) -> SignalProducer<T, RepositoryError> {
-        if let connectionError = error.error.userInfo[NSLocalizedDescriptionKey] as? String {
-            if connectionError.lowercased().contains("internet connection") {
-                return SignalProducer(error: .noNetworkConnection)
-            }
+        if error.statusCode == AbstractRepository.NoNetworkConnectionStatusCode {
+            return SignalProducer(error: .noNetworkConnection)
         }
-        if let failureReason = error.error.userInfo[NSLocalizedFailureReasonErrorKey] as? String {
-            if _sessionManager.isLoggedIn && failureReason.contains(String(401)) {
+        if error.statusCode == AbstractRepository.UnauthorizedStatusCode {
+            if _sessionManager.isLoggedIn {
                 _sessionManager.expire()
-                return SignalProducer(error: .unauthenticatedSession)
             }
+            return SignalProducer(error: .unauthenticatedSession)
         }
         return SignalProducer(error: .requestError(error))
     }

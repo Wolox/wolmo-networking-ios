@@ -52,28 +52,34 @@ public enum RepositoryError: Error {
 public extension SignalProducer where Error == RepositoryError {
     
     func mapCustomError(errors: [Int: CustomRepositoryErrorType]) -> SignalProducer<Value, RepositoryError> {
-        return self.mapError { $0.mapCustomError(errors: errors) }
+        return mapError {
+            switch $0 {
+            case .requestError(let error): return error.matchCustomError(errors: errors) ?? $0
+            default: return $0
+            }
+        }
     }
     
 }
 
-private extension RepositoryError {
+private extension ResponseError {
     
-    func mapCustomError(errors: [Int: CustomRepositoryErrorType]) -> RepositoryError {
-        switch self {
-        case .requestError(let error):
-            // TODO: Search error in status code instead of in the error body when API applies this refactor.
-            if let failureReason = error.error.userInfo[NSLocalizedFailureReasonErrorKey] as? String {
-                for key in errors.keys {
-                    if failureReason.contains(String(key)) {
-                        let error = errors[key]!
-                        return RepositoryError.customError(errorName: error.name, error: error)
-                    }
-                }
-            }
-        default: break
+    /**
+        Given a map of error code to custom repository error, it checks first in the
+        status code if it matches any of them. In case it doesn't, it check in the response
+        body if any of them appears there.
+        In case there is no match, this function returns .none
+     */
+    func matchCustomError(errors: [Int: CustomRepositoryErrorType]) -> RepositoryError? {
+        if let matchingError = errors[statusCode] {
+            return RepositoryError.customError(errorName: matchingError.name, error: matchingError)
         }
-        return self
+        for key in errors.keys {
+            if let matchingError = errors[key], error.localizedDescription.contains(String(key)) {
+                return RepositoryError.customError(errorName: matchingError.name, error: matchingError)
+            }
+        }
+        return .none
     }
     
 }
