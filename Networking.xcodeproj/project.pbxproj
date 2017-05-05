@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		E111AE0C1E92D96000DE0C33 /* AlamofireNetworkActivityLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E111AE0B1E92D96000DE0C33 /* AlamofireNetworkActivityLogger.framework */; };
-		E124C13E1E8C3586001F7588 /* NetworkingConfigurationSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = E124C13D1E8C3586001F7588 /* NetworkingConfigurationSpec.swift */; };
 		E13DC6431E6DD4E40099FA75 /* Networking.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1434DD41E6A177F00D5C6D2 /* Networking.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E13DC6441E6DD5440099FA75 /* Runes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E17F82AC1E37E5EE00DE8C76 /* Runes.framework */; };
 		E13DC6471E6DD5440099FA75 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E157DA761E3158EA004586CB /* Result.framework */; };
@@ -27,6 +26,14 @@
 		E13DC65D1E6DDC100099FA75 /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13DC65C1E6DDC100099FA75 /* Entity.swift */; };
 		E13DC6601E6DDE2F0099FA75 /* CurrentUserFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13DC65F1E6DDE2F0099FA75 /* CurrentUserFetcher.swift */; };
 		E13DC6621E6DE43E0099FA75 /* UserDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13DC6611E6DE43E0099FA75 /* UserDemo.swift */; };
+		E14202311EBCF6AB0002C87D /* POST-https---localhost-8080-local-path-1.0-login.json in Resources */ = {isa = PBXBuildFile; fileRef = E14202301EBCF6AB0002C87D /* POST-https---localhost-8080-local-path-1.0-login.json */; };
+		E14202351EBCF8160002C87D /* LoginRepositorySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14202341EBCF8160002C87D /* LoginRepositorySpec.swift */; };
+		E14202391EBCF9650002C87D /* EntityRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14202371EBCF9650002C87D /* EntityRepository.swift */; };
+		E142023A1EBCF9650002C87D /* LoginRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14202381EBCF9650002C87D /* LoginRepository.swift */; };
+		E142023C1EBCF98F0002C87D /* LocalRequestExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E142023B1EBCF98F0002C87D /* LocalRequestExecutor.swift */; };
+		E142023E1EBCF9A60002C87D /* MalformedEntityRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E142023D1EBCF9A60002C87D /* MalformedEntityRepository.swift */; };
+		E14202401EBCFA650002C87D /* GET-https---localhost-8080-local-path-1.0-malformed-entity.json in Resources */ = {isa = PBXBuildFile; fileRef = E142023F1EBCFA650002C87D /* GET-https---localhost-8080-local-path-1.0-malformed-entity.json */; };
+		E14202421EBCFA9C0002C87D /* MalformedEntityRepositorySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14202411EBCFA9C0002C87D /* MalformedEntityRepositorySpec.swift */; };
 		E1434DC01E6A15C500D5C6D2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1434DBF1E6A15C500D5C6D2 /* AppDelegate.swift */; };
 		E1434DC71E6A15C500D5C6D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1434DC61E6A15C500D5C6D2 /* Assets.xcassets */; };
 		E1434DCA1E6A15C500D5C6D2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E1434DC81E6A15C500D5C6D2 /* LaunchScreen.storyboard */; };
@@ -45,11 +52,10 @@
 		E1A90ED01E82BD6B00DB1781 /* AlamofireNetworkActivityIndicator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1A90ECE1E81C68E00DB1781 /* AlamofireNetworkActivityIndicator.framework */; };
 		E1A90ED21E82C8EF00DB1781 /* KeychainSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1A90ED11E82C8EF00DB1781 /* KeychainSwift.framework */; };
 		E1C50C611E6F589D000A71BA /* RepositoryError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C50C601E6F589D000A71BA /* RepositoryError.swift */; };
+		E1D192581EBD23F80037E73F /* NetworkingConfigurationSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1D192571EBD23F80037E73F /* NetworkingConfigurationSpec.swift */; };
 		E1E2A7891E7076EC0052542B /* Networking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1434DD41E6A177F00D5C6D2 /* Networking.framework */; };
 		E1E2A78F1E70771B0052542B /* SessionManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12A24291E676FC700CCF53F /* SessionManagerMock.swift */; };
 		E1E2A7901E70771B0052542B /* UserMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12A242A1E676FC700CCF53F /* UserMock.swift */; };
-		E1E2A7911E70771B0052542B /* EntityRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17F829F1E37CD1100DE8C76 /* EntityRepository.swift */; };
-		E1E2A7921E70771B0052542B /* LocalRequestExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17F829C1E37CC2C00DE8C76 /* LocalRequestExecutor.swift */; };
 		E1E2A7931E70771B0052542B /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17F82A11E37D25C00DE8C76 /* Entity.swift */; };
 		E1E2A7941E70771B0052542B /* EntityRepositorySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FE7A231E702E48004F2DD9 /* EntityRepositorySpec.swift */; };
 		E1E2A7951E7077220052542B /* GET-https---localhost-8080-local-path-1.0-entity.json in Resources */ = {isa = PBXBuildFile; fileRef = E17F82991E37CC2400DE8C76 /* GET-https---localhost-8080-local-path-1.0-entity.json */; };
@@ -107,7 +113,6 @@
 
 /* Begin PBXFileReference section */
 		E111AE0B1E92D96000DE0C33 /* AlamofireNetworkActivityLogger.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AlamofireNetworkActivityLogger.framework; path = Carthage/Build/iOS/AlamofireNetworkActivityLogger.framework; sourceTree = SOURCE_ROOT; };
-		E124C13D1E8C3586001F7588 /* NetworkingConfigurationSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkingConfigurationSpec.swift; sourceTree = "<group>"; };
 		E12A24291E676FC700CCF53F /* SessionManagerMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SessionManagerMock.swift; path = Mocks/SessionManagerMock.swift; sourceTree = "<group>"; };
 		E12A242A1E676FC700CCF53F /* UserMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserMock.swift; path = Mocks/UserMock.swift; sourceTree = "<group>"; };
 		E12A242D1E677ACB00CCF53F /* GET-https---localhost-8080-local-path-1.0-failing-entity.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "GET-https---localhost-8080-local-path-1.0-failing-entity.json"; path = "Fixtures/GET-https---localhost-8080-local-path-1.0-failing-entity.json"; sourceTree = "<group>"; };
@@ -124,6 +129,14 @@
 		E13DC65C1E6DDC100099FA75 /* Entity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
 		E13DC65F1E6DDE2F0099FA75 /* CurrentUserFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentUserFetcher.swift; sourceTree = "<group>"; };
 		E13DC6611E6DE43E0099FA75 /* UserDemo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDemo.swift; sourceTree = "<group>"; };
+		E14202301EBCF6AB0002C87D /* POST-https---localhost-8080-local-path-1.0-login.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "POST-https---localhost-8080-local-path-1.0-login.json"; path = "Fixtures/POST-https---localhost-8080-local-path-1.0-login.json"; sourceTree = "<group>"; };
+		E14202341EBCF8160002C87D /* LoginRepositorySpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginRepositorySpec.swift; path = Tests/LoginRepositorySpec.swift; sourceTree = "<group>"; };
+		E14202371EBCF9650002C87D /* EntityRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EntityRepository.swift; path = Repositories/EntityRepository.swift; sourceTree = "<group>"; };
+		E14202381EBCF9650002C87D /* LoginRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginRepository.swift; path = Repositories/LoginRepository.swift; sourceTree = "<group>"; };
+		E142023B1EBCF98F0002C87D /* LocalRequestExecutor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocalRequestExecutor.swift; path = Repositories/LocalRequestExecutor.swift; sourceTree = "<group>"; };
+		E142023D1EBCF9A60002C87D /* MalformedEntityRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MalformedEntityRepository.swift; path = Repositories/MalformedEntityRepository.swift; sourceTree = "<group>"; };
+		E142023F1EBCFA650002C87D /* GET-https---localhost-8080-local-path-1.0-malformed-entity.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "GET-https---localhost-8080-local-path-1.0-malformed-entity.json"; path = "Fixtures/GET-https---localhost-8080-local-path-1.0-malformed-entity.json"; sourceTree = "<group>"; };
+		E14202411EBCFA9C0002C87D /* MalformedEntityRepositorySpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MalformedEntityRepositorySpec.swift; path = Tests/MalformedEntityRepositorySpec.swift; sourceTree = "<group>"; };
 		E1434DBD1E6A15C500D5C6D2 /* NetworkingDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetworkingDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1434DBF1E6A15C500D5C6D2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E1434DC61E6A15C500D5C6D2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -147,8 +160,6 @@
 		E16F20161E789CB4009D486E /* Curry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Curry.framework; path = ../Carthage/Build/iOS/Curry.framework; sourceTree = "<group>"; };
 		E17F82911E37CBD600DE8C76 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E17F82991E37CC2400DE8C76 /* GET-https---localhost-8080-local-path-1.0-entity.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "GET-https---localhost-8080-local-path-1.0-entity.json"; path = "Fixtures/GET-https---localhost-8080-local-path-1.0-entity.json"; sourceTree = "<group>"; };
-		E17F829C1E37CC2C00DE8C76 /* LocalRequestExecutor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocalRequestExecutor.swift; path = Tests/LocalRequestExecutor.swift; sourceTree = "<group>"; };
-		E17F829F1E37CD1100DE8C76 /* EntityRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EntityRepository.swift; path = Tests/EntityRepository.swift; sourceTree = "<group>"; };
 		E17F82A11E37D25C00DE8C76 /* Entity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Entity.swift; path = Tests/Entity.swift; sourceTree = "<group>"; };
 		E17F82A71E37E44C00DE8C76 /* ReactiveSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveSwift.framework; path = ../Carthage/Build/iOS/ReactiveSwift.framework; sourceTree = "<group>"; };
 		E17F82AC1E37E5EE00DE8C76 /* Runes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Runes.framework; path = ../Carthage/Build/iOS/Runes.framework; sourceTree = "<group>"; };
@@ -160,6 +171,7 @@
 		E1A90ECE1E81C68E00DB1781 /* AlamofireNetworkActivityIndicator.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AlamofireNetworkActivityIndicator.framework; path = Carthage/Build/iOS/AlamofireNetworkActivityIndicator.framework; sourceTree = SOURCE_ROOT; };
 		E1A90ED11E82C8EF00DB1781 /* KeychainSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainSwift.framework; path = Carthage/Build/iOS/KeychainSwift.framework; sourceTree = SOURCE_ROOT; };
 		E1C50C601E6F589D000A71BA /* RepositoryError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RepositoryError.swift; path = Repository/RepositoryError.swift; sourceTree = "<group>"; };
+		E1D192571EBD23F80037E73F /* NetworkingConfigurationSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkingConfigurationSpec.swift; path = Tests/NetworkingConfigurationSpec.swift; sourceTree = "<group>"; };
 		E1E2A7841E7076EC0052542B /* NetworkingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NetworkingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1E2A7981E7077B60052542B /* Networking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Networking.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E1FCED951E31358D00E3408F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -248,6 +260,17 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
+		E14202361EBCF93A0002C87D /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				E142023B1EBCF98F0002C87D /* LocalRequestExecutor.swift */,
+				E14202381EBCF9650002C87D /* LoginRepository.swift */,
+				E14202371EBCF9650002C87D /* EntityRepository.swift */,
+				E142023D1EBCF9A60002C87D /* MalformedEntityRepository.swift */,
+			);
+			name = Repositories;
+			sourceTree = "<group>";
+		};
 		E1434DBE1E6A15C500D5C6D2 /* NetworkingDemo */ = {
 			isa = PBXGroup;
 			children = (
@@ -290,6 +313,7 @@
 			children = (
 				E17F82C71E37E7B300DE8C76 /* Frameworks */,
 				E12A24281E676FA300CCF53F /* Mocks */,
+				E14202361EBCF93A0002C87D /* Repositories */,
 				E17F82981E37CBFA00DE8C76 /* Tests */,
 				E17F82971E37CBF500DE8C76 /* Fixtures */,
 				E17F82911E37CBD600DE8C76 /* Info.plist */,
@@ -300,9 +324,11 @@
 		E17F82971E37CBF500DE8C76 /* Fixtures */ = {
 			isa = PBXGroup;
 			children = (
+				E14202301EBCF6AB0002C87D /* POST-https---localhost-8080-local-path-1.0-login.json */,
 				E17F82991E37CC2400DE8C76 /* GET-https---localhost-8080-local-path-1.0-entity.json */,
 				E190F0131E52171000DCDBD8 /* GET-https---localhost-8080-local-path-1.0-entities.json */,
 				E12A242D1E677ACB00CCF53F /* GET-https---localhost-8080-local-path-1.0-failing-entity.json */,
+				E142023F1EBCFA650002C87D /* GET-https---localhost-8080-local-path-1.0-malformed-entity.json */,
 			);
 			name = Fixtures;
 			sourceTree = "<group>";
@@ -310,11 +336,11 @@
 		E17F82981E37CBFA00DE8C76 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				E17F829F1E37CD1100DE8C76 /* EntityRepository.swift */,
-				E17F829C1E37CC2C00DE8C76 /* LocalRequestExecutor.swift */,
-				E17F82A11E37D25C00DE8C76 /* Entity.swift */,
+				E14202341EBCF8160002C87D /* LoginRepositorySpec.swift */,
 				E1FE7A231E702E48004F2DD9 /* EntityRepositorySpec.swift */,
-				E124C13D1E8C3586001F7588 /* NetworkingConfigurationSpec.swift */,
+				E14202411EBCFA9C0002C87D /* MalformedEntityRepositorySpec.swift */,
+				E1D192571EBD23F80037E73F /* NetworkingConfigurationSpec.swift */,
+				E17F82A11E37D25C00DE8C76 /* Entity.swift */,
 			);
 			name = Tests;
 			sourceTree = "<group>";
@@ -519,6 +545,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E14202401EBCFA650002C87D /* GET-https---localhost-8080-local-path-1.0-malformed-entity.json in Resources */,
+				E14202311EBCF6AB0002C87D /* POST-https---localhost-8080-local-path-1.0-login.json in Resources */,
 				E1E2A7951E7077220052542B /* GET-https---localhost-8080-local-path-1.0-entity.json in Resources */,
 				E1E2A7961E7077220052542B /* GET-https---localhost-8080-local-path-1.0-entities.json in Resources */,
 				E1E2A7971E7077220052542B /* GET-https---localhost-8080-local-path-1.0-failing-entity.json in Resources */,
@@ -624,13 +652,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E124C13E1E8C3586001F7588 /* NetworkingConfigurationSpec.swift in Sources */,
+				E14202421EBCFA9C0002C87D /* MalformedEntityRepositorySpec.swift in Sources */,
 				E1E2A78F1E70771B0052542B /* SessionManagerMock.swift in Sources */,
 				E1E2A7901E70771B0052542B /* UserMock.swift in Sources */,
-				E1E2A7911E70771B0052542B /* EntityRepository.swift in Sources */,
-				E1E2A7921E70771B0052542B /* LocalRequestExecutor.swift in Sources */,
+				E14202351EBCF8160002C87D /* LoginRepositorySpec.swift in Sources */,
 				E1E2A7931E70771B0052542B /* Entity.swift in Sources */,
+				E142023E1EBCF9A60002C87D /* MalformedEntityRepository.swift in Sources */,
+				E142023C1EBCF98F0002C87D /* LocalRequestExecutor.swift in Sources */,
+				E14202391EBCF9650002C87D /* EntityRepository.swift in Sources */,
 				E1E2A7941E70771B0052542B /* EntityRepositorySpec.swift in Sources */,
+				E1D192581EBD23F80037E73F /* NetworkingConfigurationSpec.swift in Sources */,
+				E142023A1EBCF9650002C87D /* LoginRepository.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
