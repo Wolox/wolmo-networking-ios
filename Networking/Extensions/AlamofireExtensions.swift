@@ -41,7 +41,7 @@ internal extension Alamofire.DataRequest {
             guard self.request != .none else { return }
             
             self.response { dataResponse in
-                if let _ = dataResponse.error {
+                if dataResponse.error != nil {
                     self.handleError(dataResponse: dataResponse, observer: observer)
                 } else {
                     self.handleSuccess(dataResponse: dataResponse, observer: observer)
