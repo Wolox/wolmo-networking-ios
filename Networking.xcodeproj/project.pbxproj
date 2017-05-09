@@ -53,6 +53,10 @@
 		E1A90ED21E82C8EF00DB1781 /* KeychainSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1A90ED11E82C8EF00DB1781 /* KeychainSwift.framework */; };
 		E1C50C611E6F589D000A71BA /* RepositoryError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C50C601E6F589D000A71BA /* RepositoryError.swift */; };
 		E1D192581EBD23F80037E73F /* NetworkingConfigurationSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1D192571EBD23F80037E73F /* NetworkingConfigurationSpec.swift */; };
+		E1D1925A1EBD24E60037E73F /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1D192591EBD24E60037E73F /* KeychainService.swift */; };
+		E1D1925E1EC109660037E73F /* KeychainServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1D1925D1EC109660037E73F /* KeychainServiceMock.swift */; };
+		E1D192601EC10A440037E73F /* SessionManagerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1D1925F1EC10A440037E73F /* SessionManagerSpec.swift */; };
+		E1D192621EC10F660037E73F /* CurrentUserFetcherMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1D192611EC10F660037E73F /* CurrentUserFetcherMock.swift */; };
 		E1E2A7891E7076EC0052542B /* Networking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1434DD41E6A177F00D5C6D2 /* Networking.framework */; };
 		E1E2A78F1E70771B0052542B /* SessionManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12A24291E676FC700CCF53F /* SessionManagerMock.swift */; };
 		E1E2A7901E70771B0052542B /* UserMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12A242A1E676FC700CCF53F /* UserMock.swift */; };
@@ -172,6 +176,10 @@
 		E1A90ED11E82C8EF00DB1781 /* KeychainSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainSwift.framework; path = Carthage/Build/iOS/KeychainSwift.framework; sourceTree = SOURCE_ROOT; };
 		E1C50C601E6F589D000A71BA /* RepositoryError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RepositoryError.swift; path = Repository/RepositoryError.swift; sourceTree = "<group>"; };
 		E1D192571EBD23F80037E73F /* NetworkingConfigurationSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkingConfigurationSpec.swift; path = Tests/NetworkingConfigurationSpec.swift; sourceTree = "<group>"; };
+		E1D192591EBD24E60037E73F /* KeychainService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeychainService.swift; path = Services/KeychainService.swift; sourceTree = "<group>"; };
+		E1D1925D1EC109660037E73F /* KeychainServiceMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeychainServiceMock.swift; path = Mocks/KeychainServiceMock.swift; sourceTree = "<group>"; };
+		E1D1925F1EC10A440037E73F /* SessionManagerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SessionManagerSpec.swift; path = Tests/SessionManagerSpec.swift; sourceTree = "<group>"; };
+		E1D192611EC10F660037E73F /* CurrentUserFetcherMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CurrentUserFetcherMock.swift; path = Mocks/CurrentUserFetcherMock.swift; sourceTree = "<group>"; };
 		E1E2A7841E7076EC0052542B /* NetworkingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NetworkingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1E2A7981E7077B60052542B /* Networking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Networking.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E1FCED951E31358D00E3408F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -215,8 +223,10 @@
 		E12A24281E676FA300CCF53F /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
-				E12A24291E676FC700CCF53F /* SessionManagerMock.swift */,
 				E12A242A1E676FC700CCF53F /* UserMock.swift */,
+				E1D1925D1EC109660037E73F /* KeychainServiceMock.swift */,
+				E12A24291E676FC700CCF53F /* SessionManagerMock.swift */,
+				E1D192611EC10F660037E73F /* CurrentUserFetcherMock.swift */,
 			);
 			name = Mocks;
 			sourceTree = "<group>";
@@ -224,6 +234,7 @@
 		E13320301E329681008206C0 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				E1D192591EBD24E60037E73F /* KeychainService.swift */,
 				E13320311E329691008206C0 /* SessionManager.swift */,
 			);
 			name = Services;
@@ -340,6 +351,7 @@
 				E1FE7A231E702E48004F2DD9 /* EntityRepositorySpec.swift */,
 				E14202411EBCFA9C0002C87D /* MalformedEntityRepositorySpec.swift */,
 				E1D192571EBD23F80037E73F /* NetworkingConfigurationSpec.swift */,
+				E1D1925F1EC10A440037E73F /* SessionManagerSpec.swift */,
 				E17F82A11E37D25C00DE8C76 /* Entity.swift */,
 			);
 			name = Tests;
@@ -639,6 +651,7 @@
 				E13DC6501E6DD8150099FA75 /* NetworkingMethod.swift in Sources */,
 				E13DC6511E6DD8150099FA75 /* AlamofireExtensions.swift in Sources */,
 				E13DC6531E6DD8150099FA75 /* DecodedExtension.swift in Sources */,
+				E1D1925A1EBD24E60037E73F /* KeychainService.swift in Sources */,
 				E1C50C611E6F589D000A71BA /* RepositoryError.swift in Sources */,
 				E13DC6541E6DD8150099FA75 /* AbstractRepository.swift in Sources */,
 				E13DC6551E6DD8150099FA75 /* RequestExecutor.swift in Sources */,
@@ -656,13 +669,16 @@
 				E1E2A78F1E70771B0052542B /* SessionManagerMock.swift in Sources */,
 				E1E2A7901E70771B0052542B /* UserMock.swift in Sources */,
 				E14202351EBCF8160002C87D /* LoginRepositorySpec.swift in Sources */,
+				E1D192621EC10F660037E73F /* CurrentUserFetcherMock.swift in Sources */,
 				E1E2A7931E70771B0052542B /* Entity.swift in Sources */,
 				E142023E1EBCF9A60002C87D /* MalformedEntityRepository.swift in Sources */,
 				E142023C1EBCF98F0002C87D /* LocalRequestExecutor.swift in Sources */,
 				E14202391EBCF9650002C87D /* EntityRepository.swift in Sources */,
 				E1E2A7941E70771B0052542B /* EntityRepositorySpec.swift in Sources */,
+				E1D192601EC10A440037E73F /* SessionManagerSpec.swift in Sources */,
 				E1D192581EBD23F80037E73F /* NetworkingConfigurationSpec.swift in Sources */,
 				E142023A1EBCF9650002C87D /* LoginRepository.swift in Sources */,
+				E1D1925E1EC109660037E73F /* KeychainServiceMock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
