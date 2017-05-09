@@ -34,7 +34,7 @@ internal class EntityRepositorySpec: QuickSpec {
         
         describe("#fetchEntity") {
             
-            context("when session is valid", { 
+            context("when session is valid") {
                 
                 it("fetches a single entity from JSON file") { waitUntil { done in
                     repository.fetchEntity().startWithResult {
@@ -45,7 +45,7 @@ internal class EntityRepositorySpec: QuickSpec {
                     }
                 }}
                 
-            })
+            }
             
             context("when session is not valid", {
                 
