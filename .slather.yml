@@ -1,5 +1,9 @@
 xcodeproj: ./Networking.xcodeproj
 scheme: Networking
 ignore:
+  - Networking/Extensions/AlamofireExtensions.swift
+  - Networking/Repository/RequestExecutor.swift
+  - Networking/Repository/NetworkingSessionManager.swift
+  - Networking/Services/KeychainService.swift
   - NetworkingTests/*
   - NetworkingDemo/*
