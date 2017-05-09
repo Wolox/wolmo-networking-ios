@@ -51,6 +51,18 @@ public enum RepositoryError: Error {
  */
 public extension SignalProducer where Error == RepositoryError {
     
+    /**
+        This function is used to map a RepositoryError.requestError to a RepositoryError.customError
+     
+        In case the RepositoryError is not .requestError, it just returns the error with no mapping.
+        In case it is, this function takes the error (.requestError associated value), and checks if
+        any of the parameter keys appear in said error. Once found, it returns a .customError based 
+        on the associated value for the error found.
+        In case no key is found in the error, it just returns the error with no mapping.
+     
+        - parameters:
+            - errors: a map where its keys are error codes, and its values are custom repository error.
+     */
     func mapCustomError(errors: [Int: CustomRepositoryErrorType]) -> SignalProducer<Value, RepositoryError> {
         return mapError {
             switch $0 {
@@ -65,10 +77,10 @@ public extension SignalProducer where Error == RepositoryError {
 private extension ResponseError {
     
     /**
-        Given a map of error code to custom repository error, it checks first in the
-        status code if it matches any of them. In case it doesn't, it check in the response
-        body if any of them appears there.
-        In case there is no match, this function returns .none
+        Given a map where its keys are error codes, and its values are custom repository error,
+        this function checks if any of these error codes appears in the status code or in the
+        body (status code has more priority than body).
+        In case none of the provided error codes is found, this function returns .none
      */
     func matchCustomError(errors: [Int: CustomRepositoryErrorType]) -> RepositoryError? {
         if let matchingError = errors[statusCode] {
