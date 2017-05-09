@@ -30,14 +30,31 @@ internal class LoginRepositorySpec: QuickSpec {
         
         describe("#login") {
             
-            it("performs a non authenticated request") { waitUntil { done in
-                repository.login().startWithResult {
-                    switch $0 {
-                    case .success: done()
-                    case .failure: fail()
+            context("when the request is correctly performed") {
+                
+                it("succeeds") { waitUntil { done in
+                    repository.login().startWithResult {
+                        switch $0 {
+                        case .success: done()
+                        case .failure: fail()
+                        }
                     }
-                }
-            }}
+                }}
+                
+            }
+            
+            context("when the request has an error") {
+                
+                it("fails") { waitUntil { done in
+                    repository.failingLogin().startWithResult {
+                        switch $0 {
+                        case .success: fail()
+                        case .failure: done()
+                        }
+                    }
+                }}
+                
+            }
             
         }
         
