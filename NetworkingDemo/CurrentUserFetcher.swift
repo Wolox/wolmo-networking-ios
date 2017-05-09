@@ -13,11 +13,11 @@ import Result
 
 internal class CurrentUserFetcher: AbstractRepository, CurrentUserFetcherType {
     
-    private static let UserPath = "users/"
+    private static let UserPath = "users"
     private static let CurrentUserPath = "me"
     
     func fetchCurrentUser() -> SignalProducer<AuthenticableUser, RepositoryError> {
-        let path = CurrentUserFetcher.UserPath + CurrentUserFetcher.CurrentUserPath
+        let path = CurrentUserFetcher.UserPath / CurrentUserFetcher.CurrentUserPath
         return performRequest(method: .get, path: path, parameters: .none) {
             let result: Result<UserDemo, Argo.DecodeError> = decode($0).toResult()
             return result.map { $0 }
