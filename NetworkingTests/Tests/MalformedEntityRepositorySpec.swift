@@ -51,10 +51,12 @@ internal class MalformedEntityRepositorySpec: QuickSpec {
         
         describe("#fetchMalformedEntityStatusCode") {
             
-            it("fetches a header from a malformed JSON file") { waitUntil { done in
+            it("fetches the response status code from a malformed JSON file") { waitUntil { done in
                 repository.fetchMalformedEntityStatusCode().startWithResult {
                     switch $0 {
-                    case .success: done()
+                    case .success(let statusCode):
+                        expect(statusCode).to(equal(200))
+                        done()
                     case .failure: fail()
                     }
                 }
