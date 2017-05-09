@@ -10,7 +10,7 @@ import Quick
 import Nimble
 import Networking
 
-class LoginRepositorySpec: QuickSpec {
+internal class LoginRepositorySpec: QuickSpec {
     
     override func spec() {
         

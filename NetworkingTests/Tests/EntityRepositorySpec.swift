@@ -10,7 +10,7 @@ import Quick
 import Nimble
 import Networking
 
-class EntityRepositorySpec: QuickSpec {
+internal class EntityRepositorySpec: QuickSpec {
     
     override func spec() {
         
