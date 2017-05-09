@@ -19,8 +19,7 @@ internal class LocalRequestExecutor: RequestExecutorType {
         
         if let filePath = jsonPathForFile(name: path) {
             if requestRequiresAuthentication(url: url) && !requestIsAuthenticated(headers: headers) {
-                let error = unauthenticatedError
-                return SignalProducer(error: ResponseError(error: error, body: .none, statusCode: error.code))
+                return SignalProducer(error: unauthenticatedError)
             }
             let request = URLRequest(url: url)
             let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: .none, headerFields: .none)!
@@ -28,8 +27,7 @@ internal class LocalRequestExecutor: RequestExecutorType {
             return SignalProducer(value: (request, response, data))
         }
         
-        let error = notFoundError
-        return SignalProducer(error: ResponseError(error: error, body: .none, statusCode: error.code))
+        return SignalProducer(error: notFoundError)
     }
     
 }
@@ -44,12 +42,14 @@ private extension LocalRequestExecutor {
         return headers?["Authorization"] != .none
     }
     
-    var notFoundError: NSError {
-        return NSError(domain: "Not found URL", code: 400, userInfo: [NSLocalizedDescriptionKey: "400"])
+    var notFoundError: ResponseError {
+        let error = NSError(domain: "Not found URL", code: 400, userInfo: [NSLocalizedDescriptionKey: "400"])
+        return ResponseError(error: error, body: .none, statusCode: error.code)
     }
     
-    var unauthenticatedError: NSError {
-        return NSError(domain: "Unauthorized", code: 401, userInfo: [NSLocalizedDescriptionKey: "401"])
+    var unauthenticatedError: ResponseError {
+        let error = NSError(domain: "Unauthorized", code: 401, userInfo: [NSLocalizedDescriptionKey: "401"])
+        return ResponseError(error: error, body: .none, statusCode: error.code)
     }
     
 }
