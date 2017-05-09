@@ -27,7 +27,7 @@ internal class MalformedEntityRepositorySpec: QuickSpec {
                                                                   subdomainURL: "/local-path-1.0",
                                                                   usePinningCertificate: false)
             
-            repository = MalformedEntityRepository(networkingConfiguration:networkingConfiguration,
+            repository = MalformedEntityRepository(networkingConfiguration: networkingConfiguration,
                                                    requestExecutor: LocalRequestExecutor(),
                                                    sessionManager: sessionManager)
         }

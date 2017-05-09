@@ -23,7 +23,7 @@ internal class LoginRepositorySpec: QuickSpec {
                                                                   subdomainURL: "/local-path-1.0",
                                                                   usePinningCertificate: false)
             
-            repository = LoginRepository(networkingConfiguration:networkingConfiguration,
+            repository = LoginRepository(networkingConfiguration: networkingConfiguration,
                                          requestExecutor: LocalRequestExecutor(),
                                          sessionManager: SessionManagerMock())
         }

@@ -27,7 +27,7 @@ internal class EntityRepositorySpec: QuickSpec {
                                                                   subdomainURL: "/local-path-1.0",
                                                                   usePinningCertificate: false)
             
-            repository = EntityRepository(networkingConfiguration:networkingConfiguration,
+            repository = EntityRepository(networkingConfiguration: networkingConfiguration,
                                           requestExecutor: LocalRequestExecutor(),
                                           sessionManager: sessionManager)
         }
