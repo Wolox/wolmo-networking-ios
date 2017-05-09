@@ -25,6 +25,8 @@ public struct ResponseError: Error {
     
     public let error: NSError
     public let body: NSDictionary?
+    public let statusCode: Int
+    
 }
 
 /**
@@ -54,6 +56,8 @@ internal extension Alamofire.DataRequest {
 
 private extension Alamofire.DataRequest {
     
+    static let NoNetworkConnectionStatusCode = 0 // response is .none in case there is no connection
+    
     func handleError(dataResponse: DefaultDataResponse, observer: Observer<ResponseType, ResponseError>) {
         let bodyDecode: () throws -> AnyObject = {
             let data = dataResponse.data!
@@ -63,7 +67,8 @@ private extension Alamofire.DataRequest {
         let error = dataResponse.error! as NSError
         let bodyResult = JSONResult(attempt: bodyDecode)
         let body = bodyResult.value as? NSDictionary ?? [:]
-        observer.send(error: ResponseError(error: error, body: body))
+        let statusCode = dataResponse.response?.statusCode ?? DataRequest.NoNetworkConnectionStatusCode
+        observer.send(error: ResponseError(error: error, body: body, statusCode: statusCode))
     }
     
     func handleSuccess(dataResponse: DefaultDataResponse, observer: Observer<ResponseType, ResponseError>) {

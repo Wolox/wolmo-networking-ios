@@ -24,8 +24,8 @@ internal class LocalRequestExecutor: RequestExecutorType {
             return SignalProducer(value: (request, response, data))
         }
         
-        let error = NSError(domain: "Not found URL", code: 400, userInfo: [NSLocalizedFailureReasonErrorKey: "400"])
-        return SignalProducer(error: ResponseError(error: error, body: .none))
+        let error = NSError(domain: "Not found URL", code: 400, userInfo: [NSLocalizedDescriptionKey: "400"])
+        return SignalProducer(error: ResponseError(error: error, body: .none, statusCode: 400))
     }
     
 }
