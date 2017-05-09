@@ -10,8 +10,6 @@ import Networking
 
 internal struct UserMock: AuthenticableUser {
     
-    var sessionToken: String? {
-        return "fake-session-token"
-    }
-
+    var sessionToken: String? = "fake-session-token"
+    
 }
