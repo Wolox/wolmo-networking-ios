@@ -168,19 +168,31 @@ public extension SessionManager {
 public extension SessionManager {
     
     public func login(user: AuthenticableUser) {
+        guard !isLoggedIn else {
+            fatalError("Attempting to login an already logged in session in SessionManager")
+        }
         saveSessionToken(user: user)
         saveUser(user: user)
     }
     
     public func update(user: AuthenticableUser) {
+        guard isLoggedIn else {
+            fatalError("Attempting to update a non logged in session in SessionManager")
+        }
         saveUser(user: user)
     }
     
     public func logout() {
+        guard isLoggedIn else {
+            fatalError("Attempting to logout a non logged in session in SessionManager")
+        }
         clearSession()
     }
     
     public func expire() {
+        guard isLoggedIn else {
+            fatalError("Attempting to expire a non logged in session in SessionManager")
+        }
         clearSession()
     }
     
