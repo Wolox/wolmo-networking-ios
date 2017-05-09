@@ -12,7 +12,7 @@ import KeychainSwift
     Protocol for keychain service.
     Provides a way to save, delete and query a String.
  */
-internal protocol KeychainServiceType {
+public protocol KeychainServiceType {
     
     /**
         Returns the associated value given a key
@@ -43,31 +43,18 @@ internal protocol KeychainServiceType {
     
 }
 
-/**
-    Default KeychainService responsible for handling the keychain in the SessionManager.
- */
-final internal class KeychainService {
+extension KeychainSwift: KeychainServiceType {
     
-    fileprivate let _keychain: KeychainSwift
-    
-    init(keychain: KeychainSwift = KeychainSwift()) {
-        _keychain = keychain
+    public func get(key: String) -> String? {
+        return get(key)
     }
     
-}
-
-extension KeychainService: KeychainServiceType {
-
-    func get(key: String) -> String? {
-        return _keychain.get(key)
+    public func set(value: String, forKey key: String) {
+        set(value, forKey: key)
     }
     
-    func set(value: String, forKey key: String) {
-        _keychain.set(value, forKey: key)
-    }
-    
-    func delete(key: String) {
-        _keychain.delete(key)
+    public func delete(key: String) {
+        delete(key)
     }
     
 }

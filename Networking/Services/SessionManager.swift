@@ -8,6 +8,7 @@
 
 import ReactiveSwift
 import Result
+import KeychainSwift
 
 /**
     Protocol for session manager.
@@ -117,11 +118,7 @@ final public class SessionManager: SessionManagerType {
     fileprivate let _sessionToken = MutableProperty<String?>(.none)
     fileprivate let _currentUser = MutableProperty<AuthenticableUser?>(.none)
     
-    convenience public init() {
-        self.init(keychainService: KeychainService())
-    }
-    
-    internal init(keychainService: KeychainServiceType) {
+    public init(keychainService: KeychainServiceType = KeychainSwift()) {
         _keychainService = keychainService
     }
     
