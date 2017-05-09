@@ -45,7 +45,7 @@ internal class SessionManagerSpec: QuickSpec {
                     sessionManager.bootstrap()
                 }
                 
-                it("returns there is no session") {
+                it("returns there is a session") {
                     expect(sessionManager.isLoggedIn).to(beTrue())
                 }
                 
