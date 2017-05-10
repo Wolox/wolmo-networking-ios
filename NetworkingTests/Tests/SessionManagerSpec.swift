@@ -223,7 +223,7 @@ internal class SessionManagerSpec: QuickSpec {
                     sessionManager.bootstrap()
                 }
                 
-                it("throws an assertion") {
+                it("throws an assertion error") {
                     expect(sessionManager.login(user: UserMock())).to(throwAssertion())
                 }
                 
@@ -285,7 +285,7 @@ internal class SessionManagerSpec: QuickSpec {
                     sessionManager.bootstrap()
                 }
                 
-                it("throws an assertion") {
+                it("throws an assertion error") {
                     expect(sessionManager.update(user: UserMock())).to(throwAssertion())
                 }
                 
@@ -354,7 +354,7 @@ internal class SessionManagerSpec: QuickSpec {
                     sessionManager.bootstrap()
                 }
                 
-                it("throws an assertion") {
+                it("throws an assertion error") {
                     expect(sessionManager.logout()).to(throwAssertion())
                 }
                 
@@ -416,7 +416,7 @@ internal class SessionManagerSpec: QuickSpec {
                     sessionManager.bootstrap()
                 }
                 
-                it("throws an assertion") {
+                it("throws an assertion error") {
                     expect(sessionManager.expire()).to(throwAssertion())
                 }
                 
