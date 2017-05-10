@@ -137,7 +137,7 @@ final public class SessionManager: SessionManagerType {
                 }
             }
         } else {
-            self._currentUser.value = .none
+            _currentUser.value = .none
         }
     }
     

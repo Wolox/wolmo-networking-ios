@@ -421,7 +421,7 @@ internal class SessionManagerSpec: QuickSpec {
 private extension Signal where Value == Bool, Error == NoError {
     
     func successOnTrue(closure: @escaping (Void) -> Void) {
-        self.observeValues {
+        observeValues {
             switch $0 {
             case true: closure()
             case false: fail()
@@ -430,7 +430,7 @@ private extension Signal where Value == Bool, Error == NoError {
     }
     
     func successOnFalse(closure: @escaping (Void) -> Void) {
-        self.observeValues {
+        observeValues {
             switch $0 {
             case true: fail()
             case false: closure()
@@ -443,7 +443,7 @@ private extension Signal where Value == Bool, Error == NoError {
 private extension Signal where Value == AuthenticableUser?, Error == NoError {
     
     func successOnSome(closure: @escaping (AuthenticableUser) -> Void) {
-        self.observeValues {
+        observeValues {
             switch $0 {
             case .some(let user): closure(user)
             case .none: fail()
@@ -452,7 +452,7 @@ private extension Signal where Value == AuthenticableUser?, Error == NoError {
     }
     
     func successOnNone(closure: @escaping (Void) -> Void) {
-        self.observeValues {
+        observeValues {
             switch $0 {
             case .some: fail()
             case .none: closure()
