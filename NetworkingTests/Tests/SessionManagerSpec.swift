@@ -8,6 +8,8 @@
 
 import Quick
 import Nimble
+import ReactiveSwift
+import Result
 @testable import Networking
 
 internal class SessionManagerSpec: QuickSpec {
@@ -19,13 +21,24 @@ internal class SessionManagerSpec: QuickSpec {
         var keychainService: KeychainServiceType!
         var sessionManager: SessionManagerType!
         
+        func initializeSessionManager() {
+            keychainService = KeychainServiceMock()
+            sessionManager = SessionManager(keychainService: keychainService)
+        }
+        
+        func initializeAuthenticatedSessionManager() {
+            keychainService = KeychainServiceMock()
+            keychainService.set(value: UserMock().sessionToken!,
+                                forKey: SessionManagerSpec.CurrentSessionTokenPersistanceKey)
+            sessionManager = SessionManager(keychainService: keychainService)
+        }
+        
         describe("#isLoggedIn") {
             
             context("when bootstraps and there is no session") {
                 
                 beforeEach {
-                    keychainService = KeychainServiceMock()
-                    sessionManager = SessionManager(keychainService: keychainService)
+                    initializeSessionManager()
                     sessionManager.bootstrap()
                 }
                 
@@ -35,13 +48,10 @@ internal class SessionManagerSpec: QuickSpec {
                 
             }
             
-            context("when bootstraps and there is already a session") {
+            context("when bootstraps and there is a session") {
                 
                 beforeEach {
-                    keychainService = KeychainServiceMock()
-                    keychainService.set(value: UserMock().sessionToken!,
-                                        forKey: SessionManagerSpec.CurrentSessionTokenPersistanceKey)
-                    sessionManager = SessionManager(keychainService: keychainService)
+                    initializeAuthenticatedSessionManager()
                     sessionManager.bootstrap()
                 }
                 
@@ -55,13 +65,23 @@ internal class SessionManagerSpec: QuickSpec {
         
         describe("#sessionToken") {
             
-            context("when bootstraps and there is already a session") {
+            context("when bootstraps and there is no session") {
                 
                 beforeEach {
-                    keychainService = KeychainServiceMock()
-                    keychainService.set(value: UserMock().sessionToken!,
-                                        forKey: SessionManagerSpec.CurrentSessionTokenPersistanceKey)
-                    sessionManager = SessionManager(keychainService: keychainService)
+                    initializeSessionManager()
+                    sessionManager.bootstrap()
+                }
+                
+                it("returns none") {
+                    expect(sessionManager.sessionToken).to(beNil())
+                }
+                
+            }
+            
+            context("when bootstraps and there is a session") {
+                
+                beforeEach {
+                    initializeAuthenticatedSessionManager()
                     sessionManager.bootstrap()
                 }
                 
@@ -75,13 +95,36 @@ internal class SessionManagerSpec: QuickSpec {
         
         describe("#currentUser") {
             
-            context("when bootstraps and there is already a session and a user fetcher") {
+            context("when bootstraps and there is no session") {
                 
                 beforeEach {
-                    keychainService = KeychainServiceMock()
-                    keychainService.set(value: UserMock().sessionToken!,
-                                        forKey: SessionManagerSpec.CurrentSessionTokenPersistanceKey)
-                    sessionManager = SessionManager(keychainService: keychainService)
+                    initializeSessionManager()
+                    sessionManager.bootstrap()
+                }
+                
+                it("returns none") {
+                    expect(sessionManager.currentUser).to(beNil())
+                }
+                
+            }
+            
+            context("when bootstraps and there is a session but no user fetcher") {
+                
+                beforeEach {
+                    initializeAuthenticatedSessionManager()
+                    sessionManager.bootstrap()
+                }
+                
+                it("returns none") {
+                    expect(sessionManager.currentUser).to(beNil())
+                }
+                
+            }
+            
+            context("when bootstraps and there is a session and a user fetcher") {
+                
+                beforeEach {
+                    initializeAuthenticatedSessionManager()
                     sessionManager.setCurrentUserFetcher(currentUserFetcher: CurrentUserFetcherMock())
                     sessionManager.bootstrap()
                 }
@@ -96,43 +139,27 @@ internal class SessionManagerSpec: QuickSpec {
         
         describe("#sessionSignal") {
             
-            context("when bootstraps and there is already a session") {
+            context("when bootstraps and there is no session") {
                 
                 beforeEach {
-                    keychainService = KeychainServiceMock()
-                    keychainService.set(value: UserMock().sessionToken!,
-                                        forKey: SessionManagerSpec.CurrentSessionTokenPersistanceKey)
-                    sessionManager = SessionManager(keychainService: keychainService)
+                    initializeSessionManager()
                 }
                 
                 it("sends false in session signal") { waitUntil { done in
-                    sessionManager.sessionSignal.observeValues {
-                        switch $0 {
-                        case true: done()
-                        case false: fail()
-                        }
-                    }
-                    
+                    sessionManager.sessionSignal.successOnFalse { done() }
                     sessionManager.bootstrap()
                 }}
                 
             }
             
-            context("when bootstraps and there is no session") {
+            context("when bootstraps and there is a session") {
                 
                 beforeEach {
-                    keychainService = KeychainServiceMock()
-                    sessionManager = SessionManager(keychainService: keychainService)
+                    initializeAuthenticatedSessionManager()
                 }
                 
                 it("sends true in session signal") { waitUntil { done in
-                    sessionManager.sessionSignal.observeValues {
-                        switch $0 {
-                        case true: fail()
-                        case false: done()
-                        }
-                    }
-                    
+                    sessionManager.sessionSignal.successOnTrue { done() }
                     sessionManager.bootstrap()
                 }}
                 
@@ -142,68 +169,44 @@ internal class SessionManagerSpec: QuickSpec {
         
         describe("#userSignal") {
             
-            context("when bootstraps and there is already a session and a user fetcher") {
+            context("when bootstraps and there is no session") {
                 
                 beforeEach {
-                    keychainService = KeychainServiceMock()
-                    keychainService.set(value: UserMock().sessionToken!,
-                                        forKey: SessionManagerSpec.CurrentSessionTokenPersistanceKey)
-                    sessionManager = SessionManager(keychainService: keychainService)
+                    initializeSessionManager()
+                }
+                
+                it("sends none in user signal") { waitUntil { done in
+                    sessionManager.userSignal.successOnNone { done() }
+                    sessionManager.bootstrap()
+                }}
+                
+            }
+            
+            context("when bootstraps and there is a session but no user fetcher") {
+                
+                beforeEach {
+                    initializeAuthenticatedSessionManager()
+                }
+                
+                it("sends none in user signal") { waitUntil { done in
+                    sessionManager.userSignal.successOnNone { done() }
+                    sessionManager.bootstrap()
+                }}
+                
+            }
+            
+            context("when bootstraps and there is a session and a user fetcher") {
+                
+                beforeEach {
+                    initializeAuthenticatedSessionManager()
                     sessionManager.setCurrentUserFetcher(currentUserFetcher: CurrentUserFetcherMock())
                 }
                 
                 it("sends the authenticated user in user signal") { waitUntil { done in
-                    sessionManager.userSignal.observeValues {
-                        switch $0 {
-                        case .none: fail()
-                        case .some(let user):
-                            expect(user.sessionToken).to(equal(UserMock().sessionToken))
-                            done()
-                        }
+                    sessionManager.userSignal.successOnSome {
+                        expect($0.sessionToken).to(equal(UserMock().sessionToken))
+                        done()
                     }
-                    
-                    sessionManager.bootstrap()
-                }}
-                
-            }
-            
-            context("when bootstraps and there is already a session and no user fetcher") {
-                
-                beforeEach {
-                    keychainService = KeychainServiceMock()
-                    keychainService.set(value: UserMock().sessionToken!,
-                                        forKey: SessionManagerSpec.CurrentSessionTokenPersistanceKey)
-                    sessionManager = SessionManager(keychainService: keychainService)
-                }
-                
-                it("sends the authenticated user in user signal") { waitUntil { done in
-                    sessionManager.userSignal.observeValues {
-                        switch $0 {
-                        case .none: done()
-                        case .some: fail()
-                        }
-                    }
-                    
-                    sessionManager.bootstrap()
-                }}
-                
-            }
-            
-            context("when bootstraps and there is no session") {
-                
-                beforeEach {
-                    keychainService = KeychainServiceMock()
-                    sessionManager = SessionManager(keychainService: keychainService)
-                }
-                
-                it("sends none in user signal") { waitUntil { done in
-                    sessionManager.userSignal.observeValues {
-                        switch $0 {
-                        case .none: done()
-                        case .some: fail()
-                        }
-                    }
-                    
                     sessionManager.bootstrap()
                 }}
                 
@@ -216,10 +219,7 @@ internal class SessionManagerSpec: QuickSpec {
             describe("when there is a current session") {
                 
                 beforeEach {
-                    keychainService = KeychainServiceMock()
-                    keychainService.set(value: UserMock().sessionToken!,
-                                        forKey: SessionManagerSpec.CurrentSessionTokenPersistanceKey)
-                    sessionManager = SessionManager(keychainService: keychainService)
+                    initializeAuthenticatedSessionManager()
                     sessionManager.bootstrap()
                 }
                 
@@ -232,30 +232,19 @@ internal class SessionManagerSpec: QuickSpec {
             describe("when there is no current session") {
                 
                 beforeEach {
-                    keychainService = KeychainServiceMock()
-                    sessionManager = SessionManager(keychainService: keychainService)
+                    initializeSessionManager()
                     sessionManager.bootstrap()
                 }
                 
                 it("sends true in session signal") { waitUntil { done in
-                    sessionManager.sessionSignal.observeValues {
-                        switch $0 {
-                        case true: done()
-                        case false: fail()
-                        }
-                    }
-                    
+                    sessionManager.sessionSignal.successOnTrue { done() }
                     sessionManager.login(user: UserMock())
                 }}
                 
                 it("sends the authenticated user in user signal") { waitUntil { done in
-                    sessionManager.userSignal.observeValues {
-                        switch $0 {
-                        case .none: fail()
-                        case .some(let user):
-                            expect(user.sessionToken).to(equal(UserMock().sessionToken))
-                            done()
-                        }
+                    sessionManager.userSignal.successOnSome {
+                        expect($0.sessionToken).to(equal(UserMock().sessionToken))
+                        done()
                     }
                     
                     sessionManager.login(user: UserMock())
@@ -280,8 +269,7 @@ internal class SessionManagerSpec: QuickSpec {
             describe("when there is no current session") {
                 
                 beforeEach {
-                    keychainService = KeychainServiceMock()
-                    sessionManager = SessionManager(keychainService: keychainService)
+                    initializeSessionManager()
                     sessionManager.bootstrap()
                 }
                 
@@ -296,29 +284,19 @@ internal class SessionManagerSpec: QuickSpec {
                 let updatedSessionToken = "updated-fake-session-token"
                 
                 beforeEach {
-                    keychainService = KeychainServiceMock()
-                    keychainService.set(value: UserMock().sessionToken!,
-                                        forKey: SessionManagerSpec.CurrentSessionTokenPersistanceKey)
-                    sessionManager = SessionManager(keychainService: keychainService)
+                    initializeAuthenticatedSessionManager()
                     sessionManager.bootstrap()
                 }
                 
                 it("sends no session signal") {
-                    sessionManager.sessionSignal.observeValues { _ in
-                        fail()
-                    }
-                    
+                    sessionManager.sessionSignal.observeValues { _ in fail() }
                     sessionManager.update(user: UserMock())
                 }
                 
                 it("sends the updated authenticated user in user signal") { waitUntil { done in
-                    sessionManager.userSignal.observeValues {
-                        switch $0 {
-                        case .none: fail()
-                        case .some(let user):
-                            expect(user.sessionToken).to(equal(updatedSessionToken))
-                            done()
-                        }
+                    sessionManager.userSignal.successOnSome {
+                        expect($0.sessionToken).to(equal(updatedSessionToken))
+                        done()
                     }
                     
                     var updatedUser = UserMock()
@@ -349,8 +327,7 @@ internal class SessionManagerSpec: QuickSpec {
             describe("when there is no current session") {
                 
                 beforeEach {
-                    keychainService = KeychainServiceMock()
-                    sessionManager = SessionManager(keychainService: keychainService)
+                    initializeSessionManager()
                     sessionManager.bootstrap()
                 }
                 
@@ -363,32 +340,17 @@ internal class SessionManagerSpec: QuickSpec {
             describe("when there is a current session") {
                 
                 beforeEach {
-                    keychainService = KeychainServiceMock()
-                    keychainService.set(value: UserMock().sessionToken!,
-                                        forKey: SessionManagerSpec.CurrentSessionTokenPersistanceKey)
-                    sessionManager = SessionManager(keychainService: keychainService)
+                    initializeAuthenticatedSessionManager()
                     sessionManager.bootstrap()
                 }
                 
                 it("sends false in session signal") { waitUntil { done in
-                    sessionManager.sessionSignal.observeValues {
-                        switch $0 {
-                        case true: fail()
-                        case false: done()
-                        }
-                    }
-                    
+                    sessionManager.sessionSignal.successOnFalse { done() }
                     sessionManager.logout()
                 }}
                 
                 it("sends none in user signal") { waitUntil { done in
-                    sessionManager.userSignal.observeValues {
-                        switch $0 {
-                        case .none: done()
-                        case .some: fail()
-                        }
-                    }
-                    
+                    sessionManager.userSignal.successOnNone { done() }
                     sessionManager.logout()
                 }}
                 
@@ -411,8 +373,7 @@ internal class SessionManagerSpec: QuickSpec {
             describe("when there is no current session") {
                 
                 beforeEach {
-                    keychainService = KeychainServiceMock()
-                    sessionManager = SessionManager(keychainService: keychainService)
+                    initializeSessionManager()
                     sessionManager.bootstrap()
                 }
                 
@@ -425,32 +386,17 @@ internal class SessionManagerSpec: QuickSpec {
             describe("when there is a current session") {
                 
                 beforeEach {
-                    keychainService = KeychainServiceMock()
-                    keychainService.set(value: UserMock().sessionToken!,
-                                        forKey: SessionManagerSpec.CurrentSessionTokenPersistanceKey)
-                    sessionManager = SessionManager(keychainService: keychainService)
+                    initializeAuthenticatedSessionManager()
                     sessionManager.bootstrap()
                 }
                 
                 it("sends false in session signal") { waitUntil { done in
-                    sessionManager.sessionSignal.observeValues {
-                        switch $0 {
-                        case true: fail()
-                        case false: done()
-                        }
-                    }
-                    
+                    sessionManager.sessionSignal.successOnFalse { done() }
                     sessionManager.expire()
                 }}
                 
                 it("sends none in user signal") { waitUntil { done in
-                    sessionManager.userSignal.observeValues {
-                        switch $0 {
-                        case .none: done()
-                        case .some: fail()
-                        }
-                    }
-                    
+                    sessionManager.userSignal.successOnNone { done() }
                     sessionManager.expire()
                 }}
                 
@@ -468,6 +414,50 @@ internal class SessionManagerSpec: QuickSpec {
             
         }
         
+    }
+    
+}
+
+private extension Signal where Value == Bool, Error == NoError {
+    
+    func successOnTrue(closure: @escaping (Void) -> Void) {
+        self.observeValues {
+            switch $0 {
+            case true: closure()
+            case false: fail()
+            }
+        }
+    }
+    
+    func successOnFalse(closure: @escaping (Void) -> Void) {
+        self.observeValues {
+            switch $0 {
+            case true: fail()
+            case false: closure()
+            }
+        }
+    }
+    
+}
+
+private extension Signal where Value == AuthenticableUser?, Error == NoError {
+    
+    func successOnSome(closure: @escaping (AuthenticableUser) -> Void) {
+        self.observeValues {
+            switch $0 {
+            case .some(let user): closure(user)
+            case .none: fail()
+            }
+        }
+    }
+    
+    func successOnNone(closure: @escaping (Void) -> Void) {
+        self.observeValues {
+            switch $0 {
+            case .some: fail()
+            case .none: closure()
+            }
+        }
     }
     
 }
