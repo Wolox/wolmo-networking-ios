@@ -112,14 +112,14 @@ public protocol SessionManagerType {
  */
 final public class SessionManager: SessionManagerType {
 
-    fileprivate let _keychain: KeychainSwift
+    fileprivate let _keychainService: KeychainServiceType
     fileprivate var _currentUserFetcher: CurrentUserFetcherType?
     
     fileprivate let _sessionToken = MutableProperty<String?>(.none)
     fileprivate let _currentUser = MutableProperty<AuthenticableUser?>(.none)
     
-    public init(keychain: KeychainSwift = KeychainSwift()) {
-        _keychain = keychain
+    public init(keychainService: KeychainServiceType = KeychainSwift()) {
+        _keychainService = keychainService
     }
     
     public func setCurrentUserFetcher(currentUserFetcher: CurrentUserFetcherType) {
@@ -129,13 +129,15 @@ final public class SessionManager: SessionManagerType {
     
     public func bootstrap() {
         _sessionToken.value = getSessionToken()
-        if isLoggedIn {
-            _currentUserFetcher?.fetchCurrentUser().startWithResult { [unowned self] in
+        if let currentUserFetcher = _currentUserFetcher, isLoggedIn {
+            currentUserFetcher.fetchCurrentUser().startWithResult { [unowned self] in
                 switch $0 {
                 case .success(let user): self._currentUser.value = user
                 case .failure(_): break // TODO: Handle error here.
                 }
             }
+        } else {
+            _currentUser.value = .none
         }
     }
     
@@ -168,19 +170,31 @@ public extension SessionManager {
 public extension SessionManager {
     
     public func login(user: AuthenticableUser) {
+        guard !isLoggedIn else {
+            fatalError("Attempting to login an already logged in session in SessionManager")
+        }
         saveSessionToken(user: user)
         saveUser(user: user)
     }
     
     public func update(user: AuthenticableUser) {
+        guard isLoggedIn else {
+            fatalError("Attempting to update a non logged in session in SessionManager")
+        }
         saveUser(user: user)
     }
     
     public func logout() {
+        guard isLoggedIn else {
+            fatalError("Attempting to logout a non logged in session in SessionManager")
+        }
         clearSession()
     }
     
     public func expire() {
+        guard isLoggedIn else {
+            fatalError("Attempting to expire a non logged in session in SessionManager")
+        }
         clearSession()
     }
     
@@ -214,15 +228,15 @@ private extension SessionManager {
     private static let CurrentSessionTokenPersistanceKey = "com.wolox.wolmo-networking.CurrentSessionToken"
     
     func getSessionToken() -> String? {
-        return _keychain.get(SessionManager.CurrentSessionTokenPersistanceKey)
+        return _keychainService.get(key: SessionManager.CurrentSessionTokenPersistanceKey)
     }
     
     func saveSessionToken(sessionToken: String) {
-        _keychain.set(sessionToken, forKey: SessionManager.CurrentSessionTokenPersistanceKey)
+        _keychainService.set(value: sessionToken, forKey: SessionManager.CurrentSessionTokenPersistanceKey)
     }
     
     func clearSessionToken() {
-        _keychain.delete(SessionManager.CurrentSessionTokenPersistanceKey)
+        _keychainService.delete(key: SessionManager.CurrentSessionTokenPersistanceKey)
     }
     
 }

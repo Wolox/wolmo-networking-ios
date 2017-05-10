@@ -1,0 +1,36 @@
+//
+//  MalformedEntityRepository.swift
+//  Networking
+//
+//  Created by Pablo Giorgi on 5/5/17.
+//  Copyright © 2017 Wolox. All rights reserved.
+//
+
+import ReactiveSwift
+import Networking
+import Argo
+import Result
+
+internal protocol MalformedEntityRepositoryType {
+    
+    func fetchMalformedEntity() -> SignalProducer<Entity, RepositoryError>
+    func fetchMalformedEntityStatusCode() -> SignalProducer<Int, RepositoryError>
+    
+}
+
+internal class MalformedEntityRepository: AbstractRepository, MalformedEntityRepositoryType {
+    
+    func fetchMalformedEntity() -> SignalProducer<Entity, RepositoryError> {
+        return performRequest(method: .get, path: "malformed-entity", parameters: .none) {
+            decode($0).toResult()
+        }
+    }
+    
+    func fetchMalformedEntityStatusCode() -> SignalProducer<Int, RepositoryError> {
+        return performRequest(method: .get, path: "malformed-entity", parameters: .none)
+            .flatMap(.concat) { (_, response, _) -> SignalProducer<Int, RepositoryError> in
+                return SignalProducer(value: response.statusCode)
+            }
+    }
+    
+}

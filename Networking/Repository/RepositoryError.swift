@@ -24,7 +24,7 @@ public protocol CustomRepositoryErrorType: Error {
 public extension CustomRepositoryErrorType where Self: RawRepresentable {
     
     var name: String {
-        return String(describing: self.rawValue)
+        return String(describing: rawValue)
     }
     
 }

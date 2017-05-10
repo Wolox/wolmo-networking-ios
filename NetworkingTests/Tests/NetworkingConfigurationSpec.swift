@@ -10,7 +10,7 @@ import Quick
 import Nimble
 @testable import Networking
 
-class NetworkingConfigurationSpec: QuickSpec {
+internal class NetworkingConfigurationSpec: QuickSpec {
     
     override func spec() {
         

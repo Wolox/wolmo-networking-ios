@@ -18,10 +18,12 @@ internal enum EntityRepositoryError: String, CustomRepositoryErrorType {
 internal protocol EntityRepositoryType {
     
     func fetchEntity() -> SignalProducer<Entity, RepositoryError>
+    func fetchEntityTryingPolling() -> SignalProducer<Entity, RepositoryError>
     func fetchEntities() -> SignalProducer<[Entity], RepositoryError>
     func fetchFailingEntity() -> SignalProducer<Entity, RepositoryError>
     func fetchDefaultFailingEntity() -> SignalProducer<Entity, RepositoryError>
     func fetchCustomFailingEntity() -> SignalProducer<Entity, RepositoryError>
+    func fetchCustomFailingEntityMishandlingError() -> SignalProducer<Entity, RepositoryError>
     
 }
 
@@ -31,6 +33,12 @@ internal class EntityRepository: AbstractRepository, EntityRepositoryType {
     
     func fetchEntity() -> SignalProducer<Entity, RepositoryError> {
         return performRequest(method: .get, path: "entity", parameters: .none) {
+            decode($0).toResult()
+        }
+    }
+    
+    func fetchEntityTryingPolling() -> SignalProducer<Entity, RepositoryError> {
+        return performPollingRequest(method: .get, path: "entity", parameters: .none) {
             decode($0).toResult()
         }
     }
@@ -60,6 +68,12 @@ internal class EntityRepository: AbstractRepository, EntityRepositoryType {
         return performRequest(method: .get, path: "not-found", parameters: .none) {
             decode($0).toResult()
         }.mapCustomError(errors: [400: EntityRepositoryError.madeUpError])
+    }
+    
+    func fetchCustomFailingEntityMishandlingError() -> SignalProducer<Entity, RepositoryError> {
+        return performRequest(method: .get, path: "not-found", parameters: .none) {
+            decode($0).toResult()
+        }.mapCustomError(errors: [399: EntityRepositoryError.madeUpError])
     }
     
 }

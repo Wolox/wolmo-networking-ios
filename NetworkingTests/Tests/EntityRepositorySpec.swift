@@ -10,7 +10,7 @@ import Quick
 import Nimble
 import Networking
 
-class EntityRepositorySpec: QuickSpec {
+internal class EntityRepositorySpec: QuickSpec {
     
     override func spec() {
         
@@ -18,9 +18,8 @@ class EntityRepositorySpec: QuickSpec {
         var repository: EntityRepositoryType!
         
         beforeEach() {
-            let user = UserMock()
             sessionManager = SessionManagerMock()
-            sessionManager.login(user: user)
+            sessionManager.login(user: UserMock())
             
             let networkingConfiguration = NetworkingConfiguration(useSecureConnection: true,
                                                                   domainURL: "localhost",
@@ -28,15 +27,53 @@ class EntityRepositorySpec: QuickSpec {
                                                                   subdomainURL: "/local-path-1.0",
                                                                   usePinningCertificate: false)
             
-            repository = EntityRepository(networkingConfiguration:networkingConfiguration,
+            repository = EntityRepository(networkingConfiguration: networkingConfiguration,
                                           requestExecutor: LocalRequestExecutor(),
                                           sessionManager: sessionManager)
         }
         
         describe("#fetchEntity") {
             
-            it("fetches a single entity from JSON file") { waitUntil { done in
-                repository.fetchEntity().startWithResult {
+            context("when session is valid") {
+                
+                it("fetches a single entity from JSON file") { waitUntil { done in
+                    repository.fetchEntity().startWithResult {
+                        switch $0 {
+                        case .success: done()
+                        case .failure: fail()
+                        }
+                    }
+                }}
+                
+            }
+            
+            context("when session is not valid", {
+                
+                beforeEach {
+                    sessionManager.expire()
+                }
+                
+                it("fetches a single entity from JSON file") { waitUntil { done in
+                    repository.fetchEntity().startWithResult {
+                        switch $0 {
+                        case .success: fail()
+                        case .failure(let error):
+                            switch error {
+                            case .unauthenticatedSession: done()
+                            default: fail()
+                            }
+                        }
+                    }
+                }}
+                
+            })
+            
+        }
+        
+        describe("#fetchEntityTryingPolling") {
+            
+            it("fetches a single entity from JSON using polling") { waitUntil { done in
+                repository.fetchEntityTryingPolling().startWithResult {
                     switch $0 {
                     case .success: done()
                     case .failure: fail()
@@ -146,6 +183,23 @@ class EntityRepositorySpec: QuickSpec {
                             let expectedError: CustomRepositoryErrorType = EntityRepositoryError.madeUpError
                             expect(customError.errorName == expectedError.name).to(beTrue())
                             done()
+                        default: fail()
+                        }
+                    }
+                }
+            }}
+            
+        }
+        
+        describe("#fetchCustomFailingEntityMishandlingError") {
+            
+            it("fetches a single entity from JSON file and fails with a custom error mishandled") { waitUntil { done in
+                repository.fetchCustomFailingEntityMishandlingError().startWithResult {
+                    switch $0 {
+                    case .success: fail()
+                    case .failure(let error):
+                        switch error {
+                        case .requestError: done()
                         default: fail()
                         }
                     }
