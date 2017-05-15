@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E111AE0C1E92D96000DE0C33 /* AlamofireNetworkActivityLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E111AE0B1E92D96000DE0C33 /* AlamofireNetworkActivityLogger.framework */; };
+		E13A116F1EC38E7400DDCC0B /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13A116E1EC38E7400DDCC0B /* StringExtension.swift */; };
 		E13DC6431E6DD4E40099FA75 /* Networking.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1434DD41E6A177F00D5C6D2 /* Networking.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E13DC6441E6DD5440099FA75 /* Runes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E17F82AC1E37E5EE00DE8C76 /* Runes.framework */; };
 		E13DC6471E6DD5440099FA75 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E157DA761E3158EA004586CB /* Result.framework */; };
@@ -129,6 +130,7 @@
 		E13320431E36AEF5008206C0 /* NetworkingConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkingConfiguration.swift; path = Model/NetworkingConfiguration.swift; sourceTree = "<group>"; };
 		E13320451E378582008206C0 /* NetworkingSessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkingSessionManager.swift; path = Repository/NetworkingSessionManager.swift; sourceTree = "<group>"; };
 		E13320471E3785DE008206C0 /* NetworkingMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkingMethod.swift; path = Model/NetworkingMethod.swift; sourceTree = "<group>"; };
+		E13A116E1EC38E7400DDCC0B /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		E13DC65A1E6DDB870099FA75 /* DemoRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoRepository.swift; sourceTree = "<group>"; };
 		E13DC65C1E6DDC100099FA75 /* Entity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
 		E13DC65F1E6DDE2F0099FA75 /* CurrentUserFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentUserFetcher.swift; sourceTree = "<group>"; };
@@ -291,6 +293,7 @@
 				E13DC65F1E6DDE2F0099FA75 /* CurrentUserFetcher.swift */,
 				E13DC65C1E6DDC100099FA75 /* Entity.swift */,
 				E13DC6611E6DE43E0099FA75 /* UserDemo.swift */,
+				E13A116E1EC38E7400DDCC0B /* StringExtension.swift */,
 				E1434DC61E6A15C500D5C6D2 /* Assets.xcassets */,
 				E1434DC81E6A15C500D5C6D2 /* LaunchScreen.storyboard */,
 				E1434DCB1E6A15C500D5C6D2 /* Info.plist */,
@@ -634,6 +637,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1A337991E8AFBA90028494C /* NetworkingDemoLauncher.swift in Sources */,
+				E13A116F1EC38E7400DDCC0B /* StringExtension.swift in Sources */,
 				E13DC65B1E6DDB870099FA75 /* DemoRepository.swift in Sources */,
 				E1434DC01E6A15C500D5C6D2 /* AppDelegate.swift in Sources */,
 				E13DC6601E6DDE2F0099FA75 /* CurrentUserFetcher.swift in Sources */,

@@ -16,8 +16,8 @@ internal class DemoRepository: AbstractRepository {
     private static let EntitiesPath = "books"
     private static let PageKey = "page"
     
-    private static let ReadPrefixPath = "users/"
-    private static let ReadSuffixPath = "/notifications/read_all"
+    private static let ReadPrefixPath = "users"
+    private static let ReadSuffixPath = "notifications/read_all"
     
     private static let FirstPage = 1
     
@@ -30,7 +30,7 @@ internal class DemoRepository: AbstractRepository {
     }
     
     public func noAnswerEntities(userID: Int) -> SignalProducer<Void, RepositoryError> {
-        let path = DemoRepository.ReadPrefixPath + "\(userID)" + DemoRepository.ReadSuffixPath
+        let path = DemoRepository.ReadPrefixPath / String(userID) / DemoRepository.ReadSuffixPath
         return performRequest(method: .post, path: path, parameters: .none) { _ in
             Result(value: ())
         }
