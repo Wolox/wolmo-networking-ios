@@ -20,7 +20,7 @@ public typealias Decoder<T> = (AnyObject) -> Result<T, Argo.DecodeError>
 
 /**
     Typealias to model a tuple of request, response and data.
-    Used as return type of functions in which there is no expected type, instead the 
+    Used as return type of functions in which there is no expected type, instead the
     complete request, response and data of the operation is provided.
  */
 public typealias RawDataResponse = (URLRequest, HTTPURLResponse, Data)
@@ -39,6 +39,7 @@ public protocol RepositoryType {
             - method: HTTP method for the request.
             - path: path to be appended to domain URL and subdomain URL.
             - parameters: request parameters.
+            - headers: request headers.
             - decoder: a closure of type Decoder
         - Returns:
             A SignalProducer where its value is the decoded entity and its
@@ -48,12 +49,13 @@ public protocol RepositoryType {
         method: NetworkingMethod,
         path: String,
         parameters: [String: Any]?,
+        headers: [String: String]?,
         decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError>
     
     /**
         Performs a request and returns a Signal producer.
         This function fails if no user is authenticated.
-        In case the response status code is 202 it will keep polling 
+        In case the response status code is 202 it will keep polling
         until a 200/201 status code is received, in which case it will
         decode and return the response.
      
@@ -61,6 +63,7 @@ public protocol RepositoryType {
             - method: HTTP method for the request.
             - path: path to be appended to domain URL and subdomain URL.
             - parameters: request parameters.
+            - headers: request headers.
             - decoder: a closure of type Decoder
         - Returns:
             A SignalProducer where its value is the decoded entity and its
@@ -70,6 +73,7 @@ public protocol RepositoryType {
         method: NetworkingMethod,
         path: String,
         parameters: [String: Any]?,
+        headers: [String: String]?,
         decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError>
     
     /**
@@ -81,6 +85,7 @@ public protocol RepositoryType {
             - method: HTTP method for the request.
             - path: path to be appended to domain URL and subdomain URL.
             - parameters: request parameters.
+            - headers: request headers.
             - decoder: a closure of type Decoder
         - Returns:
             A SignalProducer where its value is the decoded entity and its
@@ -90,6 +95,7 @@ public protocol RepositoryType {
         method: NetworkingMethod,
         path: String,
         parameters: [String: Any]?,
+        headers: [String: String]?,
         decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError>
     
     /**
@@ -104,14 +110,16 @@ public protocol RepositoryType {
             - method: HTTP method for the request.
             - path: path to be appended to domain URL and subdomain URL.
             - parameters: request parameters.
+            - headers: request headers.
         - Returns:
-            A SignalProducer where its value is a tuple of type 
+            A SignalProducer where its value is a tuple of type
             (URLRequest, HTTPURLResponse, Data) and its error a RepositoryError.
      */
     func performRequest(
         method: NetworkingMethod,
         path: String,
-        parameters: [String: Any]?) -> SignalProducer<RawDataResponse, RepositoryError>
+        parameters: [String: Any]?,
+        headers: [String: String]?) -> SignalProducer<RawDataResponse, RepositoryError>
     
 }
 
@@ -139,31 +147,35 @@ open class AbstractRepository {
 }
 
 extension AbstractRepository: RepositoryType {
-
+    
     private static let RetryStatusCode = 202
     
     public func performRequest<T>(
         method: NetworkingMethod,
         path: String,
-        parameters: [String: Any]?,
+        parameters: [String: Any]? = .none,
+        headers: [String: String]? = .none,
         decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError> {
-        guard _sessionManager.isLoggedIn else { return SignalProducer(error: .unauthenticatedSession) }
-        return perform(method: method, path: path, parameters: parameters, headers: authenticationHeaders)
+        return perform(method: method, path: path, parameters: parameters, headers: headers, requiresSession: true)
             .flatMap(.concat) { _, _, data in self.deserializeData(data: data, decoder: decoder) }
     }
     
     public func performPollingRequest<T>(
         method: NetworkingMethod,
         path: String,
-        parameters: [String: Any]?,
+        parameters: [String: Any]? = .none,
+        headers: [String: String]? = .none,
         decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError> {
-        guard _sessionManager.isLoggedIn else { return SignalProducer(error: .unauthenticatedSession) }
-        return perform(method: method, path: path, parameters: parameters, headers: authenticationHeaders)
+        return perform(method: method, path: path, parameters: parameters, headers: headers, requiresSession: true)
             .flatMap(.concat) { _, response, data -> SignalProducer<T, RepositoryError> in
                 if response.statusCode != AbstractRepository.RetryStatusCode {
                     return self.deserializeData(data: data, decoder: decoder)
                 }
-                return self.performPollingRequest(method: method, path: path, parameters: parameters, decoder: decoder)
+                return self.performPollingRequest(method: method,
+                                                  path: path,
+                                                  parameters: parameters,
+                                                  headers: headers,
+                                                  decoder: decoder)
                     .start(on: DelayedScheduler(delay: 1.0))
         }
     }
@@ -171,23 +183,24 @@ extension AbstractRepository: RepositoryType {
     public func performAuthenticationRequest<T>(
         method: NetworkingMethod,
         path: String,
-        parameters: [String: Any]?,
+        parameters: [String: Any]? = .none,
+        headers: [String: String]? = .none,
         decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError> {
-        return perform(method: method, path: path, parameters: parameters, headers: .none)
+        return perform(method: method, path: path, parameters: parameters, headers: headers, requiresSession: false)
             .flatMap(.concat) { _, _, data in self.deserializeData(data: data, decoder: decoder) }
     }
     
     public func performRequest(
         method: NetworkingMethod,
         path: String,
-        parameters: [String: Any]?) -> SignalProducer<RawDataResponse, RepositoryError> {
-        guard _sessionManager.isLoggedIn else { return SignalProducer(error: .unauthenticatedSession) }
-        return perform(method: method, path: path, parameters: parameters, headers: authenticationHeaders)
+        parameters: [String: Any]? = .none,
+        headers: [String: String]? = .none) -> SignalProducer<RawDataResponse, RepositoryError> {
+        return perform(method: method, path: path, parameters: parameters, headers: headers, requiresSession: true)
     }
     
 }
 
-fileprivate extension AbstractRepository {
+private extension AbstractRepository {
     
     private static let SessionTokenHeader = "Authorization"
     private static let NoNetworkConnectionStatusCode = 0
@@ -225,9 +238,17 @@ fileprivate extension AbstractRepository {
     func perform(
         method: NetworkingMethod,
         path: String,
-        parameters: [String: Any]?,
-        headers: [String: String]?) -> SignalProducer<RawDataResponse, RepositoryError> {
+        parameters: [String: Any]? = .none,
+        headers: [String: String]? = .none,
+        requiresSession: Bool) -> SignalProducer<RawDataResponse, RepositoryError> {
         guard let url = buildURL(path: path) else { return SignalProducer(error: .invalidURL) }
+        
+        var headers = headers
+        if requiresSession {
+            guard _sessionManager.isLoggedIn else { return SignalProducer(error: .unauthenticatedSession) }
+            headers = headers ?? [:]
+            headers![authenticationHeaders.first!.key] = authenticationHeaders.first!.value
+        }
         
         return _requestExecutor.perform(method: method, url: url, parameters: parameters, headers: headers)
             .flatMapError { self.mapError(error: $0) }
@@ -235,7 +256,7 @@ fileprivate extension AbstractRepository {
     
 }
 
-fileprivate extension JSONSerialization {
+private extension JSONSerialization {
     
     // Calling this function without private prefix causes an infinite loop.
     // I couldn't figure out why it was not happening before.
@@ -256,7 +277,7 @@ fileprivate extension JSONSerialization {
     This class is used in the polling request executor to apply a delay
     between the response and the next request performed.
  */
-fileprivate final class DelayedScheduler: Scheduler {
+private final class DelayedScheduler: Scheduler {
     
     private let _queueScheduler = QueueScheduler()
     private let _futureDate: Date

@@ -32,19 +32,19 @@ internal class EntityRepository: AbstractRepository, EntityRepositoryType {
     private static let PageKey = "page"
     
     func fetchEntity() -> SignalProducer<Entity, RepositoryError> {
-        return performRequest(method: .get, path: "entity", parameters: .none) {
+        return performRequest(method: .get, path: "entity") {
             decode($0).toResult()
         }
     }
     
     func fetchEntityTryingPolling() -> SignalProducer<Entity, RepositoryError> {
-        return performPollingRequest(method: .get, path: "entity", parameters: .none) {
+        return performPollingRequest(method: .get, path: "entity") {
             decode($0).toResult()
         }
     }
     
     func fetchEntities() -> SignalProducer<[Entity], RepositoryError> {
-        return performRequest(method: .get, path: "entities", parameters: .none) {
+        return performRequest(method: .get, path: "entities") {
             if let pageField = $0[EntityRepository.PageKey], let page = pageField {
                 return decode(page).toResult()
             }
@@ -53,25 +53,25 @@ internal class EntityRepository: AbstractRepository, EntityRepositoryType {
     }
     
     func fetchFailingEntity() -> SignalProducer<Entity, RepositoryError> {
-        return performRequest(method: .get, path: "failing-entity", parameters: .none) {
+        return performRequest(method: .get, path: "failing-entity") {
             decode($0).toResult()
         }
     }
     
     func fetchDefaultFailingEntity() -> SignalProducer<Entity, RepositoryError> {
-        return performRequest(method: .get, path: "not-found", parameters: .none) {
+        return performRequest(method: .get, path: "not-found") {
             decode($0).toResult()
         }
     }
     
     func fetchCustomFailingEntity() -> SignalProducer<Entity, RepositoryError> {
-        return performRequest(method: .get, path: "not-found", parameters: .none) {
+        return performRequest(method: .get, path: "not-found") {
             decode($0).toResult()
         }.mapCustomError(errors: [400: EntityRepositoryError.madeUpError])
     }
     
     func fetchCustomFailingEntityMishandlingError() -> SignalProducer<Entity, RepositoryError> {
-        return performRequest(method: .get, path: "not-found", parameters: .none) {
+        return performRequest(method: .get, path: "not-found") {
             decode($0).toResult()
         }.mapCustomError(errors: [399: EntityRepositoryError.madeUpError])
     }

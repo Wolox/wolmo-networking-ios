@@ -31,7 +31,7 @@ internal class DemoRepository: AbstractRepository {
     
     public func noAnswerEntities(userID: Int) -> SignalProducer<Void, RepositoryError> {
         let path = DemoRepository.ReadPrefixPath / String(userID) / DemoRepository.ReadSuffixPath
-        return performRequest(method: .post, path: path, parameters: .none) { _ in
+        return performRequest(method: .post, path: path) { _ in
             Result(value: ())
         }
     }
