@@ -39,7 +39,8 @@ public protocol RepositoryType {
             - method: HTTP method for the request.
             - path: path to be appended to domain URL and subdomain URL.
             - parameters: request parameters.
-            - headers: request headers.
+            - headers: request headers. Authentication headers 
+            are automatically injected. No need to be provided.
             - decoder: a closure of type Decoder
         - Returns:
             A SignalProducer where its value is the decoded entity and its
@@ -63,7 +64,8 @@ public protocol RepositoryType {
             - method: HTTP method for the request.
             - path: path to be appended to domain URL and subdomain URL.
             - parameters: request parameters.
-            - headers: request headers.
+            - headers: request headers. Authentication headers 
+            are automatically injected. No need to be provided.
             - decoder: a closure of type Decoder
         - Returns:
             A SignalProducer where its value is the decoded entity and its
@@ -78,8 +80,8 @@ public protocol RepositoryType {
     
     /**
         Performs a request and returns a Signal producer.
-        This function does not fail if user is not authenticated. So, this can
-        be useful to perform authentication requests as login or signup.
+        This function does not fail if user is not authenticated. So, this is 
+        useful to perform authentication requests as login or signup.
      
         - Parameters:
             - method: HTTP method for the request.
@@ -109,7 +111,8 @@ public protocol RepositoryType {
         - Parameters:
             - method: HTTP method for the request.
             - path: path to be appended to domain URL and subdomain URL.
-            - parameters: request parameters.
+            - headers: request headers. Authentication headers 
+            are automatically injected. No need to be provided.
             - headers: request headers.
         - Returns:
             A SignalProducer where its value is a tuple of type
