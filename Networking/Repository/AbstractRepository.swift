@@ -249,8 +249,7 @@ private extension AbstractRepository {
         var headers = headers
         if requiresSession {
             guard _sessionManager.isLoggedIn else { return SignalProducer(error: .unauthenticatedSession) }
-            headers = headers ?? [:]
-            headers![authenticationHeaders.first!.key] = authenticationHeaders.first!.value
+            headers = (headers ?? [:]).appending(contentsOf: authenticationHeaders)
         }
         
         return _requestExecutor.perform(method: method, url: url, parameters: parameters, headers: headers)
@@ -295,6 +294,26 @@ private final class DelayedScheduler: Scheduler {
     
     func schedule(_ action: @escaping () -> Void) -> Disposable? {
         return _queueScheduler.schedule(after: _futureDate, action: action)
+    }
+    
+}
+
+/**
+    Extension to append contents of a dictionary to a given dictionary.
+    Used to append authentication headers to provided headers.
+ */
+private extension Dictionary {
+    
+    func appending(contentsOf dictionary: [Key: Value]) -> [Key: Value] {
+        var result = self
+        result.append(contentsOf: dictionary)
+        return result
+    }
+    
+    mutating func append(contentsOf dictionary: [Key: Value]) {
+        for (key, value) in dictionary {
+            updateValue(value, forKey: key)
+        }
     }
     
 }
