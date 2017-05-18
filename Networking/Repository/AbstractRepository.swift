@@ -133,18 +133,25 @@ open class AbstractRepository {
     fileprivate let _sessionManager: SessionManagerType
     fileprivate let _requestExecutor: RequestExecutorType
     
+    fileprivate let _defaultHeaders: [String: String]?
+    
     public init(networkingConfiguration: NetworkingConfiguration,
                 requestExecutor: RequestExecutorType,
-                sessionManager: SessionManagerType) {
+                sessionManager: SessionManagerType,
+                defaultHeaders: [String: String]? = .none) {
         _networkingConfiguration = networkingConfiguration
         _requestExecutor = requestExecutor
         _sessionManager = sessionManager
+        _defaultHeaders = defaultHeaders
     }
     
-    public init(networkingConfiguration: NetworkingConfiguration, sessionManager: SessionManagerType) {
+    public init(networkingConfiguration: NetworkingConfiguration,
+                sessionManager: SessionManagerType,
+                defaultHeaders: [String: String]? = .none) {
         _networkingConfiguration = networkingConfiguration
         _requestExecutor = defaultRequestExecutor(networkingConfiguration: networkingConfiguration)
         _sessionManager = sessionManager
+        _defaultHeaders = defaultHeaders
     }
     
 }
@@ -250,6 +257,9 @@ private extension AbstractRepository {
         if requiresSession {
             guard _sessionManager.isLoggedIn else { return SignalProducer(error: .unauthenticatedSession) }
             headers = (headers ?? [:]).appending(contentsOf: authenticationHeaders)
+        }
+        if let defaultHeaders = _defaultHeaders {
+            headers = (headers ?? [:]).appending(contentsOf: defaultHeaders)
         }
         
         return _requestExecutor.perform(method: method, url: url, parameters: parameters, headers: headers)

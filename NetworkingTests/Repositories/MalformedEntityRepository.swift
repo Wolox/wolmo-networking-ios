@@ -20,6 +20,15 @@ internal protocol MalformedEntityRepositoryType {
 
 internal class MalformedEntityRepository: AbstractRepository, MalformedEntityRepositoryType {
     
+    internal init(networkingConfiguration: NetworkingConfiguration,
+                  requestExecutor: RequestExecutorType,
+                  sessionManager: SessionManagerType) {
+        super.init(networkingConfiguration: networkingConfiguration,
+                   requestExecutor: requestExecutor,
+                   sessionManager: sessionManager,
+                   defaultHeaders: ["Content-Type": "application/json", "Accept": "application/json"])
+    }
+    
     func fetchMalformedEntity() -> SignalProducer<Entity, RepositoryError> {
         return performRequest(method: .get, path: "malformed-entity") {
             decode($0).toResult()
