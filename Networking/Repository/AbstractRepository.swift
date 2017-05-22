@@ -145,13 +145,13 @@ open class AbstractRepository {
         _defaultHeaders = defaultHeaders
     }
     
-    public init(networkingConfiguration: NetworkingConfiguration,
-                sessionManager: SessionManagerType,
-                defaultHeaders: [String: String]? = .none) {
-        _networkingConfiguration = networkingConfiguration
-        _requestExecutor = defaultRequestExecutor(networkingConfiguration: networkingConfiguration)
-        _sessionManager = sessionManager
-        _defaultHeaders = defaultHeaders
+    public convenience init(networkingConfiguration: NetworkingConfiguration,
+                            sessionManager: SessionManagerType,
+                            defaultHeaders: [String: String]? = .none) {
+        self.init(networkingConfiguration: networkingConfiguration,
+                  requestExecutor: defaultRequestExecutor(networkingConfiguration: networkingConfiguration),
+                  sessionManager: sessionManager,
+                  defaultHeaders: defaultHeaders)
     }
     
 }
