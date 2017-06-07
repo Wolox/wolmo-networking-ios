@@ -29,6 +29,17 @@ public extension Decoded {
     
 }
 
+public extension Decodable where Self: RawRepresentable, Self.RawValue == String {
+    
+    static func decode(_ json: JSON) -> Decoded<Self> {
+        switch json {
+        case let .string(name): return .fromOptional(Self(rawValue: name))
+        default: return .failure(Argo.DecodeError.custom("Invalid enum value"))
+        }
+    }
+    
+}
+
 public final class DecodedErrorHandler {
     
     public static var decodedErrorHandler: ((Argo.DecodeError) -> Void) = { _ in }

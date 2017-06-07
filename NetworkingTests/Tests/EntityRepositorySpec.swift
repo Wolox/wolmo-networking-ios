@@ -70,6 +70,18 @@ internal class EntityRepositorySpec: QuickSpec {
             
         }
         
+        describe("#fetchEnumEntity") {
+            it("fetches a single entity that has an enum field from a JSON file") { waitUntil { done in
+                    repository.fetchEnumEntity().startWithResult {
+                        switch $0 {
+                        case .success: done()
+                        case .failure: fail()
+                        }
+                    }
+                }}
+            
+        }
+        
         describe("#fetchEntityTryingPolling") {
             
             it("fetches a single entity from JSON using polling") { waitUntil { done in
