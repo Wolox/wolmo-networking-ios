@@ -71,14 +71,41 @@ internal class EntityRepositorySpec: QuickSpec {
         }
         
         describe("#fetchEnumEntity") {
-            it("fetches a single entity that has an enum field from a JSON file") { waitUntil { done in
-                    repository.fetchEnumEntity().startWithResult {
-                        switch $0 {
-                        case .success: done()
-                        case .failure: fail()
-                        }
+            
+            it("fetches a single entity that has several enum fields of several types from a JSON file") { waitUntil { done in
+                repository.fetchEnumEntity().startWithResult {
+                    switch $0 {
+                    case .success: done()
+                    case .failure: fail()
                     }
-                }}
+                }
+            }}
+            
+        }
+        
+        describe("#fetchFailingEnumEntity") {
+            
+            afterEach {
+                DecodedErrorHandler.decodedErrorHandler = { _ in }
+            }
+            
+            it("fetches a single entity that has an incorrect enum type from a JSON file and fails with custom error") { waitUntil { done in
+                
+                DecodedErrorHandler.decodedErrorHandler = {
+                    switch $0 {
+                    case let .custom(string): expect(string == "Invalid EnumDoubleEntityState enum value").to(beTrue())
+                    default: fail()
+                    }
+                    done()
+                }
+                
+                repository.fetchFailingEnumEntity().startWithResult {
+                    switch $0 {
+                    case .success: fail()
+                    case .failure: break // done() to be executed in DecodedErrorHandler.decodedErrorHandler
+                    }
+                }
+            }}
             
         }
         

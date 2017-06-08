@@ -14,7 +14,10 @@ internal struct EnumEntity {
     
     public let id: Int
     public let name: String
-    public let state: EnumEntityState
+    public let stringState: EnumStringEntityState
+    public let uintState: EnumUIntEntityState
+    public let floatState: EnumFloatEntityState
+    public let doubleState: EnumDoubleEntityState
     
 }
 
@@ -24,7 +27,10 @@ extension EnumEntity: Decodable {
         return curry(EnumEntity.init)
             <^> json <| "id"
             <*> json <| "name"
-            <*> json <| "state"
+            <*> json <| "string_state"
+            <*> json <| "uint_state"
+            <*> json <| "float_state"
+            <*> json <| "double_state"
     }
     
 }

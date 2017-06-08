@@ -19,6 +19,7 @@ internal protocol EntityRepositoryType {
     
     func fetchEntity() -> SignalProducer<Entity, RepositoryError>
     func fetchEnumEntity() -> SignalProducer<EnumEntity, RepositoryError>
+    func fetchFailingEnumEntity() -> SignalProducer<EnumEntity, RepositoryError>
     func fetchEntityTryingPolling() -> SignalProducer<Entity, RepositoryError>
     func fetchEntities() -> SignalProducer<[Entity], RepositoryError>
     func fetchFailingEntity() -> SignalProducer<Entity, RepositoryError>
@@ -40,6 +41,12 @@ internal class EntityRepository: AbstractRepository, EntityRepositoryType {
     
     func fetchEnumEntity() -> SignalProducer<EnumEntity, RepositoryError> {
         return performRequest(method: .get, path: "enum-entity") {
+            decode($0).toResult()
+        }
+    }
+    
+    func fetchFailingEnumEntity() -> SignalProducer<EnumEntity, RepositoryError> {
+        return performRequest(method: .get, path: "failing-enum-entity") {
             decode($0).toResult()
         }
     }
