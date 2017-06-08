@@ -12,12 +12,12 @@ import Runes
 
 internal struct EnumEntity {
     
-    public let id: Int
-    public let name: String
-    public let stringState: EnumStringEntityState
-    public let uintState: EnumUIntEntityState
-    public let floatState: EnumFloatEntityState
-    public let doubleState: EnumDoubleEntityState
+    let id: Int
+    let name: String
+    let stringState: EnumStringEntityState
+    let uintState: EnumUIntEntityState
+    let floatState: EnumFloatEntityState
+    let doubleState: EnumDoubleEntityState
     
 }
 
