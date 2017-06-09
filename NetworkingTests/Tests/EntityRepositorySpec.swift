@@ -90,7 +90,6 @@ internal class EntityRepositorySpec: QuickSpec {
             }
             
             it("fetches a single entity that has an incorrect enum type from a JSON file and fails with custom error") { waitUntil { done in
-                
                 DecodedErrorHandler.decodedErrorHandler = {
                     switch $0 {
                     case let .custom(string): expect(string == "Invalid EnumDoubleEntityState enum value").to(beTrue())
@@ -157,7 +156,6 @@ internal class EntityRepositorySpec: QuickSpec {
                 }
                 
                 it("fetches a single entity from JSON file and fails executing error handler") { waitUntil { done in
-                    
                     DecodedErrorHandler.decodedErrorHandler = {
                         expect($0).notTo(beNil())
                         done()

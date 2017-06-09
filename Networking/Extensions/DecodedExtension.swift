@@ -34,7 +34,6 @@ public extension Decodable where Self: RawRepresentable, Self.RawValue: Decodabl
     static func decode(_ json: JSON) -> Decoded<Self> {
         switch json {
         case let .string(name) where name is Self.RawValue: return castValueToEnum(name)
-        case let .bool(value) where value is Self.RawValue: return castValueToEnum(value)
         case let .number(value) where value is Self.RawValue: return castValueToEnum(value)
         default: return .failure(Argo.DecodeError.custom("Invalid \(Self.self) enum value"))
         }
