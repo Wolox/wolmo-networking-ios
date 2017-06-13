@@ -29,22 +29,6 @@ public extension Decoded {
     
 }
 
-public extension Decodable where Self: RawRepresentable, Self.RawValue: Decodable {
-    
-    static func decode(_ json: JSON) -> Decoded<Self> {
-        switch json {
-        case let .string(name) where name is Self.RawValue: return castValueToEnum(name)
-        case let .number(value) where value is Self.RawValue: return castValueToEnum(value)
-        default: return .failure(Argo.DecodeError.custom("Invalid \(Self.self) enum value"))
-        }
-    }
-    
-    private static func castValueToEnum(_ value: Any) -> Decoded<Self> {
-        return .fromOptional(Self(rawValue: value as! Self.RawValue)) // swiftlint:disable:this force_cast
-    }
-    
-}
-
 public final class DecodedErrorHandler {
     
     public static var decodedErrorHandler: ((Argo.DecodeError) -> Void) = { _ in }

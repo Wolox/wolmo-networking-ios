@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B82058D41EF030640002D7D4 /* DecodableExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82058D31EF030640002D7D4 /* DecodableExtension.swift */; };
 		B8CF9A7F1EE880E10063F951 /* EnumEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CF9A7E1EE880E10063F951 /* EnumEntity.swift */; };
 		B8CF9A831EE8884D0063F951 /* EnumEntityState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CF9A821EE8884D0063F951 /* EnumEntityState.swift */; };
 		B8CF9A871EE999B40063F951 /* GET-https---localhost-8080-local-path-1.0-enum-entity.json in Resources */ = {isa = PBXBuildFile; fileRef = B8CF9A851EE999B40063F951 /* GET-https---localhost-8080-local-path-1.0-enum-entity.json */; };
@@ -121,6 +122,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B82058D31EF030640002D7D4 /* DecodableExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DecodableExtension.swift; path = Extensions/DecodableExtension.swift; sourceTree = "<group>"; };
 		B8CF9A7E1EE880E10063F951 /* EnumEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnumEntity.swift; path = Tests/EnumEntity.swift; sourceTree = "<group>"; };
 		B8CF9A821EE8884D0063F951 /* EnumEntityState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnumEntityState.swift; path = Tests/EnumEntityState.swift; sourceTree = "<group>"; };
 		B8CF9A851EE999B40063F951 /* GET-https---localhost-8080-local-path-1.0-enum-entity.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "GET-https---localhost-8080-local-path-1.0-enum-entity.json"; path = "Fixtures/GET-https---localhost-8080-local-path-1.0-enum-entity.json"; sourceTree = "<group>"; };
@@ -266,6 +268,7 @@
 			isa = PBXGroup;
 			children = (
 				E13320391E3296AE008206C0 /* AlamofireExtensions.swift */,
+				B82058D31EF030640002D7D4 /* DecodableExtension.swift */,
 				E190F0151E521A0B00DCDBD8 /* DecodedExtension.swift */,
 			);
 			name = Extensions;
@@ -675,6 +678,7 @@
 				E13DC6551E6DD8150099FA75 /* RequestExecutor.swift in Sources */,
 				E13DC6561E6DD8150099FA75 /* NetworkingSessionManager.swift in Sources */,
 				E13DC6571E6DD8150099FA75 /* CurrentUserFetcherType.swift in Sources */,
+				B82058D41EF030640002D7D4 /* DecodableExtension.swift in Sources */,
 				E13DC6581E6DD8150099FA75 /* SessionManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
