@@ -10,7 +10,7 @@ import Argo
 
 public extension Decodable where Self: RawRepresentable, Self.RawValue: Decodable {
     
-    static func decode(_ json: JSON) -> Decoded<Self> {
+    public static func decode(_ json: JSON) -> Decoded<Self> {
         switch json {
         case let .string(name) where name is Self.RawValue: return castValueToEnum(name)
         case let .number(value) where value is Self.RawValue: return castValueToEnum(value)
