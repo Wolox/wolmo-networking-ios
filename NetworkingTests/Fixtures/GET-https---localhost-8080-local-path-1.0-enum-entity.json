@@ -1,0 +1,8 @@
+ {
+  "id": 3,
+  "name": "entityWithEnum",
+  "string_state": "another_state",
+  "uint_state": 1,
+  "float_state": 11.25,
+  "double_state": 1.5
+ }

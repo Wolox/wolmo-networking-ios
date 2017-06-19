@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B82058D41EF030640002D7D4 /* DecodableExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82058D31EF030640002D7D4 /* DecodableExtension.swift */; };
+		B8CF9A7F1EE880E10063F951 /* EnumEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CF9A7E1EE880E10063F951 /* EnumEntity.swift */; };
+		B8CF9A831EE8884D0063F951 /* EnumEntityState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CF9A821EE8884D0063F951 /* EnumEntityState.swift */; };
+		B8CF9A871EE999B40063F951 /* GET-https---localhost-8080-local-path-1.0-enum-entity.json in Resources */ = {isa = PBXBuildFile; fileRef = B8CF9A851EE999B40063F951 /* GET-https---localhost-8080-local-path-1.0-enum-entity.json */; };
+		B8CF9A891EE9B1940063F951 /* GET-https---localhost-8080-local-path-1.0-failing-enum-entity.json in Resources */ = {isa = PBXBuildFile; fileRef = B8CF9A881EE9B1940063F951 /* GET-https---localhost-8080-local-path-1.0-failing-enum-entity.json */; };
 		E111AE0C1E92D96000DE0C33 /* AlamofireNetworkActivityLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E111AE0B1E92D96000DE0C33 /* AlamofireNetworkActivityLogger.framework */; };
 		E13A116F1EC38E7400DDCC0B /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13A116E1EC38E7400DDCC0B /* StringExtension.swift */; };
 		E13DC6431E6DD4E40099FA75 /* Networking.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1434DD41E6A177F00D5C6D2 /* Networking.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -117,6 +122,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B82058D31EF030640002D7D4 /* DecodableExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DecodableExtension.swift; path = Extensions/DecodableExtension.swift; sourceTree = "<group>"; };
+		B8CF9A7E1EE880E10063F951 /* EnumEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnumEntity.swift; path = Tests/EnumEntity.swift; sourceTree = "<group>"; };
+		B8CF9A821EE8884D0063F951 /* EnumEntityState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnumEntityState.swift; path = Tests/EnumEntityState.swift; sourceTree = "<group>"; };
+		B8CF9A851EE999B40063F951 /* GET-https---localhost-8080-local-path-1.0-enum-entity.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "GET-https---localhost-8080-local-path-1.0-enum-entity.json"; path = "Fixtures/GET-https---localhost-8080-local-path-1.0-enum-entity.json"; sourceTree = "<group>"; };
+		B8CF9A881EE9B1940063F951 /* GET-https---localhost-8080-local-path-1.0-failing-enum-entity.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "GET-https---localhost-8080-local-path-1.0-failing-enum-entity.json"; path = "Fixtures/GET-https---localhost-8080-local-path-1.0-failing-enum-entity.json"; sourceTree = "<group>"; };
 		E111AE0B1E92D96000DE0C33 /* AlamofireNetworkActivityLogger.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AlamofireNetworkActivityLogger.framework; path = Carthage/Build/iOS/AlamofireNetworkActivityLogger.framework; sourceTree = SOURCE_ROOT; };
 		E12A24291E676FC700CCF53F /* SessionManagerMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SessionManagerMock.swift; path = Mocks/SessionManagerMock.swift; sourceTree = "<group>"; };
 		E12A242A1E676FC700CCF53F /* UserMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserMock.swift; path = Mocks/UserMock.swift; sourceTree = "<group>"; };
@@ -258,6 +268,7 @@
 			isa = PBXGroup;
 			children = (
 				E13320391E3296AE008206C0 /* AlamofireExtensions.swift */,
+				B82058D31EF030640002D7D4 /* DecodableExtension.swift */,
 				E190F0151E521A0B00DCDBD8 /* DecodedExtension.swift */,
 			);
 			name = Extensions;
@@ -339,6 +350,8 @@
 			isa = PBXGroup;
 			children = (
 				E14202301EBCF6AB0002C87D /* POST-https---localhost-8080-local-path-1.0-login.json */,
+				B8CF9A851EE999B40063F951 /* GET-https---localhost-8080-local-path-1.0-enum-entity.json */,
+				B8CF9A881EE9B1940063F951 /* GET-https---localhost-8080-local-path-1.0-failing-enum-entity.json */,
 				E17F82991E37CC2400DE8C76 /* GET-https---localhost-8080-local-path-1.0-entity.json */,
 				E190F0131E52171000DCDBD8 /* GET-https---localhost-8080-local-path-1.0-entities.json */,
 				E12A242D1E677ACB00CCF53F /* GET-https---localhost-8080-local-path-1.0-failing-entity.json */,
@@ -356,6 +369,8 @@
 				E1D192571EBD23F80037E73F /* NetworkingConfigurationSpec.swift */,
 				E1D1925F1EC10A440037E73F /* SessionManagerSpec.swift */,
 				E17F82A11E37D25C00DE8C76 /* Entity.swift */,
+				B8CF9A7E1EE880E10063F951 /* EnumEntity.swift */,
+				B8CF9A821EE8884D0063F951 /* EnumEntityState.swift */,
 			);
 			name = Tests;
 			sourceTree = "<group>";
@@ -564,7 +579,9 @@
 				E14202311EBCF6AB0002C87D /* POST-https---localhost-8080-local-path-1.0-login.json in Resources */,
 				E1E2A7951E7077220052542B /* GET-https---localhost-8080-local-path-1.0-entity.json in Resources */,
 				E1E2A7961E7077220052542B /* GET-https---localhost-8080-local-path-1.0-entities.json in Resources */,
+				B8CF9A891EE9B1940063F951 /* GET-https---localhost-8080-local-path-1.0-failing-enum-entity.json in Resources */,
 				E1E2A7971E7077220052542B /* GET-https---localhost-8080-local-path-1.0-failing-entity.json in Resources */,
+				B8CF9A871EE999B40063F951 /* GET-https---localhost-8080-local-path-1.0-enum-entity.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -661,6 +678,7 @@
 				E13DC6551E6DD8150099FA75 /* RequestExecutor.swift in Sources */,
 				E13DC6561E6DD8150099FA75 /* NetworkingSessionManager.swift in Sources */,
 				E13DC6571E6DD8150099FA75 /* CurrentUserFetcherType.swift in Sources */,
+				B82058D41EF030640002D7D4 /* DecodableExtension.swift in Sources */,
 				E13DC6581E6DD8150099FA75 /* SessionManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -672,10 +690,12 @@
 				E14202421EBCFA9C0002C87D /* MalformedEntityRepositorySpec.swift in Sources */,
 				E1E2A78F1E70771B0052542B /* SessionManagerMock.swift in Sources */,
 				E1E2A7901E70771B0052542B /* UserMock.swift in Sources */,
+				B8CF9A831EE8884D0063F951 /* EnumEntityState.swift in Sources */,
 				E14202351EBCF8160002C87D /* LoginRepositorySpec.swift in Sources */,
 				E1D192621EC10F660037E73F /* CurrentUserFetcherMock.swift in Sources */,
 				E1E2A7931E70771B0052542B /* Entity.swift in Sources */,
 				E142023E1EBCF9A60002C87D /* MalformedEntityRepository.swift in Sources */,
+				B8CF9A7F1EE880E10063F951 /* EnumEntity.swift in Sources */,
 				E142023C1EBCF98F0002C87D /* LocalRequestExecutor.swift in Sources */,
 				E14202391EBCF9650002C87D /* EntityRepository.swift in Sources */,
 				E1E2A7941E70771B0052542B /* EntityRepositorySpec.swift in Sources */,

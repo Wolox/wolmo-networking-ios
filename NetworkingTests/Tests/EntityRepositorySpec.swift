@@ -70,6 +70,44 @@ internal class EntityRepositorySpec: QuickSpec {
             
         }
         
+        describe("#fetchEnumEntity") {
+            
+            it("fetches a single entity that has several enum fields of several types from a JSON file") { waitUntil { done in
+                repository.fetchEnumEntity().startWithResult {
+                    switch $0 {
+                    case .success: done()
+                    case .failure: fail()
+                    }
+                }
+            }}
+            
+        }
+        
+        describe("#fetchFailingEnumEntity") {
+            
+            afterEach {
+                DecodedErrorHandler.decodedErrorHandler = { _ in }
+            }
+            
+            it("fetches a single entity that has an incorrect enum type from a JSON file and fails with custom error") { waitUntil { done in
+                DecodedErrorHandler.decodedErrorHandler = {
+                    switch $0 {
+                    case let .custom(string): expect(string == "Invalid EnumDoubleEntityState enum value").to(beTrue())
+                    default: fail()
+                    }
+                    done()
+                }
+                
+                repository.fetchFailingEnumEntity().startWithResult {
+                    switch $0 {
+                    case .success: fail()
+                    case .failure: break // done() to be executed in DecodedErrorHandler.decodedErrorHandler
+                    }
+                }
+            }}
+            
+        }
+        
         describe("#fetchEntityTryingPolling") {
             
             it("fetches a single entity from JSON using polling") { waitUntil { done in
@@ -118,7 +156,6 @@ internal class EntityRepositorySpec: QuickSpec {
                 }
                 
                 it("fetches a single entity from JSON file and fails executing error handler") { waitUntil { done in
-                    
                     DecodedErrorHandler.decodedErrorHandler = {
                         expect($0).notTo(beNil())
                         done()
