@@ -142,6 +142,7 @@ GEM
     multi_xml (0.6.0)
     multipart-post (2.0.0)
     nanaimo (0.2.3)
+    netrc (0.11.0)
     nokogiri (1.7.1)
       mini_portile2 (~> 2.1.0)
     oga (1.3.1)
@@ -153,6 +154,10 @@ GEM
     rake (12.0.0)
     representable (2.3.0)
       uber (~> 0.0.7)
+    rest-client (2.0.2)
+      http-cookie (>= 1.0.2, < 2.0)
+      mime-types (>= 1.16, < 4.0)
+      netrc (~> 0.8)
     retriable (2.1.0)
     rouge (2.0.7)
     ruby-ll (2.1.2)
@@ -205,6 +210,7 @@ DEPENDENCIES
   carthage_cache
   codestats-metrics-reporter
   fastlane
+  rest-client
   slather
   xcpretty
 
