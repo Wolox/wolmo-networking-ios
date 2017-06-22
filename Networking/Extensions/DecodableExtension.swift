@@ -8,7 +8,7 @@
 
 import Argo
 
-public extension Decodable where Self: RawRepresentable, Self.RawValue: Decodable {
+public extension Argo.Decodable where Self: RawRepresentable, Self.RawValue: Argo.Decodable {
     
     public static func decode(_ json: JSON) -> Decoded<Self> {
         switch json {

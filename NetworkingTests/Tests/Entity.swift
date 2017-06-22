@@ -18,7 +18,7 @@ internal struct Entity {
     
 }
 
-extension Entity: Decodable {
+extension Entity: Argo.Decodable {
     
     static func decode(_ json: JSON) -> Decoded<Entity> {
         return curry(Entity.init)
