@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		52FDAF3B1EFD732200030CBF /* KeychainSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1A90ED11E82C8EF00DB1781 /* KeychainSwift.framework */; };
 		B82058D41EF030640002D7D4 /* DecodableExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82058D31EF030640002D7D4 /* DecodableExtension.swift */; };
 		B8CF9A7F1EE880E10063F951 /* EnumEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CF9A7E1EE880E10063F951 /* EnumEntity.swift */; };
 		B8CF9A831EE8884D0063F951 /* EnumEntityState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CF9A821EE8884D0063F951 /* EnumEntityState.swift */; };
@@ -95,7 +96,7 @@
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
-			dstSubfolderSpec = 7;
+			dstSubfolderSpec = 10;
 			files = (
 				E13DC6431E6DD4E40099FA75 /* Networking.framework in CopyFiles */,
 			);
@@ -203,6 +204,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52FDAF3B1EFD732200030CBF /* KeychainSwift.framework in Frameworks */,
 				E111AE0C1E92D96000DE0C33 /* AlamofireNetworkActivityLogger.framework in Frameworks */,
 				E1A90ED01E82BD6B00DB1781 /* AlamofireNetworkActivityIndicator.framework in Frameworks */,
 				E13DC6441E6DD5440099FA75 /* Runes.framework in Frameworks */,
@@ -473,7 +475,6 @@
 				E1434DD11E6A177F00D5C6D2 /* Headers */,
 				E1434DD21E6A177F00D5C6D2 /* Resources */,
 				E102E43C1EBB8F8A0006E5C3 /* Swiftlint */,
-				E13DC64A1E6DD5B00099FA75 /* Carthage */,
 			);
 			buildRules = (
 			);
@@ -602,27 +603,6 @@
 			shellPath = /bin/sh;
 			shellScript = "if [ ! -z \"$RUNNING_ON_CI\" ]\nthen\n    echo \"SwiftLint run script has been disabled\"\n    exit 0\nfi\n\nif which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
-		E13DC64A1E6DD5B00099FA75 /* Carthage */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/Argo.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/ReactiveCocoa.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Result.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Curry.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Alamofire.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Quick.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/KeychainSwift.framework",
-			);
-			name = Carthage;
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
-		};
 		E13DC64D1E6DD63A0099FA75 /* Carthage */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -638,6 +618,7 @@
 				"$(SRCROOT)/Carthage/Build/iOS/Argo.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/AlamofireNetworkActivityIndicator.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/AlamofireNetworkActivityLogger.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/KeychainSwift.framework",
 			);
 			name = Carthage;
 			outputPaths = (
