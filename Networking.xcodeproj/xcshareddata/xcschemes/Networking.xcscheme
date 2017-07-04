@@ -43,9 +43,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E1434DD31E6A177F00D5C6D2"
-            BuildableName = "Networking.framework"
-            BlueprintName = "Networking"
+            BlueprintIdentifier = "E1434DBC1E6A15C500D5C6D2"
+            BuildableName = "NetworkingDemo.app"
+            BlueprintName = "NetworkingDemo"
             ReferencedContainer = "container:Networking.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -66,9 +66,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E1434DD31E6A177F00D5C6D2"
-            BuildableName = "Networking.framework"
-            BlueprintName = "Networking"
+            BlueprintIdentifier = "E1434DBC1E6A15C500D5C6D2"
+            BuildableName = "NetworkingDemo.app"
+            BlueprintName = "NetworkingDemo"
             ReferencedContainer = "container:Networking.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
