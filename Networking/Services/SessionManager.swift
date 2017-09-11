@@ -181,6 +181,7 @@ public extension SessionManager {
         guard isLoggedIn else {
             fatalError("Attempting to update a non logged in session in SessionManager")
         }
+        saveSessionToken(user: user)
         saveUser(user: user)
     }
     
