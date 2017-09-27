@@ -16,7 +16,7 @@ public struct Entity {
     let genre: String
 }
 
-extension Entity:  Argo.Decodable {
+extension Entity: Argo.Decodable {
     
     public static func decode(_ json: JSON) -> Decoded<Entity> {
         return curry(Entity.init)
