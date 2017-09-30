@@ -33,6 +33,8 @@
 		E13DC65D1E6DDC100099FA75 /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13DC65C1E6DDC100099FA75 /* Entity.swift */; };
 		E13DC6601E6DDE2F0099FA75 /* CurrentUserFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13DC65F1E6DDE2F0099FA75 /* CurrentUserFetcher.swift */; };
 		E13DC6621E6DE43E0099FA75 /* UserDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13DC6611E6DE43E0099FA75 /* UserDemo.swift */; };
+		E13E8D2A1F7FE9E50099B61B /* KeychainSwift.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = E13E8D291F7FE9D70099B61B /* KeychainSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E13E8D2B1F7FE9F60099B61B /* Alamofire.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = E157DA661E315532004586CB /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E14202311EBCF6AB0002C87D /* POST-https---localhost-8080-local-path-1.0-login.json in Resources */ = {isa = PBXBuildFile; fileRef = E14202301EBCF6AB0002C87D /* POST-https---localhost-8080-local-path-1.0-login.json */; };
 		E14202351EBCF8160002C87D /* LoginRepositorySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14202341EBCF8160002C87D /* LoginRepositorySpec.swift */; };
 		E14202391EBCF9650002C87D /* EntityRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14202371EBCF9650002C87D /* EntityRepository.swift */; };
@@ -116,6 +118,8 @@
 				E16F201C1E789CB4009D486E /* Quick.framework in Copy Frameworks */,
 				E16F201D1E789CB4009D486E /* Nimble.framework in Copy Frameworks */,
 				E16F201E1E789CB4009D486E /* Curry.framework in Copy Frameworks */,
+				E13E8D2A1F7FE9E50099B61B /* KeychainSwift.framework in Copy Frameworks */,
+				E13E8D2B1F7FE9F60099B61B /* Alamofire.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -146,6 +150,7 @@
 		E13DC65C1E6DDC100099FA75 /* Entity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
 		E13DC65F1E6DDE2F0099FA75 /* CurrentUserFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentUserFetcher.swift; sourceTree = "<group>"; };
 		E13DC6611E6DE43E0099FA75 /* UserDemo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDemo.swift; sourceTree = "<group>"; };
+		E13E8D291F7FE9D70099B61B /* KeychainSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainSwift.framework; path = Carthage/Build/iOS/KeychainSwift.framework; sourceTree = SOURCE_ROOT; };
 		E14202301EBCF6AB0002C87D /* POST-https---localhost-8080-local-path-1.0-login.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "POST-https---localhost-8080-local-path-1.0-login.json"; path = "Fixtures/POST-https---localhost-8080-local-path-1.0-login.json"; sourceTree = "<group>"; };
 		E14202341EBCF8160002C87D /* LoginRepositorySpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginRepositorySpec.swift; path = Tests/LoginRepositorySpec.swift; sourceTree = "<group>"; };
 		E14202371EBCF9650002C87D /* EntityRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EntityRepository.swift; path = Repositories/EntityRepository.swift; sourceTree = "<group>"; };
@@ -317,6 +322,7 @@
 		E157DA721E315553004586CB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E13E8D291F7FE9D70099B61B /* KeychainSwift.framework */,
 				E111AE0B1E92D96000DE0C33 /* AlamofireNetworkActivityLogger.framework */,
 				E1A90ED11E82C8EF00DB1781 /* KeychainSwift.framework */,
 				E1A90ECE1E81C68E00DB1781 /* AlamofireNetworkActivityIndicator.framework */,
