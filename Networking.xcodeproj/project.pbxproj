@@ -33,6 +33,8 @@
 		E13DC65D1E6DDC100099FA75 /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13DC65C1E6DDC100099FA75 /* Entity.swift */; };
 		E13DC6601E6DDE2F0099FA75 /* CurrentUserFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13DC65F1E6DDE2F0099FA75 /* CurrentUserFetcher.swift */; };
 		E13DC6621E6DE43E0099FA75 /* UserDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13DC6611E6DE43E0099FA75 /* UserDemo.swift */; };
+		E13E8D2A1F7FE9E50099B61B /* KeychainSwift.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = E13E8D291F7FE9D70099B61B /* KeychainSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E13E8D2B1F7FE9F60099B61B /* Alamofire.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = E157DA661E315532004586CB /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E14202311EBCF6AB0002C87D /* POST-https---localhost-8080-local-path-1.0-login.json in Resources */ = {isa = PBXBuildFile; fileRef = E14202301EBCF6AB0002C87D /* POST-https---localhost-8080-local-path-1.0-login.json */; };
 		E14202351EBCF8160002C87D /* LoginRepositorySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14202341EBCF8160002C87D /* LoginRepositorySpec.swift */; };
 		E14202391EBCF9650002C87D /* EntityRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14202371EBCF9650002C87D /* EntityRepository.swift */; };
@@ -116,6 +118,8 @@
 				E16F201C1E789CB4009D486E /* Quick.framework in Copy Frameworks */,
 				E16F201D1E789CB4009D486E /* Nimble.framework in Copy Frameworks */,
 				E16F201E1E789CB4009D486E /* Curry.framework in Copy Frameworks */,
+				E13E8D2A1F7FE9E50099B61B /* KeychainSwift.framework in Copy Frameworks */,
+				E13E8D2B1F7FE9F60099B61B /* Alamofire.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -146,6 +150,7 @@
 		E13DC65C1E6DDC100099FA75 /* Entity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
 		E13DC65F1E6DDE2F0099FA75 /* CurrentUserFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentUserFetcher.swift; sourceTree = "<group>"; };
 		E13DC6611E6DE43E0099FA75 /* UserDemo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDemo.swift; sourceTree = "<group>"; };
+		E13E8D291F7FE9D70099B61B /* KeychainSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainSwift.framework; path = Carthage/Build/iOS/KeychainSwift.framework; sourceTree = SOURCE_ROOT; };
 		E14202301EBCF6AB0002C87D /* POST-https---localhost-8080-local-path-1.0-login.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "POST-https---localhost-8080-local-path-1.0-login.json"; path = "Fixtures/POST-https---localhost-8080-local-path-1.0-login.json"; sourceTree = "<group>"; };
 		E14202341EBCF8160002C87D /* LoginRepositorySpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginRepositorySpec.swift; path = Tests/LoginRepositorySpec.swift; sourceTree = "<group>"; };
 		E14202371EBCF9650002C87D /* EntityRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EntityRepository.swift; path = Repositories/EntityRepository.swift; sourceTree = "<group>"; };
@@ -317,6 +322,7 @@
 		E157DA721E315553004586CB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E13E8D291F7FE9D70099B61B /* KeychainSwift.framework */,
 				E111AE0B1E92D96000DE0C33 /* AlamofireNetworkActivityLogger.framework */,
 				E1A90ED11E82C8EF00DB1781 /* KeychainSwift.framework */,
 				E1A90ECE1E81C68E00DB1781 /* AlamofireNetworkActivityIndicator.framework */,
@@ -511,7 +517,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0820;
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = Wolox;
 				TargetAttributes = {
 					E1434DBC1E6A15C500D5C6D2 = {
@@ -520,11 +526,13 @@
 					};
 					E1434DD31E6A177F00D5C6D2 = {
 						CreatedOnToolsVersion = 8.2.1;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Manual;
 					};
 					E1E2A7831E7076EC0052542B = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 7XS5GQGS29;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -728,7 +736,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ar.com.wolox.NetworkingDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -746,14 +754,14 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ar.com.wolox.NetworkingDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
 		E1434DDE1E6A177F00D5C6D2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CODE_SIGN_IDENTITY = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -772,7 +780,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ar.com.wolox.Networking;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -782,7 +791,7 @@
 		E1434DDF1E6A177F00D5C6D2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CODE_SIGN_IDENTITY = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -801,7 +810,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ar.com.wolox.Networking;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -820,7 +830,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ar.com.wolox.NetworkingTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -836,7 +847,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ar.com.wolox.NetworkingTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
@@ -849,7 +861,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -857,7 +871,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -886,7 +904,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -899,7 +917,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -907,7 +927,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -928,7 +952,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

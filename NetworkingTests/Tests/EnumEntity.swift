@@ -21,7 +21,7 @@ internal struct EnumEntity {
     
 }
 
-extension EnumEntity: Decodable {
+extension EnumEntity: Argo.Decodable {
     
     static func decode(_ json: JSON) -> Decoded<EnumEntity> {
         return curry(EnumEntity.init)

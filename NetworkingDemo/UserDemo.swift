@@ -17,7 +17,7 @@ struct UserDemo: AuthenticableUser {
     let id: Int
 }
 
-extension UserDemo: Decodable {
+extension UserDemo: Argo.Decodable {
     
     public static func decode(_ json: JSON) -> Decoded<UserDemo> {
         return curry(UserDemo.init)

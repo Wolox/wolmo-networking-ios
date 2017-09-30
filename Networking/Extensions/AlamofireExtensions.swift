@@ -38,7 +38,7 @@ internal extension Alamofire.DataRequest {
     
     func response() -> SignalProducer<ResponseType, ResponseError> {
         return SignalProducer { observer, disposable in
-            disposable.add { self.task?.cancel() }
+            disposable.observeEnded { self.task?.cancel() }
             
             guard self.request != .none else { return }
             
@@ -58,7 +58,7 @@ private extension Alamofire.DataRequest {
     
     static let NoNetworkConnectionStatusCode = 0 // response is .none in case there is no connection
     
-    func handleError(dataResponse: DefaultDataResponse, observer: Observer<ResponseType, ResponseError>) {
+    func handleError(dataResponse: DefaultDataResponse, observer: Signal<ResponseType, ResponseError>.Observer) {
         let bodyDecode: () throws -> AnyObject = {
             let data = dataResponse.data!
             return try JSONSerialization.jsonObject(with: data, options: .allowFragments) as AnyObject
@@ -71,7 +71,7 @@ private extension Alamofire.DataRequest {
         observer.send(error: ResponseError(error: error, body: body, statusCode: statusCode))
     }
     
-    func handleSuccess(dataResponse: DefaultDataResponse, observer: Observer<ResponseType, ResponseError>) {
+    func handleSuccess(dataResponse: DefaultDataResponse, observer: Signal<ResponseType, ResponseError>.Observer) {
         // These properties can be unwrapped safely given no error was encountered.
         let request = dataResponse.request!
         let response = dataResponse.response!
