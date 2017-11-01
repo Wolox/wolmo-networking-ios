@@ -69,7 +69,7 @@ private extension NetworkingDemoLauncher {
         let user = _sessionManager.currentUser as! UserDemo //swiftlint:disable:this force_cast
         repository.noAnswerEntities(userID: user.id).startWithResult {
             switch $0 {
-            case .success(): print("success")
+            case .success: print("success")
             case .failure(let error):  print("\(error)")
             }
         }

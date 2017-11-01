@@ -133,7 +133,7 @@ final public class SessionManager: SessionManagerType {
             currentUserFetcher.fetchCurrentUser().startWithResult { [unowned self] in
                 switch $0 {
                 case .success(let user): self._currentUser.value = user
-                case .failure(_): break // TODO: Handle error here.
+                case .failure: break // TODO: Handle error here.
                 }
             }
         } else {
