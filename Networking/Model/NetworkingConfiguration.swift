@@ -11,7 +11,7 @@ import Foundation
 /**
     Represents a connection scheme
  */
-fileprivate enum CommunicationProtocol: String {
+private enum CommunicationProtocol: String {
     
     case http, https
     
