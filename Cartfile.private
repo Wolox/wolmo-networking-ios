@@ -1,2 +1,5 @@
 github "Quick/Nimble" ~> 7.0.1
 github "Quick/Quick" ~> 1.1.0
+github "thoughtbot/Curry" ~> 3.0.0
+github "Alamofire/AlamofireNetworkActivityIndicator" ~> 2.2.0
+github "konkab/AlamofireNetworkActivityLogger" "master"
