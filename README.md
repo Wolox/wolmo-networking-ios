@@ -41,9 +41,13 @@ You can install Carthage with Homebrew using the following command:
 brew update
 brew install carthage
 ```
-To download wolmo-networking-iOS, add this to your Cartfile:
+To download wolmo-networking-iOS, add this to your Cartfile if you are using Swift 3.2 or 4:
 ```
-github "Wolox/wolmo-networking-ios" ~> 0.1.0
+github "Wolox/wolmo-networking-ios" "swift-3.2-compatibility"
+```
+Or if you are using an older version of Swift:
+```
+github "Wolox/wolmo-networking-ios" "master"
 ```
 
 ### Manually
