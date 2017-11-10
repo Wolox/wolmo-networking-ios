@@ -51,6 +51,7 @@ public protocol RepositoryType {
         path: String,
         parameters: [String: Any]?,
         headers: [String: String]?,
+        requiresSession: Bool,
         decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError>
     
     /**
@@ -76,6 +77,8 @@ public protocol RepositoryType {
         path: String,
         parameters: [String: Any]?,
         headers: [String: String]?,
+        requiresSession: Bool,
+        pollTime: Double,
         decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError>
     
     /**
@@ -122,7 +125,8 @@ public protocol RepositoryType {
         method: NetworkingMethod,
         path: String,
         parameters: [String: Any]?,
-        headers: [String: String]?) -> SignalProducer<RawDataResponse, RepositoryError>
+        headers: [String: String]?,
+        requiresSession: Bool) -> SignalProducer<RawDataResponse, RepositoryError>
     
 }
 
@@ -165,8 +169,9 @@ extension AbstractRepository: RepositoryType {
         path: String,
         parameters: [String: Any]? = .none,
         headers: [String: String]? = .none,
+        requiresSession: Bool = true,
         decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError> {
-        return perform(method: method, path: path, parameters: parameters, headers: headers, requiresSession: true)
+        return perform(method: method, path: path, parameters: parameters, headers: headers, requiresSession: requiresSession)
             .flatMap(.concat) { _, _, data in self.deserializeData(data: data, decoder: decoder) }
     }
     
@@ -175,8 +180,10 @@ extension AbstractRepository: RepositoryType {
         path: String,
         parameters: [String: Any]? = .none,
         headers: [String: String]? = .none,
+        requiresSession: Bool = true,
+        pollTime: Double = 1.0,
         decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError> {
-        return perform(method: method, path: path, parameters: parameters, headers: headers, requiresSession: true)
+        return perform(method: method, path: path, parameters: parameters, headers: headers, requiresSession: requiresSession)
             .flatMap(.concat) { _, response, data -> SignalProducer<T, RepositoryError> in
                 if response.statusCode != AbstractRepository.RetryStatusCode {
                     return self.deserializeData(data: data, decoder: decoder)
@@ -186,7 +193,7 @@ extension AbstractRepository: RepositoryType {
                                                   parameters: parameters,
                                                   headers: headers,
                                                   decoder: decoder)
-                    .start(on: DelayedScheduler(delay: 1.0))
+                    .start(on: DelayedScheduler(delay: pollTime))
         }
     }
     
@@ -204,8 +211,9 @@ extension AbstractRepository: RepositoryType {
         method: NetworkingMethod,
         path: String,
         parameters: [String: Any]? = .none,
-        headers: [String: String]? = .none) -> SignalProducer<RawDataResponse, RepositoryError> {
-        return perform(method: method, path: path, parameters: parameters, headers: headers, requiresSession: true)
+        headers: [String: String]? = .none,
+        requiresSession: Bool = true) -> SignalProducer<RawDataResponse, RepositoryError> {
+        return perform(method: method, path: path, parameters: parameters, headers: headers, requiresSession: requiresSession)
     }
     
 }
