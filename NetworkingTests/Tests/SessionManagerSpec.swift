@@ -288,11 +288,6 @@ internal class SessionManagerSpec: QuickSpec {
                     sessionManager.bootstrap()
                 }
                 
-                it("sends no session signal") {
-                    sessionManager.sessionSignal.observeValues { _ in fail() }
-                    sessionManager.update(user: UserMock())
-                }
-                
                 it("sends the updated authenticated user in user signal") { waitUntil { done in
                     sessionManager.userSignal.successOnSome {
                         expect($0.sessionToken).to(equal(updatedSessionToken))
@@ -309,13 +304,6 @@ internal class SessionManagerSpec: QuickSpec {
                     updatedUser.sessionToken = updatedSessionToken
                     sessionManager.update(user: updatedUser)
                     expect(sessionManager.currentUser!.sessionToken).to(equal(updatedSessionToken))
-                }
-                
-                it("does not update the session token") {
-                    var updatedUser = UserMock()
-                    updatedUser.sessionToken = updatedSessionToken
-                    sessionManager.update(user: updatedUser)
-                    expect(sessionManager.sessionToken).to(equal(UserMock().sessionToken))
                 }
                 
             }
