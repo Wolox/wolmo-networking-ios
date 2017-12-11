@@ -80,8 +80,7 @@ public protocol SessionManagerType {
         This function can be called manually when a user is fetched from
         outside the session manager. In case the current user is wanted 
         to be up to date with the fetched one.
-        It will send no notifications, since the session status
-        remains the same.
+        It will send both a session and user notification.
      
         - Parameters:
             - user: user to initialize the session from.
