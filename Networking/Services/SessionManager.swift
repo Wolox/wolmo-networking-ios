@@ -80,8 +80,7 @@ public protocol SessionManagerType {
         This function can be called manually when a user is fetched from
         outside the session manager. In case the current user is wanted 
         to be up to date with the fetched one.
-        It will send no notifications, since the session status
-        remains the same.
+        It will send both a session and user notification.
      
         - Parameters:
             - user: user to initialize the session from.
@@ -133,7 +132,7 @@ final public class SessionManager: SessionManagerType {
             currentUserFetcher.fetchCurrentUser().startWithResult { [unowned self] in
                 switch $0 {
                 case .success(let user): self._currentUser.value = user
-                case .failure(_): break // TODO: Handle error here.
+                case .failure: break // TODO: Handle error here.
                 }
             }
         } else {
@@ -181,6 +180,7 @@ public extension SessionManager {
         guard isLoggedIn else {
             fatalError("Attempting to update a non logged in session in SessionManager")
         }
+        saveSessionToken(user: user)
         saveUser(user: user)
     }
     
