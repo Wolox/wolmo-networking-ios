@@ -31,6 +31,8 @@ internal final class NetworkingSessionManager: Alamofire.SessionManager {
 private var defaultSessionConfiguration: URLSessionConfiguration {
     let configuration = URLSessionConfiguration.default
     configuration.httpCookieStorage?.cookieAcceptPolicy = .never
+    configuration.timeoutIntervalForRequest = 120 // seconds
+    configuration.timeoutIntervalForResource = 120 // seconds
     return configuration
 }
 
