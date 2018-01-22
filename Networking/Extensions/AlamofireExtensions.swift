@@ -67,7 +67,7 @@ private extension Alamofire.DataRequest {
         let error = dataResponse.error! as NSError
         let bodyResult = JSONResult(attempt: bodyDecode)
         let body = bodyResult.value as? NSDictionary ?? [:]
-        let statusCode = dataResponse.response?.statusCode ?? DataRequest.NoNetworkConnectionStatusCode
+        let statusCode = checkStatusCode(response: dataResponse.response, error: error)
         observer.send(error: ResponseError(error: error, body: body, statusCode: statusCode))
     }
     
@@ -79,6 +79,13 @@ private extension Alamofire.DataRequest {
         
         observer.send(value: (request, response, data))
         observer.sendCompleted()
+    }
+    
+    func checkStatusCode(response: HTTPURLResponse?, error: NSError) -> Int {
+        if error.code == NSURLErrorTimedOut {
+            return NSURLErrorTimedOut
+        }
+        return response?.statusCode ?? DataRequest.NoNetworkConnectionStatusCode
     }
     
 }

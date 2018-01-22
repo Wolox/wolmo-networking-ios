@@ -81,6 +81,7 @@ public protocol RepositoryType {
         headers: [String: String]?,
         requiresSession: Bool,
         pollTime: Double,
+        retries: Int,
         decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError>
     
     /**
@@ -144,6 +145,7 @@ open class AbstractRepository {
 extension AbstractRepository: RepositoryType {
     
     private static let RetryStatusCode = 202
+    private static let MaxRetries = 10
     
     public func performRequest<T>(
         method: NetworkingMethod,
@@ -163,18 +165,24 @@ extension AbstractRepository: RepositoryType {
         headers: [String: String]? = .none,
         requiresSession: Bool = true,
         pollTime: Double = 1.0,
+        retries: Int = 0,
         decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError> {
         return perform(method: method, path: path, parameters: parameters, headers: headers, requiresSession: requiresSession)
             .flatMap(.concat) { _, response, data -> SignalProducer<T, RepositoryError> in
                 if response.statusCode != AbstractRepository.RetryStatusCode {
                     return self.deserializeData(data: data, decoder: decoder)
                 }
+                if retries > AbstractRepository.MaxRetries {
+                    return SignalProducer(error: .timeout)
+                }
+                let newRetries = retries + 1
                 return self.performPollingRequest(method: method,
                                                   path: path,
                                                   parameters: parameters,
                                                   headers: headers,
                                                   requiresSession: requiresSession,
                                                   pollTime: pollTime,
+                                                  retries: newRetries,
                                                   decoder: decoder)
                     .start(on: DelayedScheduler(delay: pollTime))
         }
@@ -222,6 +230,9 @@ private extension AbstractRepository {
                 _sessionManager.expire()
             }
             return SignalProducer(error: .unauthenticatedSession)
+        }
+        if error.statusCode == NSURLErrorTimedOut {
+            return SignalProducer(error: .timeout)
         }
         return SignalProducer(error: .requestError(error))
     }
