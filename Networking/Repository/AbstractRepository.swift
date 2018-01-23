@@ -145,7 +145,7 @@ open class AbstractRepository {
 extension AbstractRepository: RepositoryType {
     
     private static let RetryStatusCode = 202
-    private static let MaxRetries = 10
+    public static let MaxRetries = 4
     
     public func performRequest<T>(
         method: NetworkingMethod,
