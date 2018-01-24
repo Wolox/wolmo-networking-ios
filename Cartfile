@@ -1,4 +1,4 @@
-github "ReactiveCocoa/ReactiveCocoa" "7.0.1"
+github "ReactiveCocoa/ReactiveCocoa" "7.1.0"
 github "thoughtbot/Argo" ~> 4.1.2
 github "thoughtbot/Curry" ~> 3.0.0
 github "Alamofire/Alamofire" ~> 4.5.1
