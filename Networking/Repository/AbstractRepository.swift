@@ -176,18 +176,7 @@ extension AbstractRepository: RepositoryType {
         parameters: [String: Any]? = .none,
         headers: [String: String]? = .none,
         decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError> {
-        return perform(method: method, path: path, parameters: parameters, headers: headers, requiresSession: true)
-            .flatMap(.concat) { _, response, data -> SignalProducer<T, RepositoryError> in
-                if response.statusCode != AbstractRepository.RetryStatusCode {
-                    return self.deserializeData(data: data, decoder: decoder)
-                }
-                return self.performPollingRequest(method: method,
-                                                  path: path,
-                                                  parameters: parameters,
-                                                  headers: headers,
-                                                  decoder: decoder)
-                    .start(on: DelayedScheduler(delay: 1.0))
-        }
+        return tryPollingRequest(method: method, path: path, tryNumber: 0, decoder: decoder)
     }
     
     public func performAuthenticationRequest<T>(
@@ -247,6 +236,32 @@ private extension AbstractRepository {
         }
         
         return SignalProducer(error: .requestError(error))
+    }
+    
+    func tryPollingRequest<T>(
+        method: NetworkingMethod,
+        path: String,
+        tryNumber: Int,
+        parameters: [String: Any]? = .none,
+        headers: [String: String]? = .none,
+        decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError> {
+        return perform(method: method, path: path, parameters: parameters, headers: headers, requiresSession: true)
+            .flatMap(.concat) { _, response, data -> SignalProducer<T, RepositoryError> in
+                if response.statusCode != AbstractRepository.RetryStatusCode {
+                    return self.deserializeData(data: data, decoder: decoder)
+                }
+                if tryNumber > self._networkingConfiguration.maximumPollingRetries {
+                    return SignalProducer(error: .timeout)
+                }
+                let newTryNumber = tryNumber + 1
+                return self.tryPollingRequest(method: method,
+                                                  path: path,
+                                                  tryNumber: newTryNumber,
+                                                  parameters: parameters,
+                                                  headers: headers,
+                                                  decoder: decoder)
+                    .start(on: DelayedScheduler(delay: self._networkingConfiguration.pollTime))
+        }
     }
     
     func perform(

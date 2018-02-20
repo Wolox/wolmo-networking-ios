@@ -30,6 +30,8 @@ public struct NetworkingConfiguration {
     public var subdomainURL: String? = .none
     public var timeout: Double = 75.0
     public var usePinningCertificate: Bool = false
+    public var pollTime: Double = 1.0
+    public var maximumPollingRetries: Int = 10
     
     /**
         Initializes the networking configuration.
