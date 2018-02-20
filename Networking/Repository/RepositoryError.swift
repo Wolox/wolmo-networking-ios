@@ -39,6 +39,7 @@ public enum RepositoryError: Error {
     case unauthenticatedSession
     case jsonError(Error)
     case decodeError(Argo.DecodeError)
+    case timeout
     case customError(errorName: String, error: CustomRepositoryErrorType)
 }
 
