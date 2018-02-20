@@ -28,7 +28,7 @@ public struct NetworkingConfiguration {
     fileprivate let _domainURL: String
     fileprivate let _port: Int?
     fileprivate let _subdomainURL: String?
-    
+    fileprivate let _timeout: Double
     fileprivate let _usePinningCertificate: Bool
     
     /**
@@ -54,11 +54,13 @@ public struct NetworkingConfiguration {
                 domainURL: String,
                 port: Int? = .none,
                 subdomainURL: String? = .none,
+                timeout: Double = 75.0,
                 usePinningCertificate: Bool = false) {
         _useSecureConnection = useSecureConnection
         _domainURL = domainURL
         _port = port
         _subdomainURL = subdomainURL
+        _timeout = timeout
         _usePinningCertificate = usePinningCertificate
     }
     
@@ -82,6 +84,10 @@ internal extension NetworkingConfiguration {
     
     var usePinningCertificate: Bool {
         return _usePinningCertificate
+    }
+    
+    var timeout: Double {
+        return _timeout
     }
     
     var domainURL: String {
