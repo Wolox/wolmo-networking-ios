@@ -24,12 +24,12 @@ private enum CommunicationProtocol: String {
  */
 public struct NetworkingConfiguration {
     
-    fileprivate let _useSecureConnection: Bool
-    fileprivate let _domainURL: String
-    fileprivate let _port: Int?
-    fileprivate let _subdomainURL: String?
-    fileprivate let _timeout: Double
-    fileprivate let _usePinningCertificate: Bool
+    public var useSecureConnection: Bool = true
+    public var domainURL: String = ""
+    public var port: Int? = .none
+    public var subdomainURL: String? = .none
+    public var timeout: Double = 75.0
+    public var usePinningCertificate: Bool = false
     
     /**
         Initializes the networking configuration.
@@ -50,20 +50,9 @@ public struct NetworkingConfiguration {
             account in case this is enabled, the proper certificate must be included
             into the application bundle resources.
     */
-    public init(useSecureConnection: Bool = true,
-                domainURL: String,
-                port: Int? = .none,
-                subdomainURL: String? = .none,
-                timeout: Double = 75.0,
-                usePinningCertificate: Bool = false) {
-        _useSecureConnection = useSecureConnection
-        _domainURL = domainURL
-        _port = port
-        _subdomainURL = subdomainURL
-        _timeout = timeout
-        _usePinningCertificate = usePinningCertificate
-    }
     
+    public init() {}
+
 }
 
 internal extension NetworkingConfiguration {
@@ -71,9 +60,9 @@ internal extension NetworkingConfiguration {
     var baseURL: URL {
         var components = URLComponents()
         components.scheme = communicationProtocol
-        components.host = _domainURL
-        components.port = _port
-        if let subdomainURL = _subdomainURL {
+        components.host = domainURL
+        components.port = port
+        if let subdomainURL = subdomainURL {
             components.path = subdomainURL
         }
         if let url = components.url {
@@ -82,24 +71,12 @@ internal extension NetworkingConfiguration {
         fatalError("Invalid URL parameters in \(String(describing: NetworkingConfiguration.self))")
     }
     
-    var usePinningCertificate: Bool {
-        return _usePinningCertificate
-    }
-    
-    var timeout: Double {
-        return _timeout
-    }
-    
-    var domainURL: String {
-        return _domainURL
-    }
-    
 }
 
 fileprivate extension NetworkingConfiguration {
     
     var communicationProtocol: String {
-        return _useSecureConnection ? CommunicationProtocol.https.rawValue : CommunicationProtocol.http.rawValue
+        return useSecureConnection ? CommunicationProtocol.https.rawValue : CommunicationProtocol.http.rawValue
     }
     
 }
