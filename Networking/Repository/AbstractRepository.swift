@@ -242,6 +242,10 @@ private extension AbstractRepository {
             }
             return SignalProducer(error: .unauthenticatedSession)
         }
+        if error.statusCode == NSURLErrorTimedOut {
+            return SignalProducer(error: .timeout)
+        }
+        
         return SignalProducer(error: .requestError(error))
     }
     
