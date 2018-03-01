@@ -26,7 +26,8 @@ internal final class NetworkingSessionManager: Alamofire.SessionManager {
 }
 
 /**
-    Default session configuration which does not accept cookies by default.
+    Default session configuration which does not accept cookies by default and sets
+    the timeouts to the values set in the networkingConfiguration provided.
  */
 private func defaultSessionConfiguration(_ networkingConfiguration: NetworkingConfiguration) -> URLSessionConfiguration {
     let configuration = URLSessionConfiguration.default
