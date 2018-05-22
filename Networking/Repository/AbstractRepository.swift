@@ -33,7 +33,6 @@ public protocol RepositoryType {
     
     /**
         Performs a request and returns a Signal producer.
-        This function fails if no user is authenticated.
      
         - Parameters:
             - method: HTTP method for the request.
@@ -41,6 +40,7 @@ public protocol RepositoryType {
             - parameters: request parameters.
             - headers: request headers. Authentication headers 
             are automatically injected. No need to be provided.
+            - requireSession: if this is set to true the request will fail if the user is not authenticated
             - decoder: a closure of type Decoder
         - Returns:
             A SignalProducer where its value is the decoded entity and its
@@ -51,6 +51,7 @@ public protocol RepositoryType {
         path: String,
         parameters: [String: Any]?,
         headers: [String: String]?,
+        requiresSession: Bool,
         decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError>
     
     /**
@@ -66,6 +67,8 @@ public protocol RepositoryType {
             - parameters: request parameters.
             - headers: request headers. Authentication headers 
             are automatically injected. No need to be provided.
+            - requireSession: if this is set to true the request will fail if the user is not authenticated
+            - pollTime: time to wait before retrying the request
             - decoder: a closure of type Decoder
         - Returns:
             A SignalProducer where its value is the decoded entity and its
@@ -76,28 +79,8 @@ public protocol RepositoryType {
         path: String,
         parameters: [String: Any]?,
         headers: [String: String]?,
-        decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError>
-    
-    /**
-        Performs a request and returns a Signal producer.
-        This function does not fail if user is not authenticated. So, this is 
-        useful to perform authentication requests as login or signup.
-     
-        - Parameters:
-            - method: HTTP method for the request.
-            - path: path to be appended to domain URL and subdomain URL.
-            - parameters: request parameters.
-            - headers: request headers.
-            - decoder: a closure of type Decoder
-        - Returns:
-            A SignalProducer where its value is the decoded entity and its
-            error a RepositoryError.
-     */
-    func performAuthenticationRequest<T>(
-        method: NetworkingMethod,
-        path: String,
-        parameters: [String: Any]?,
-        headers: [String: String]?,
+        requiresSession: Bool,
+        pollTime: Double,
         decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError>
     
     /**
@@ -114,6 +97,7 @@ public protocol RepositoryType {
             - headers: request headers. Authentication headers 
             are automatically injected. No need to be provided.
             - headers: request headers.
+            - requireSession: if this is set to true the request will fail if the user is not authenticated
         - Returns:
             A SignalProducer where its value is a tuple of type
             (URLRequest, HTTPURLResponse, Data) and its error a RepositoryError.
@@ -122,7 +106,8 @@ public protocol RepositoryType {
         method: NetworkingMethod,
         path: String,
         parameters: [String: Any]?,
-        headers: [String: String]?) -> SignalProducer<RawDataResponse, RepositoryError>
+        headers: [String: String]?,
+        requiresSession: Bool) -> SignalProducer<RawDataResponse, RepositoryError>
     
 }
 
@@ -165,8 +150,9 @@ extension AbstractRepository: RepositoryType {
         path: String,
         parameters: [String: Any]? = .none,
         headers: [String: String]? = .none,
+        requiresSession: Bool = true,
         decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError> {
-        return perform(method: method, path: path, parameters: parameters, headers: headers, requiresSession: true)
+        return perform(method: method, path: path, parameters: parameters, headers: headers, requiresSession: requiresSession)
             .flatMap(.concat) { _, _, data in self.deserializeData(data: data, decoder: decoder) }
     }
     
@@ -175,8 +161,10 @@ extension AbstractRepository: RepositoryType {
         path: String,
         parameters: [String: Any]? = .none,
         headers: [String: String]? = .none,
+        requiresSession: Bool = true,
+        pollTime: Double = 1.0,
         decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError> {
-        return perform(method: method, path: path, parameters: parameters, headers: headers, requiresSession: true)
+        return perform(method: method, path: path, parameters: parameters, headers: headers, requiresSession: requiresSession)
             .flatMap(.concat) { _, response, data -> SignalProducer<T, RepositoryError> in
                 if response.statusCode != AbstractRepository.RetryStatusCode {
                     return self.deserializeData(data: data, decoder: decoder)
@@ -185,27 +173,20 @@ extension AbstractRepository: RepositoryType {
                                                   path: path,
                                                   parameters: parameters,
                                                   headers: headers,
+                                                  requiresSession: requiresSession,
+                                                  pollTime: pollTime,
                                                   decoder: decoder)
-                    .start(on: DelayedScheduler(delay: 1.0))
+                    .start(on: DelayedScheduler(delay: pollTime))
         }
-    }
-    
-    public func performAuthenticationRequest<T>(
-        method: NetworkingMethod,
-        path: String,
-        parameters: [String: Any]? = .none,
-        headers: [String: String]? = .none,
-        decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError> {
-        return perform(method: method, path: path, parameters: parameters, headers: headers, requiresSession: false)
-            .flatMap(.concat) { _, _, data in self.deserializeData(data: data, decoder: decoder) }
     }
     
     public func performRequest(
         method: NetworkingMethod,
         path: String,
         parameters: [String: Any]? = .none,
-        headers: [String: String]? = .none) -> SignalProducer<RawDataResponse, RepositoryError> {
-        return perform(method: method, path: path, parameters: parameters, headers: headers, requiresSession: true)
+        headers: [String: String]? = .none,
+        requiresSession: Bool = true) -> SignalProducer<RawDataResponse, RepositoryError> {
+        return perform(method: method, path: path, parameters: parameters, headers: headers, requiresSession: requiresSession)
     }
     
 }

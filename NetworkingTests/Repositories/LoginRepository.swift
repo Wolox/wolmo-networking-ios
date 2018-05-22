@@ -21,13 +21,13 @@ internal protocol LoginRepositoryType {
 internal class LoginRepository: AbstractRepository, LoginRepositoryType {
     
     func login() -> SignalProducer<Void, RepositoryError> {
-        return performAuthenticationRequest(method: .post, path: "login") { _ in
+        return performRequest(method: .post, path: "login", parameters: .none, headers: .none, requiresSession: false) { _ in
             Result(value: ())
         }
     }
     
     func failingLogin() -> SignalProducer<Void, RepositoryError> {
-        return performAuthenticationRequest(method: .post, path: "failing-login") { _ in
+        return performRequest(method: .post, path: "failing-login", parameters: .none, headers: .none, requiresSession: false) { _ in
             Result(value: ())
         }
     }
