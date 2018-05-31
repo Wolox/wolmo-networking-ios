@@ -16,12 +16,14 @@ internal class LoginRepositorySpec: QuickSpec {
         
         var repository: LoginRepositoryType!
         
-        beforeEach() {
-            let networkingConfiguration = NetworkingConfiguration(useSecureConnection: true,
-                                                                  domainURL: "localhost",
-                                                                  port: 8080,
-                                                                  subdomainURL: "/local-path-1.0",
-                                                                  usePinningCertificate: false)
+        beforeEach() {            
+            var networkingConfiguration = NetworkingConfiguration()
+            
+            networkingConfiguration.useSecureConnection = true
+            networkingConfiguration.domainURL = "localhost"
+            networkingConfiguration.port = 8080
+            networkingConfiguration.subdomainURL = "/local-path-1.0"
+            networkingConfiguration.usePinningCertificate = false
             
             repository = LoginRepository(networkingConfiguration: networkingConfiguration,
                                          requestExecutor: LocalRequestExecutor(),
