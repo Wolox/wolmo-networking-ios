@@ -83,11 +83,12 @@ fileprivate extension NetworkingDemoLauncher {
     static let sessionToken = ""
     
     var networkingConfiguration: NetworkingConfiguration {
-        return NetworkingConfiguration(
-            useSecureConnection: true,
-            domainURL: "wbooks-api-stage.herokuapp.com",
-            subdomainURL: "/api/v1",
-            usePinningCertificate: false)
+        var config = NetworkingConfiguration()
+        config.useSecureConnection = true
+        config.domainURL = "wbooks-api-stage.herokuapp.com"
+        config.subdomainURL = "/api/v1"
+        config.usePinningCertificate = false
+        return config
     }
     
 }

@@ -20,17 +20,20 @@ internal final class NetworkingSessionManager: Alamofire.SessionManager {
         if networkingConfiguration.usePinningCertificate {
             trustPolicyManager = serverTrustPolicyManager(domainURL: networkingConfiguration.domainURL)
         }
-        super.init(configuration: defaultSessionConfiguration, serverTrustPolicyManager: trustPolicyManager)
+        super.init(configuration: defaultSessionConfiguration(networkingConfiguration), serverTrustPolicyManager: trustPolicyManager)
     }
     
 }
 
 /**
-    Default session configuration which does not accept cookies by default.
+    Default session configuration which does not accept cookies by default and sets
+    the timeouts to the values set in the networkingConfiguration provided.
  */
-private var defaultSessionConfiguration: URLSessionConfiguration {
+private func defaultSessionConfiguration(_ networkingConfiguration: NetworkingConfiguration) -> URLSessionConfiguration {
     let configuration = URLSessionConfiguration.default
     configuration.httpCookieStorage?.cookieAcceptPolicy = .never
+    configuration.timeoutIntervalForRequest = networkingConfiguration.timeout
+    configuration.timeoutIntervalForResource = networkingConfiguration.timeout
     return configuration
 }
 

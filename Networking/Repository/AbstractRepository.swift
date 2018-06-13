@@ -57,8 +57,9 @@ public protocol RepositoryType {
         Performs a request and returns a Signal producer.
         This function fails if no user is authenticated.
         In case the response status code is 202 it will keep polling
-        until a 200/201 status code is received, in which case it will
-        decode and return the response.
+        until a 200/201 status code is received or the maximum retries are reached.
+        If it succeeds it will decode and return the response,
+        if it reaches the maximum retries it will give a timeout error.
      
         - Parameters:
             - method: HTTP method for the request.
@@ -176,18 +177,7 @@ extension AbstractRepository: RepositoryType {
         parameters: [String: Any]? = .none,
         headers: [String: String]? = .none,
         decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError> {
-        return perform(method: method, path: path, parameters: parameters, headers: headers, requiresSession: true)
-            .flatMap(.concat) { _, response, data -> SignalProducer<T, RepositoryError> in
-                if response.statusCode != AbstractRepository.RetryStatusCode {
-                    return self.deserializeData(data: data, decoder: decoder)
-                }
-                return self.performPollingRequest(method: method,
-                                                  path: path,
-                                                  parameters: parameters,
-                                                  headers: headers,
-                                                  decoder: decoder)
-                    .start(on: DelayedScheduler(delay: 1.0))
-        }
+        return tryPollingRequest(method: method, path: path, tryNumber: 0, decoder: decoder)
     }
     
     public func performAuthenticationRequest<T>(
@@ -247,6 +237,35 @@ private extension AbstractRepository {
         }
         
         return SignalProducer(error: .requestError(error))
+    }
+    
+    func tryPollingRequest<T>(
+        method: NetworkingMethod,
+        path: String,
+        tryNumber: Int = 0,
+        parameters: [String: Any]? = .none,
+        headers: [String: String]? = .none,
+        decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError> {
+        return perform(method: method, path: path, parameters: parameters, headers: headers, requiresSession: true)
+            .flatMap(.concat) { _, response, data -> SignalProducer<T, RepositoryError> in
+                if response.statusCode != AbstractRepository.RetryStatusCode {
+                    return self.deserializeData(data: data, decoder: decoder)
+                }
+                
+                let maximumRetries = self._networkingConfiguration.maximumPollingRetries ?? self._networkingConfiguration.defaultPollingRetries
+                
+                if tryNumber > maximumRetries {
+                    return SignalProducer(error: .timeout)
+                }
+                let newTryNumber = tryNumber + 1
+                return self.tryPollingRequest(method: method,
+                                                  path: path,
+                                                  tryNumber: newTryNumber,
+                                                  parameters: parameters,
+                                                  headers: headers,
+                                                  decoder: decoder)
+                    .start(on: DelayedScheduler(delay: self._networkingConfiguration.secondsBetweenPolls))
+        }
     }
     
     func perform(

@@ -21,7 +21,9 @@ internal class NetworkingConfigurationSpec: QuickSpec {
             context("when using http protocol") {
                 
                 beforeEach {
-                    configuration = NetworkingConfiguration(useSecureConnection: false, domainURL: "www.wolox.com.ar")
+                    configuration = NetworkingConfiguration()
+                    configuration.useSecureConnection = false
+                    configuration.domainURL = "www.wolox.com.ar"
                 }
                 
                 it("returns a base url using http protocol") {
@@ -34,7 +36,9 @@ internal class NetworkingConfigurationSpec: QuickSpec {
             context("when using https protocol") {
                 
                 beforeEach {
-                    configuration = NetworkingConfiguration(useSecureConnection: true, domainURL: "www.wolox.com.ar")
+                    configuration = NetworkingConfiguration()
+                    configuration.useSecureConnection = true
+                    configuration.domainURL = "www.wolox.com.ar"
                 }
                 
                 it("returns a base url using https protocol") {
@@ -50,10 +54,10 @@ internal class NetworkingConfigurationSpec: QuickSpec {
             context("when there is port and subdomain") {
                 
                 beforeEach {
-                    configuration = NetworkingConfiguration(
-                        domainURL: "www.wolox.com.ar",
-                        port: 8080,
-                        subdomainURL: "/api/v1")
+                    configuration = NetworkingConfiguration()
+                    configuration.port = 8080
+                    configuration.domainURL = "www.wolox.com.ar"
+                    configuration.subdomainURL = "/api/v1"
                 }
                 
                 it("returns a base url with port and subdomain") {
@@ -65,7 +69,9 @@ internal class NetworkingConfigurationSpec: QuickSpec {
             context("when there is port") {
                 
                 beforeEach {
-                    configuration = NetworkingConfiguration(domainURL: "www.wolox.com.ar", port: 8080)
+                    configuration = NetworkingConfiguration()
+                    configuration.port = 8080
+                    configuration.domainURL = "www.wolox.com.ar"
                 }
                 
                 it("returns a base url with port") {
@@ -77,7 +83,9 @@ internal class NetworkingConfigurationSpec: QuickSpec {
             context("when there is subdomain") {
                 
                 beforeEach {
-                    configuration = NetworkingConfiguration(domainURL: "www.wolox.com.ar", subdomainURL: "/api")
+                    configuration = NetworkingConfiguration()
+                    configuration.domainURL = "www.wolox.com.ar"
+                    configuration.subdomainURL = "/api"
                 }
                 
                 it("returns a base url with subdomain") {
