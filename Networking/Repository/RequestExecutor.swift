@@ -57,7 +57,7 @@ internal final class RequestExecutor: RequestExecutorType {
                 .request(url,
                          method: method.toHTTPMethod(),
                          parameters: parameters,
-                         encoding: URLEncoding.methodDependent,
+                         encoding: JSONEncoding.default,
                          headers: headers)
                 .validate()
                 .response()
