@@ -9,7 +9,7 @@ metrics:
     upload_report: false
   swiftlint:
     enabled: true
-    minimum: 90
+    minimum: 75
     upload_report: false
   tailor:
     enabled: false
