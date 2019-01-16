@@ -78,7 +78,7 @@ struct Encoding: Alamofire.ParameterEncoding {
     func encode(_ urlRequest: URLRequestConvertible, with parameters: Parameters?) throws -> URLRequest {
         let method = urlRequest.urlRequest?.httpMethod.flatMap { HTTPMethod(rawValue: $0) } ?? .get
         switch method {
-        case .get, .head, .delete:
+        case .get, .head:
             return try url.encode(urlRequest, with: parameters)
         default:
             return try json.encode(urlRequest, with: parameters)
