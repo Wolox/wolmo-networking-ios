@@ -36,14 +36,16 @@ public protocol RequestExecutorType {
  */
 internal final class RequestExecutor: RequestExecutorType {
     private let _sessionManager: Alamofire.SessionManager
+    private let _encoding: Encoding
     
-    internal init(sessionManager: Alamofire.SessionManager) {
+    internal init(sessionManager: Alamofire.SessionManager, encoding: Encoding) {
         _sessionManager = sessionManager
+        _encoding = encoding
     }
     
     func perform(method: NetworkingMethod, url: URL, parameters: [String: Any]? = .none, headers: [String: String]? = .none) -> HTTPResponseProducer {
         return _sessionManager
-                .request(url, method: method.toHTTPMethod(), parameters: parameters, encoding: Encoding(), headers: headers)
+                .request(url, method: method.toHTTPMethod(), parameters: parameters, encoding: _encoding, headers: headers)
                 .validate()
                 .response()
     }
@@ -53,18 +55,20 @@ internal final class RequestExecutor: RequestExecutorType {
 struct Encoding: Alamofire.ParameterEncoding {
     let url: URLEncoding
     let json: JSONEncoding
+    let encodeAsURL: [HTTPMethod]
     
-    init(urlEncoding: URLEncoding = .default, jsonEncoding: JSONEncoding = .default) {
+    init(encodeAsURL: [HTTPMethod], urlEncoding: URLEncoding = .default, jsonEncoding: JSONEncoding = .default) {
         self.url = urlEncoding
         self.json = jsonEncoding
+        self.encodeAsURL = encodeAsURL
     }
     
     func encode(_ urlRequest: URLRequestConvertible, with parameters: Parameters?) throws -> URLRequest {
         let method = urlRequest.urlRequest?.httpMethod.flatMap { HTTPMethod(rawValue: $0) } ?? .get
-        switch method {
-        case .get, .head, .delete:
+        
+        if encodeAsURL.contains(method) {
             return try url.encode(urlRequest, with: parameters)
-        default:
+        } else {
             return try json.encode(urlRequest, with: parameters)
         }
     }
@@ -73,5 +77,5 @@ struct Encoding: Alamofire.ParameterEncoding {
 
 internal func defaultRequestExecutor(configuration: NetworkingConfiguration) -> RequestExecutorType {
     let sessionManager = NetworkingSessionManager(configuration: configuration)
-    return RequestExecutor(sessionManager: sessionManager)
+    return RequestExecutor(sessionManager: sessionManager, encoding: Encoding(encodeAsURL: configuration.encodeAsURL))
 }
