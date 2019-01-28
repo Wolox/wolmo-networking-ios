@@ -11,12 +11,12 @@ import Result
 import KeychainSwift
 
 /**
-    Protocol for session manager.
+    Protocol for user manager.
     Includes the functions to handle the different session status changes,
     and properties to get the session properties.
     Also notifies when the session changed.
  */
-public protocol SessionManagerType {
+public protocol UserManagerType {
     
     /**
         Bootstraps the session manager.
@@ -105,12 +105,11 @@ public protocol SessionManagerType {
 }
 
 /**
-    Default SessionManager responsible for handling the session in the application.
+    Default UserManager responsible for handling the session in the application.
     It uses Keychain to store securely the session token in local storage, and a repository
     to fetch the user when it's bootstrapped.
  */
-final public class SessionManager: SessionManagerType {
-
+final public class UserManager: UserManagerType {
     fileprivate let _keychainService: KeychainServiceType
     fileprivate var _currentUserFetcher: CurrentUserFetcherType?
     
@@ -146,7 +145,7 @@ final public class SessionManager: SessionManagerType {
     
 }
 
-public extension SessionManager {
+public extension UserManager {
     
     var sessionToken: String? {
         return _sessionToken.value
@@ -166,7 +165,7 @@ public extension SessionManager {
     
 }
 
-public extension SessionManager {
+public extension UserManager {
     
     public func login(user: AuthenticableUser) {
         guard !isLoggedIn else {
@@ -200,7 +199,7 @@ public extension SessionManager {
     
 }
 
-private extension SessionManager {
+private extension UserManager {
     
     func clearSession() {
         _sessionToken.value = .none
@@ -223,20 +222,20 @@ private extension SessionManager {
     
 }
 
-private extension SessionManager {
+private extension UserManager {
     
     private static let CurrentSessionTokenPersistanceKey = "com.wolox.wolmo-networking.CurrentSessionToken"
     
     func getSessionToken() -> String? {
-        return _keychainService.get(key: SessionManager.CurrentSessionTokenPersistanceKey)
+        return _keychainService.get(key: UserManager.CurrentSessionTokenPersistanceKey)
     }
     
     func saveSessionToken(sessionToken: String) {
-        _keychainService.set(value: sessionToken, forKey: SessionManager.CurrentSessionTokenPersistanceKey)
+        _keychainService.set(value: sessionToken, forKey: UserManager.CurrentSessionTokenPersistanceKey)
     }
     
     func clearSessionToken() {
-        _keychainService.delete(key: SessionManager.CurrentSessionTokenPersistanceKey)
+        _keychainService.delete(key: UserManager.CurrentSessionTokenPersistanceKey)
     }
     
 }

@@ -8,13 +8,8 @@
 
 import Foundation
 
-/**
-    Represents a connection scheme
- */
 private enum CommunicationProtocol: String {
-    
     case http, https
-    
 }
 
 /**

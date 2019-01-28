@@ -13,7 +13,7 @@ import AlamofireNetworkActivityLogger
 
 class NetworkingDemoLauncher {
     
-    fileprivate let _sessionManager = SessionManager()
+    fileprivate let _userManager = UserManager()
     
     func launch() {
         enableAlamofireNetworkActivityLogger()
@@ -39,25 +39,20 @@ private extension NetworkingDemoLauncher {
     
     func authenticateFakeUser() {
         let fakeUser = UserDemo(sessionToken: NetworkingDemoLauncher.sessionToken, id: 1)
-        _sessionManager.login(user: fakeUser)
+        _userManager.login(user: fakeUser)
     }
     
     func injectCurrentUserFetcher() {
-        let currentUserFetcher = CurrentUserFetcher(
-            networkingConfiguration: networkingConfiguration,
-            sessionManager: _sessionManager)
-        
-        _sessionManager.setCurrentUserFetcher(currentUserFetcher: currentUserFetcher)
+        let currentUserFetcher = CurrentUserFetcher(configuration: networkingConfiguration)
+        _userManager.setCurrentUserFetcher(currentUserFetcher: currentUserFetcher)
     }
     
     func bootstrapSessionManager() {
-        _sessionManager.bootstrap()
+        _userManager.bootstrap()
     }
     
     func createRepositoryAndPerformRequests() {
-        let repository = DemoRepository(
-            networkingConfiguration: networkingConfiguration,
-            sessionManager: _sessionManager)
+        let repository = DemoRepository(configuration: networkingConfiguration, defaultHeaders: ["Authorization": _userManager.sessionToken ?? ""])
         
         repository.fetchEntities().startWithResult {
             switch $0 {
@@ -66,7 +61,7 @@ private extension NetworkingDemoLauncher {
             }
         }
         
-        let user = _sessionManager.currentUser as! UserDemo //swiftlint:disable:this force_cast
+        let user = _userManager.currentUser as! UserDemo //swiftlint:disable:this force_cast
         repository.noAnswerEntities(userID: user.id).startWithResult {
             switch $0 {
             case .success: print("success")

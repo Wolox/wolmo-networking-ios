@@ -25,13 +25,7 @@ public typealias HTTPResponseProducer = SignalProducer<(URLRequest, HTTPURLRespo
     request headers returns a response of type HTTPResponseProducer.
  */
 public protocol RequestExecutorType {
-    
-    func perform(
-        method: NetworkingMethod,
-        url: URL,
-        parameters: [String: Any]?,
-        headers: [String: String]?) -> HTTPResponseProducer
-    
+    func perform(method: NetworkingMethod, url: URL, parameters: [String: Any]?, headers: [String: String]?) -> HTTPResponseProducer
 }
 
 /**
@@ -41,24 +35,15 @@ public protocol RequestExecutorType {
     otherwise fails, and returns the response.
  */
 internal final class RequestExecutor: RequestExecutorType {
-    
     private let _sessionManager: Alamofire.SessionManager
     
     internal init(sessionManager: Alamofire.SessionManager) {
         _sessionManager = sessionManager
     }
     
-    func perform(
-        method: NetworkingMethod,
-        url: URL,
-        parameters: [String: Any]? = .none,
-        headers: [String: String]? = .none) -> HTTPResponseProducer {
-            return _sessionManager
-                .request(url,
-                         method: method.toHTTPMethod(),
-                         parameters: parameters,
-                         encoding: Encoding(),
-                         headers: headers)
+    func perform(method: NetworkingMethod, url: URL, parameters: [String: Any]? = .none, headers: [String: String]? = .none) -> HTTPResponseProducer {
+        return _sessionManager
+                .request(url, method: method.toHTTPMethod(), parameters: parameters, encoding: Encoding(), headers: headers)
                 .validate()
                 .response()
     }
@@ -66,11 +51,10 @@ internal final class RequestExecutor: RequestExecutorType {
 }
 
 struct Encoding: Alamofire.ParameterEncoding {
-    
     let url: URLEncoding
     let json: JSONEncoding
     
-    init(urlEncoding: URLEncoding = URLEncoding.default, jsonEncoding: JSONEncoding = JSONEncoding.default) {
+    init(urlEncoding: URLEncoding = .default, jsonEncoding: JSONEncoding = .default) {
         self.url = urlEncoding
         self.json = jsonEncoding
     }
@@ -87,7 +71,7 @@ struct Encoding: Alamofire.ParameterEncoding {
     
 }
 
-internal func defaultRequestExecutor(networkingConfiguration: NetworkingConfiguration) -> RequestExecutorType {
-    let sessionManager = NetworkingSessionManager(networkingConfiguration: networkingConfiguration)
+internal func defaultRequestExecutor(configuration: NetworkingConfiguration) -> RequestExecutorType {
+    let sessionManager = NetworkingSessionManager(configuration: configuration)
     return RequestExecutor(sessionManager: sessionManager)
 }

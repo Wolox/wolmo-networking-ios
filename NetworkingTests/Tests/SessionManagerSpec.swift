@@ -19,18 +19,18 @@ internal class SessionManagerSpec: QuickSpec {
     override func spec() {
         
         var keychainService: KeychainServiceType!
-        var sessionManager: SessionManagerType!
+        var sessionManager: UserManagerType!
         
         func initializeSessionManager() {
             keychainService = KeychainServiceMock()
-            sessionManager = SessionManager(keychainService: keychainService)
+            sessionManager = UserManager(keychainService: keychainService)
         }
         
         func initializeAuthenticatedSessionManager() {
             keychainService = KeychainServiceMock()
             keychainService.set(value: UserMock().sessionToken!,
                                 forKey: SessionManagerSpec.CurrentSessionTokenPersistanceKey)
-            sessionManager = SessionManager(keychainService: keychainService)
+            sessionManager = UserManager(keychainService: keychainService)
         }
         
         describe("#isLoggedIn") {

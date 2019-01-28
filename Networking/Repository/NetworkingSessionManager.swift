@@ -15,12 +15,12 @@ import Alamofire
  */
 internal final class NetworkingSessionManager: Alamofire.SessionManager {
     
-    internal init(networkingConfiguration: NetworkingConfiguration) {
+    internal init(configuration: NetworkingConfiguration) {
         var trustPolicyManager: ServerTrustPolicyManager?
-        if networkingConfiguration.usePinningCertificate {
-            trustPolicyManager = serverTrustPolicyManager(domainURL: networkingConfiguration.domainURL)
+        if configuration.usePinningCertificate {
+            trustPolicyManager = serverTrustPolicyManager(domainURL: configuration.domainURL)
         }
-        super.init(configuration: defaultSessionConfiguration(networkingConfiguration), serverTrustPolicyManager: trustPolicyManager)
+        super.init(configuration: defaultSessionConfiguration(configuration), serverTrustPolicyManager: trustPolicyManager)
     }
     
 }

@@ -10,9 +10,9 @@ import ReactiveSwift
 
 /**
     Protocol to be implemented by a repository intended to fetch the current user
-    by the session manager.
+    by the user manager.
     Remember in case this protocol is implemented, it must be injected to the
-    `SessionManagerType` instance by the setter `setCurrentUserFetcher:`.
+    `UserManagerType` instance by the setter `setCurrentUserFetcher:`.
  */
 public protocol CurrentUserFetcherType {
 

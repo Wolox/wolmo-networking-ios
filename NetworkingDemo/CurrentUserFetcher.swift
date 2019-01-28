@@ -12,7 +12,6 @@ import Argo
 import Result
 
 internal class CurrentUserFetcher: AbstractRepository, CurrentUserFetcherType {
-    
     private static let UserPath = "users"
     private static let CurrentUserPath = "me"
     

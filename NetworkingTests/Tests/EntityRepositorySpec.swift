@@ -14,11 +14,11 @@ internal class EntityRepositorySpec: QuickSpec {
     
     override func spec() {
         
-        var sessionManager: SessionManagerType!
+        var sessionManager: UserManagerType!
         var repository: EntityRepositoryType!
         
         beforeEach() {
-            sessionManager = SessionManagerMock()
+            sessionManager = UserManagerMock()
             sessionManager.login(user: UserMock())
             
             var networkingConfiguration = NetworkingConfiguration()
@@ -29,14 +29,12 @@ internal class EntityRepositorySpec: QuickSpec {
             networkingConfiguration.subdomainURL = "/local-path-1.0"
             networkingConfiguration.usePinningCertificate = false
             
-            repository = EntityRepository(networkingConfiguration: networkingConfiguration,
-                                          requestExecutor: LocalRequestExecutor(),
-                                          sessionManager: sessionManager)
+            repository = EntityRepository(configuration: networkingConfiguration,
+                                          executor: LocalRequestExecutor(),
+                                          defaultHeaders: ["Authorization": sessionManager.sessionToken ?? ""])
         }
         
         describe("#fetchEntity") {
-            
-            context("when session is valid") {
                 
                 it("fetches a single entity from JSON file") { waitUntil { done in
                     repository.fetchEntity().startWithResult {
@@ -46,29 +44,6 @@ internal class EntityRepositorySpec: QuickSpec {
                         }
                     }
                 }}
-                
-            }
-            
-            context("when session is not valid", {
-                
-                beforeEach {
-                    sessionManager.expire()
-                }
-                
-                it("fetches a single entity from JSON file") { waitUntil { done in
-                    repository.fetchEntity().startWithResult {
-                        switch $0 {
-                        case .success: fail()
-                        case .failure(let error):
-                            switch error {
-                            case .unauthenticatedSession: done()
-                            default: fail()
-                            }
-                        }
-                    }
-                }}
-                
-            })
             
         }
         

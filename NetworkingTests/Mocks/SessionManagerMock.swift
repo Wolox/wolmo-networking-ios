@@ -10,7 +10,7 @@ import ReactiveSwift
 import Result
 import Networking
 
-internal class SessionManagerMock: SessionManagerType {
+internal class UserManagerMock: UserManagerType {
     
     var sessionSignal: Signal<Bool, NoError>
     var userSignal: Signal<AuthenticableUser?, NoError>

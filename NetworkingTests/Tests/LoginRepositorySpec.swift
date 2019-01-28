@@ -25,9 +25,8 @@ internal class LoginRepositorySpec: QuickSpec {
             networkingConfiguration.subdomainURL = "/local-path-1.0"
             networkingConfiguration.usePinningCertificate = false
             
-            repository = LoginRepository(networkingConfiguration: networkingConfiguration,
-                                         requestExecutor: LocalRequestExecutor(),
-                                         sessionManager: SessionManagerMock())
+            repository = LoginRepository(configuration: networkingConfiguration,
+                                         executor: LocalRequestExecutor())
         }
         
         describe("#login") {

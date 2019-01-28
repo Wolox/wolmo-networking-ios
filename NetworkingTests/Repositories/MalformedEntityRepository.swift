@@ -20,12 +20,10 @@ internal protocol MalformedEntityRepositoryType {
 
 internal class MalformedEntityRepository: AbstractRepository, MalformedEntityRepositoryType {
     
-    internal init(networkingConfiguration: NetworkingConfiguration,
-                  requestExecutor: RequestExecutorType,
-                  sessionManager: SessionManagerType) {
-        super.init(networkingConfiguration: networkingConfiguration,
-                   requestExecutor: requestExecutor,
-                   sessionManager: sessionManager,
+    internal init(configuration: NetworkingConfiguration,
+                  executor: RequestExecutorType) {
+        super.init(configuration: configuration,
+                   executor: executor,
                    defaultHeaders: ["Content-Type": "application/json", "Accept": "application/json"])
     }
     
