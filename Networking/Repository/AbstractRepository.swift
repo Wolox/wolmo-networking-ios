@@ -36,23 +36,43 @@ open class AbstractRepository {
 
 extension AbstractRepository: RepositoryType {
     private static let RetryStatusCode = 202
+    internal static let ArrayEncodingParametersKey = "EncodedArray"
     
-    public func performRequest<T>(method: NetworkingMethod, path: String, parameters: [String: Any]? = .none, headers: [String: String]? = .none,
+    public func performRequest<T>(method: NetworkingMethod, path: String, parameters: [String: Any]? = .none,
+                                  headers: [String: String]? = .none, encodeAs: ParameterEncoding? = .none,
                                   decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError> {
-        return perform(method: method, path: path, parameters: parameters, headers: headers)
+        return perform(method: method, path: path, parameters: parameters, headers: headers, encodeAs: encodeAs)
             .flatMap(.concat) { _, _, data in
                 self.deserializeData(data: data, decoder: decoder)
             }
     }
     
-    public func performPollingRequest<T>(method: NetworkingMethod, path: String, parameters: [String: Any]? = .none, headers: [String: String]? = .none,
+    public func performRequest<T>(method: NetworkingMethod, path: String, parameters: [Any],
+                                  headers: [String: String]? = .none, encodeAs: ParameterEncoding? = .none,
+                                  decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError> {
+        return performRequest(method: method, path: path, parameters: parameters.asParameters(), headers: headers, encodeAs: ArrayEncoding(), decoder: decoder)
+    }
+    
+    public func performPollingRequest<T>(method: NetworkingMethod, path: String, parameters: [String: Any]? = .none,
+                                         headers: [String: String]? = .none, encodeAs: ParameterEncoding? = .none,
                                          decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError> {
-        return tryPollingRequest(method: method, path: path, tryNumber: 0, decoder: decoder)
+        return tryPollingRequest(method: method, path: path, tryNumber: 0, parameters: parameters, headers: headers, encodeAs: encodeAs, decoder: decoder)
+    }
+    
+    public func performPollingRequest<T>(method: NetworkingMethod, path: String, parameters: [Any],
+                                         headers: [String: String]? = .none, encodeAs: ParameterEncoding? = .none,
+                                         decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError> {
+        return performPollingRequest(method: method, path: path, parameters: parameters.asParameters(), headers: headers, encodeAs: ArrayEncoding(), decoder: decoder)
     }
     
     public func performRequest(method: NetworkingMethod, path: String, parameters: [String: Any]? = .none,
-                               headers: [String: String]? = .none) -> SignalProducer<RawDataResponse, RepositoryError> {
-        return perform(method: method, path: path, parameters: parameters, headers: headers)
+                               headers: [String: String]? = .none, encodeAs: ParameterEncoding? = .none) -> SignalProducer<RawDataResponse, RepositoryError> {
+        return perform(method: method, path: path, parameters: parameters, headers: headers, encodeAs: encodeAs)
+    }
+    
+    public func performRequest(method: NetworkingMethod, path: String, parameters: [Any],
+                               headers: [String: String]? = .none, encodeAs: ParameterEncoding? = .none) -> SignalProducer<RawDataResponse, RepositoryError> {
+        return performRequest(method: method, path: path, parameters: parameters.asParameters(), headers: headers, encodeAs: ArrayEncoding())
     }
     
 }
@@ -88,8 +108,8 @@ private extension AbstractRepository {
     }
     
     func tryPollingRequest<T>(method: NetworkingMethod, path: String, tryNumber: Int = 0, parameters: [String: Any]? = .none,
-                              headers: [String: String]? = .none, decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError> {
-        return perform(method: method, path: path, parameters: parameters, headers: headers)
+                              headers: [String: String]? = .none, encodeAs: ParameterEncoding? = .none, decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError> {
+        return perform(method: method, path: path, parameters: parameters, headers: headers, encodeAs: encodeAs)
             .flatMap(.concat) { _, response, data -> SignalProducer<T, RepositoryError> in
                 if response.statusCode != AbstractRepository.RetryStatusCode {
                     return self.deserializeData(data: data, decoder: decoder)
@@ -101,19 +121,19 @@ private extension AbstractRepository {
                 
                 let newTryNumber = tryNumber + 1
                 return self.tryPollingRequest(method: method, path: path, tryNumber: newTryNumber, parameters: parameters,
-                                              headers: headers, decoder: decoder)
+                                              headers: headers, encodeAs: encodeAs, decoder: decoder)
                     .start(on: DelayedScheduler(delay: self._configuration.secondsBetweenPolls))
         }
     }
     
     func perform(method: NetworkingMethod, path: String, parameters: [String: Any]? = .none,
-                 headers: [String: String]? = .none, encoding: Encoding? = .none) -> SignalProducer<RawDataResponse, RepositoryError> {
+                 headers: [String: String]? = .none, encodeAs: ParameterEncoding? = .none) -> SignalProducer<RawDataResponse, RepositoryError> {
         
         guard let url = buildURL(path: path) else { return SignalProducer(error: .invalidURL) }
         
         let newHeaders = (headers ?? [:]).appending(contentsOf: _defaultHeaders)
         
-        return _executor.perform(method: method, url: url, parameters: parameters, headers: newHeaders, encoding: encoding)
+        return _executor.perform(method: method, url: url, parameters: parameters, headers: newHeaders, encodeAs: encodeAs)
             .flatMapError { [unowned self] in
                 self.mapError(error: $0)
             }
@@ -179,4 +199,13 @@ private extension Dictionary {
         }
     }
     
+}
+
+/**
+    Extension to make an encodable dictionary out of an array
+ */
+private extension Array {
+    func asParameters() -> [String: Any] {
+        return [AbstractRepository.ArrayEncodingParametersKey: self]
+    }
 }
