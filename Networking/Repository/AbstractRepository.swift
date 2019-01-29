@@ -48,8 +48,7 @@ extension AbstractRepository: RepositoryType {
     }
     
     public func performRequest<T>(method: NetworkingMethod, path: String, parameters: [Any],
-                                  headers: [String: String]? = .none, encodeAs: ParameterEncoding? = .none,
-                                  decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError> {
+                                  headers: [String: String]? = .none, decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError> {
         return performRequest(method: method, path: path, parameters: parameters.asParameters(), headers: headers, encodeAs: ArrayEncoding(), decoder: decoder)
     }
     
@@ -60,8 +59,7 @@ extension AbstractRepository: RepositoryType {
     }
     
     public func performPollingRequest<T>(method: NetworkingMethod, path: String, parameters: [Any],
-                                         headers: [String: String]? = .none, encodeAs: ParameterEncoding? = .none,
-                                         decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError> {
+                                         headers: [String: String]? = .none, decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError> {
         return performPollingRequest(method: method, path: path, parameters: parameters.asParameters(), headers: headers, encodeAs: ArrayEncoding(), decoder: decoder)
     }
     
@@ -71,7 +69,7 @@ extension AbstractRepository: RepositoryType {
     }
     
     public func performRequest(method: NetworkingMethod, path: String, parameters: [Any],
-                               headers: [String: String]? = .none, encodeAs: ParameterEncoding? = .none) -> SignalProducer<RawDataResponse, RepositoryError> {
+                               headers: [String: String]? = .none) -> SignalProducer<RawDataResponse, RepositoryError> {
         return performRequest(method: method, path: path, parameters: parameters.asParameters(), headers: headers, encodeAs: ArrayEncoding())
     }
     
