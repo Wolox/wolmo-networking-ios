@@ -12,25 +12,25 @@ import ReactiveSwift
 import Result
 @testable import Networking
 
-internal class SessionManagerSpec: QuickSpec {
+internal class UserManagerSpec: QuickSpec {
     
     private static let CurrentSessionTokenPersistanceKey = "com.wolox.wolmo-networking.CurrentSessionToken"
     
     override func spec() {
         
         var keychainService: KeychainServiceType!
-        var sessionManager: UserManagerType!
+        var userManager: UserManagerType!
         
         func initializeSessionManager() {
             keychainService = KeychainServiceMock()
-            sessionManager = UserManager(keychainService: keychainService)
+            userManager = UserManager(keychainService: keychainService)
         }
         
         func initializeAuthenticatedSessionManager() {
             keychainService = KeychainServiceMock()
             keychainService.set(value: UserMock().sessionToken!,
-                                forKey: SessionManagerSpec.CurrentSessionTokenPersistanceKey)
-            sessionManager = UserManager(keychainService: keychainService)
+                                forKey: UserManagerSpec.CurrentSessionTokenPersistanceKey)
+            userManager = UserManager(keychainService: keychainService)
         }
         
         describe("#isLoggedIn") {
@@ -39,11 +39,11 @@ internal class SessionManagerSpec: QuickSpec {
                 
                 beforeEach {
                     initializeSessionManager()
-                    sessionManager.bootstrap()
+                    userManager.bootstrap()
                 }
                 
                 it("returns there is no session") {
-                    expect(sessionManager.isLoggedIn).to(beFalse())
+                    expect(userManager.isLoggedIn).to(beFalse())
                 }
                 
             }
@@ -52,11 +52,11 @@ internal class SessionManagerSpec: QuickSpec {
                 
                 beforeEach {
                     initializeAuthenticatedSessionManager()
-                    sessionManager.bootstrap()
+                    userManager.bootstrap()
                 }
                 
                 it("returns there is a session") {
-                    expect(sessionManager.isLoggedIn).to(beTrue())
+                    expect(userManager.isLoggedIn).to(beTrue())
                 }
                 
             }
@@ -69,11 +69,11 @@ internal class SessionManagerSpec: QuickSpec {
                 
                 beforeEach {
                     initializeSessionManager()
-                    sessionManager.bootstrap()
+                    userManager.bootstrap()
                 }
                 
                 it("returns none") {
-                    expect(sessionManager.sessionToken).to(beNil())
+                    expect(userManager.sessionToken).to(beNil())
                 }
                 
             }
@@ -82,11 +82,11 @@ internal class SessionManagerSpec: QuickSpec {
                 
                 beforeEach {
                     initializeAuthenticatedSessionManager()
-                    sessionManager.bootstrap()
+                    userManager.bootstrap()
                 }
                 
                 it("returns stored session token") {
-                    expect(sessionManager.sessionToken).to(equal(UserMock().sessionToken))
+                    expect(userManager.sessionToken).to(equal(UserMock().sessionToken))
                 }
                 
             }
@@ -99,11 +99,11 @@ internal class SessionManagerSpec: QuickSpec {
                 
                 beforeEach {
                     initializeSessionManager()
-                    sessionManager.bootstrap()
+                    userManager.bootstrap()
                 }
                 
                 it("returns none") {
-                    expect(sessionManager.currentUser).to(beNil())
+                    expect(userManager.currentUser).to(beNil())
                 }
                 
             }
@@ -112,11 +112,11 @@ internal class SessionManagerSpec: QuickSpec {
                 
                 beforeEach {
                     initializeAuthenticatedSessionManager()
-                    sessionManager.bootstrap()
+                    userManager.bootstrap()
                 }
                 
                 it("returns none") {
-                    expect(sessionManager.currentUser).to(beNil())
+                    expect(userManager.currentUser).to(beNil())
                 }
                 
             }
@@ -125,12 +125,12 @@ internal class SessionManagerSpec: QuickSpec {
                 
                 beforeEach {
                     initializeAuthenticatedSessionManager()
-                    sessionManager.setCurrentUserFetcher(currentUserFetcher: CurrentUserFetcherMock())
-                    sessionManager.bootstrap()
+                    userManager.setCurrentUserFetcher(currentUserFetcher: CurrentUserFetcherMock())
+                    userManager.bootstrap()
                 }
                 
                 it("returns the fetched current user") {
-                    expect(sessionManager.currentUser!.sessionToken).to(equal(UserMock().sessionToken))
+                    expect(userManager.currentUser!.sessionToken).to(equal(UserMock().sessionToken))
                 }
                 
             }
@@ -146,8 +146,8 @@ internal class SessionManagerSpec: QuickSpec {
                 }
                 
                 it("sends false in session signal") { waitUntil { done in
-                    sessionManager.sessionSignal.successOnFalse { done() }
-                    sessionManager.bootstrap()
+                    userManager.sessionSignal.successOnFalse { done() }
+                    userManager.bootstrap()
                 }}
                 
             }
@@ -159,8 +159,8 @@ internal class SessionManagerSpec: QuickSpec {
                 }
                 
                 it("sends true in session signal") { waitUntil { done in
-                    sessionManager.sessionSignal.successOnTrue { done() }
-                    sessionManager.bootstrap()
+                    userManager.sessionSignal.successOnTrue { done() }
+                    userManager.bootstrap()
                 }}
                 
             }
@@ -176,8 +176,8 @@ internal class SessionManagerSpec: QuickSpec {
                 }
                 
                 it("sends none in user signal") { waitUntil { done in
-                    sessionManager.userSignal.successOnNone { done() }
-                    sessionManager.bootstrap()
+                    userManager.userSignal.successOnNone { done() }
+                    userManager.bootstrap()
                 }}
                 
             }
@@ -189,8 +189,8 @@ internal class SessionManagerSpec: QuickSpec {
                 }
                 
                 it("sends none in user signal") { waitUntil { done in
-                    sessionManager.userSignal.successOnNone { done() }
-                    sessionManager.bootstrap()
+                    userManager.userSignal.successOnNone { done() }
+                    userManager.bootstrap()
                 }}
                 
             }
@@ -199,15 +199,15 @@ internal class SessionManagerSpec: QuickSpec {
                 
                 beforeEach {
                     initializeAuthenticatedSessionManager()
-                    sessionManager.setCurrentUserFetcher(currentUserFetcher: CurrentUserFetcherMock())
+                    userManager.setCurrentUserFetcher(currentUserFetcher: CurrentUserFetcherMock())
                 }
                 
                 it("sends the authenticated user in user signal") { waitUntil { done in
-                    sessionManager.userSignal.successOnSome {
+                    userManager.userSignal.successOnSome {
                         expect($0.sessionToken).to(equal(UserMock().sessionToken))
                         done()
                     }
-                    sessionManager.bootstrap()
+                    userManager.bootstrap()
                 }}
                 
             }
@@ -220,11 +220,11 @@ internal class SessionManagerSpec: QuickSpec {
                 
                 beforeEach {
                     initializeAuthenticatedSessionManager()
-                    sessionManager.bootstrap()
+                    userManager.bootstrap()
                 }
                 
                 it("throws an assertion error") {
-                    expect(sessionManager.login(user: UserMock())).to(throwAssertion())
+                    expect(userManager.login(user: UserMock())).to(throwAssertion())
                 }
                 
             }
@@ -233,31 +233,31 @@ internal class SessionManagerSpec: QuickSpec {
                 
                 beforeEach {
                     initializeSessionManager()
-                    sessionManager.bootstrap()
+                    userManager.bootstrap()
                 }
                 
                 it("sends true in session signal") { waitUntil { done in
-                    sessionManager.sessionSignal.successOnTrue { done() }
-                    sessionManager.login(user: UserMock())
+                    userManager.sessionSignal.successOnTrue { done() }
+                    userManager.login(user: UserMock())
                 }}
                 
                 it("sends the authenticated user in user signal") { waitUntil { done in
-                    sessionManager.userSignal.successOnSome {
+                    userManager.userSignal.successOnSome {
                         expect($0.sessionToken).to(equal(UserMock().sessionToken))
                         done()
                     }
                     
-                    sessionManager.login(user: UserMock())
+                    userManager.login(user: UserMock())
                 }}
                 
                 it("returns the session token") {
-                    sessionManager.login(user: UserMock())
-                    expect(sessionManager.currentUser!.sessionToken).to(equal(UserMock().sessionToken))
+                    userManager.login(user: UserMock())
+                    expect(userManager.currentUser!.sessionToken).to(equal(UserMock().sessionToken))
                 }
                 
                 it("returns the current user") {
-                    sessionManager.login(user: UserMock())
-                    expect(sessionManager.sessionToken).to(equal(UserMock().sessionToken))
+                    userManager.login(user: UserMock())
+                    expect(userManager.sessionToken).to(equal(UserMock().sessionToken))
                 }
 
             }
@@ -270,11 +270,11 @@ internal class SessionManagerSpec: QuickSpec {
                 
                 beforeEach {
                     initializeSessionManager()
-                    sessionManager.bootstrap()
+                    userManager.bootstrap()
                 }
                 
                 it("throws an assertion error") {
-                    expect(sessionManager.update(user: UserMock())).to(throwAssertion())
+                    expect(userManager.update(user: UserMock())).to(throwAssertion())
                 }
                 
             }
@@ -285,25 +285,25 @@ internal class SessionManagerSpec: QuickSpec {
                 
                 beforeEach {
                     initializeAuthenticatedSessionManager()
-                    sessionManager.bootstrap()
+                    userManager.bootstrap()
                 }
                 
                 it("sends the updated authenticated user in user signal") { waitUntil { done in
-                    sessionManager.userSignal.successOnSome {
+                    userManager.userSignal.successOnSome {
                         expect($0.sessionToken).to(equal(updatedSessionToken))
                         done()
                     }
                     
                     var updatedUser = UserMock()
                     updatedUser.sessionToken = updatedSessionToken
-                    sessionManager.update(user: updatedUser)
+                    userManager.update(user: updatedUser)
                 }}
                 
                 it("updates the current user") {
                     var updatedUser = UserMock()
                     updatedUser.sessionToken = updatedSessionToken
-                    sessionManager.update(user: updatedUser)
-                    expect(sessionManager.currentUser!.sessionToken).to(equal(updatedSessionToken))
+                    userManager.update(user: updatedUser)
+                    expect(userManager.currentUser!.sessionToken).to(equal(updatedSessionToken))
                 }
                 
             }
@@ -316,11 +316,11 @@ internal class SessionManagerSpec: QuickSpec {
                 
                 beforeEach {
                     initializeSessionManager()
-                    sessionManager.bootstrap()
+                    userManager.bootstrap()
                 }
                 
                 it("throws an assertion error") {
-                    expect(sessionManager.logout()).to(throwAssertion())
+                    expect(userManager.logout()).to(throwAssertion())
                 }
                 
             }
@@ -329,27 +329,27 @@ internal class SessionManagerSpec: QuickSpec {
                 
                 beforeEach {
                     initializeAuthenticatedSessionManager()
-                    sessionManager.bootstrap()
+                    userManager.bootstrap()
                 }
                 
                 it("sends false in session signal") { waitUntil { done in
-                    sessionManager.sessionSignal.successOnFalse { done() }
-                    sessionManager.logout()
+                    userManager.sessionSignal.successOnFalse { done() }
+                    userManager.logout()
                 }}
                 
                 it("sends none in user signal") { waitUntil { done in
-                    sessionManager.userSignal.successOnNone { done() }
-                    sessionManager.logout()
+                    userManager.userSignal.successOnNone { done() }
+                    userManager.logout()
                 }}
                 
                 it("clears the current user") {
-                    sessionManager.logout()
-                    expect(sessionManager.currentUser).to(beNil())
+                    userManager.logout()
+                    expect(userManager.currentUser).to(beNil())
                 }
                 
                 it("clears the session token") {
-                    sessionManager.logout()
-                    expect(sessionManager.sessionToken).to(beNil())
+                    userManager.logout()
+                    expect(userManager.sessionToken).to(beNil())
                 }
                 
             }
@@ -362,11 +362,11 @@ internal class SessionManagerSpec: QuickSpec {
                 
                 beforeEach {
                     initializeSessionManager()
-                    sessionManager.bootstrap()
+                    userManager.bootstrap()
                 }
                 
                 it("throws an assertion error") {
-                    expect(sessionManager.expire()).to(throwAssertion())
+                    expect(userManager.expire()).to(throwAssertion())
                 }
                 
             }
@@ -375,27 +375,27 @@ internal class SessionManagerSpec: QuickSpec {
                 
                 beforeEach {
                     initializeAuthenticatedSessionManager()
-                    sessionManager.bootstrap()
+                    userManager.bootstrap()
                 }
                 
                 it("sends false in session signal") { waitUntil { done in
-                    sessionManager.sessionSignal.successOnFalse { done() }
-                    sessionManager.expire()
+                    userManager.sessionSignal.successOnFalse { done() }
+                    userManager.expire()
                 }}
                 
                 it("sends none in user signal") { waitUntil { done in
-                    sessionManager.userSignal.successOnNone { done() }
-                    sessionManager.expire()
+                    userManager.userSignal.successOnNone { done() }
+                    userManager.expire()
                 }}
                 
                 it("clears the current user") {
-                    sessionManager.expire()
-                    expect(sessionManager.currentUser).to(beNil())
+                    userManager.expire()
+                    expect(userManager.currentUser).to(beNil())
                 }
                 
                 it("clears the session token") {
-                    sessionManager.expire()
-                    expect(sessionManager.sessionToken).to(beNil())
+                    userManager.expire()
+                    expect(userManager.sessionToken).to(beNil())
                 }
                 
             }

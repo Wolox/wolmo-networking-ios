@@ -25,7 +25,7 @@ public typealias HTTPResponseProducer = SignalProducer<(URLRequest, HTTPURLRespo
     request headers returns a response of type HTTPResponseProducer.
  */
 public protocol RequestExecutorType {
-    func perform(method: NetworkingMethod, url: URL, parameters: [String: Any]?, headers: [String: String]?) -> HTTPResponseProducer
+    func perform(method: NetworkingMethod, url: URL, parameters: [String: Any]?, headers: [String: String]?, encoding: Encoding?) -> HTTPResponseProducer
 }
 
 /**
@@ -43,16 +43,17 @@ internal final class RequestExecutor: RequestExecutorType {
         _encoding = encoding
     }
     
-    func perform(method: NetworkingMethod, url: URL, parameters: [String: Any]? = .none, headers: [String: String]? = .none) -> HTTPResponseProducer {
+    func perform(method: NetworkingMethod, url: URL, parameters: [String: Any]? = .none,
+                 headers: [String: String]? = .none, encoding: Encoding? = .none) -> HTTPResponseProducer {
         return _sessionManager
-                .request(url, method: method.toHTTPMethod(), parameters: parameters, encoding: _encoding, headers: headers)
+                .request(url, method: method.toHTTPMethod(), parameters: parameters, encoding: encoding ?? _encoding, headers: headers)
                 .validate()
                 .response()
     }
     
 }
 
-struct Encoding: Alamofire.ParameterEncoding {
+public struct Encoding: Alamofire.ParameterEncoding {
     let url: URLEncoding
     let json: JSONEncoding
     let encodeAsURL: [HTTPMethod]
@@ -63,7 +64,7 @@ struct Encoding: Alamofire.ParameterEncoding {
         self.encodeAsURL = encodeAsURL
     }
     
-    func encode(_ urlRequest: URLRequestConvertible, with parameters: Parameters?) throws -> URLRequest {
+    public func encode(_ urlRequest: URLRequestConvertible, with parameters: Parameters?) throws -> URLRequest {
         let method = urlRequest.urlRequest?.httpMethod.flatMap { HTTPMethod(rawValue: $0) } ?? .get
         
         if encodeAsURL.contains(method) {
