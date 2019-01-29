@@ -30,7 +30,8 @@ internal class MalformedEntityRepositorySpec: QuickSpec {
             networkingConfiguration.usePinningCertificate = false
             
             repository = MalformedEntityRepository(configuration: networkingConfiguration,
-                                                   executor: LocalRequestExecutor())
+                                                   executor: LocalRequestExecutor(),
+                                                   authToken: sessionManager.sessionToken!)
         }
         
         describe("#fetchMalformedEntity") {

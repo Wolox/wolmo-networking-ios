@@ -21,10 +21,11 @@ internal protocol MalformedEntityRepositoryType {
 internal class MalformedEntityRepository: AbstractRepository, MalformedEntityRepositoryType {
     
     internal init(configuration: NetworkingConfiguration,
-                  executor: RequestExecutorType) {
+                  executor: RequestExecutorType,
+                  authToken: String) {
         super.init(configuration: configuration,
                    executor: executor,
-                   defaultHeaders: ["Content-Type": "application/json", "Accept": "application/json"])
+                   defaultHeaders: ["Content-Type": "application/json", "Accept": "application/json", "Authorization": authToken])
     }
     
     func fetchMalformedEntity() -> SignalProducer<Entity, RepositoryError> {
