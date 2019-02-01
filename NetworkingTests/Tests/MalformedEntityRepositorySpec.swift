@@ -13,14 +13,9 @@ import Networking
 internal class MalformedEntityRepositorySpec: QuickSpec {
     
     override func spec() {
-        
-        var sessionManager: UserManagerType!
         var repository: MalformedEntityRepositoryType!
         
         beforeEach() {
-            sessionManager = UserManagerMock()
-            sessionManager.login(user: UserMock())
-            
             var networkingConfiguration = NetworkingConfiguration()
             
             networkingConfiguration.useSecureConnection = true
@@ -31,7 +26,7 @@ internal class MalformedEntityRepositorySpec: QuickSpec {
             
             repository = MalformedEntityRepository(configuration: networkingConfiguration,
                                                    executor: LocalRequestExecutor(),
-                                                   authToken: sessionManager.sessionToken!)
+                                                   authToken: "token")
         }
         
         describe("#fetchMalformedEntity") {

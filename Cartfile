@@ -4,4 +4,3 @@ github "thoughtbot/Curry" ~> 3.0.0
 github "Alamofire/Alamofire" ~> 4.5.1
 github "Alamofire/AlamofireNetworkActivityIndicator" ~> 2.2.0
 github "konkab/AlamofireNetworkActivityLogger" "master"
-github "marketplacer/keychain-swift" ~> 10.0.0

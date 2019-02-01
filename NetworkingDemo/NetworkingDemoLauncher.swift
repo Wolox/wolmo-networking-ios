@@ -12,15 +12,16 @@ import AlamofireNetworkActivityIndicator
 import AlamofireNetworkActivityLogger
 
 class NetworkingDemoLauncher {
+    // Provide a valid session token for the demo app to work properly.
+    static let sessionToken = ""
     
-    fileprivate let _userManager = UserManager()
+    private let _fakeUser = UserDemo(sessionToken: NetworkingDemoLauncher.sessionToken, id: 1)
     
     func launch() {
-        enableAlamofireNetworkActivityLogger()
-        enableNetworkActivityIndicatorManager()
-        authenticateFakeUser()
-        injectCurrentUserFetcher()
-        bootstrapSessionManager()
+        NetworkActivityLogger.shared.startLogging()
+        NetworkActivityLogger.shared.level = .debug
+        NetworkActivityIndicatorManager.shared.isEnabled = true
+        
         createRepositoryAndPerformRequests()
     }
     
@@ -28,31 +29,8 @@ class NetworkingDemoLauncher {
 
 private extension NetworkingDemoLauncher {
     
-    func enableAlamofireNetworkActivityLogger() {
-        NetworkActivityLogger.shared.startLogging()
-        NetworkActivityLogger.shared.level = .debug
-    }
-    
-    func enableNetworkActivityIndicatorManager() {
-        NetworkActivityIndicatorManager.shared.isEnabled = true
-    }
-    
-    func authenticateFakeUser() {
-        let fakeUser = UserDemo(sessionToken: NetworkingDemoLauncher.sessionToken, id: 1)
-        _userManager.login(user: fakeUser)
-    }
-    
-    func injectCurrentUserFetcher() {
-        let currentUserFetcher = CurrentUserFetcher(configuration: networkingConfiguration)
-        _userManager.setCurrentUserFetcher(currentUserFetcher: currentUserFetcher)
-    }
-    
-    func bootstrapSessionManager() {
-        _userManager.bootstrap()
-    }
-    
     func createRepositoryAndPerformRequests() {
-        let repository = DemoRepository(configuration: networkingConfiguration, defaultHeaders: ["Authorization": _userManager.sessionToken ?? ""])
+        let repository = DemoRepository(configuration: networkingConfiguration, defaultHeaders: ["Authorization": _fakeUser.sessionToken ?? ""])
         
         repository.fetchEntities().startWithResult {
             switch $0 {
@@ -61,8 +39,7 @@ private extension NetworkingDemoLauncher {
             }
         }
         
-        let user = _userManager.currentUser as! UserDemo //swiftlint:disable:this force_cast
-        repository.noAnswerEntities(userID: user.id).startWithResult {
+        repository.noAnswerEntities(userID: _fakeUser.id).startWithResult {
             switch $0 {
             case .success: print("success")
             case .failure(let error):  print("\(error)")
@@ -73,9 +50,6 @@ private extension NetworkingDemoLauncher {
 }
 
 fileprivate extension NetworkingDemoLauncher {
-
-    // Provide a valid session token for the demo app to work properly.
-    static let sessionToken = ""
     
     var networkingConfiguration: NetworkingConfiguration {
         var config = NetworkingConfiguration()

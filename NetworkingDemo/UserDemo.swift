@@ -11,8 +11,7 @@ import Argo
 import Curry
 import Runes
 
-struct UserDemo: AuthenticableUser {
-    
+struct UserDemo {
     let sessionToken: String?
     let id: Int
 }

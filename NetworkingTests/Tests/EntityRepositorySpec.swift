@@ -13,14 +13,9 @@ import Networking
 internal class EntityRepositorySpec: QuickSpec {
     
     override func spec() {
-        
-        var sessionManager: UserManagerType!
         var repository: EntityRepositoryType!
         
         beforeEach() {
-            sessionManager = UserManagerMock()
-            sessionManager.login(user: UserMock())
-            
             var networkingConfiguration = NetworkingConfiguration()
             
             networkingConfiguration.useSecureConnection = true
@@ -31,7 +26,7 @@ internal class EntityRepositorySpec: QuickSpec {
             
             repository = EntityRepository(configuration: networkingConfiguration,
                                           executor: LocalRequestExecutor(),
-                                          defaultHeaders: ["Authorization": sessionManager.sessionToken ?? ""])
+                                          defaultHeaders: ["Authorization": "token"])
         }
         
         describe("#fetchEntity") {
