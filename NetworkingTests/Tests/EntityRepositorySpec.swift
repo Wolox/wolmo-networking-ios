@@ -13,14 +13,9 @@ import Networking
 internal class EntityRepositorySpec: QuickSpec {
     
     override func spec() {
-        
-        var sessionManager: SessionManagerType!
         var repository: EntityRepositoryType!
         
         beforeEach() {
-            sessionManager = SessionManagerMock()
-            sessionManager.login(user: UserMock())
-            
             var networkingConfiguration = NetworkingConfiguration()
             
             networkingConfiguration.useSecureConnection = true
@@ -29,15 +24,14 @@ internal class EntityRepositorySpec: QuickSpec {
             networkingConfiguration.subdomainURL = "/local-path-1.0"
             networkingConfiguration.usePinningCertificate = false
             
-            repository = EntityRepository(networkingConfiguration: networkingConfiguration,
-                                          requestExecutor: LocalRequestExecutor(),
-                                          sessionManager: sessionManager)
+            repository = EntityRepository(configuration: networkingConfiguration,
+                                          executor: LocalRequestExecutor(),
+                                          defaultHeaders: ["Authorization": "token"])
         }
         
         describe("#fetchEntity") {
             
-            context("when session is valid") {
-                
+            context("When not using parameters") {
                 it("fetches a single entity from JSON file") { waitUntil { done in
                     repository.fetchEntity().startWithResult {
                         switch $0 {
@@ -46,29 +40,18 @@ internal class EntityRepositorySpec: QuickSpec {
                         }
                     }
                 }}
-                
             }
             
-            context("when session is not valid", {
-                
-                beforeEach {
-                    sessionManager.expire()
-                }
-                
+            context("When using an array as parameters") {
                 it("fetches a single entity from JSON file") { waitUntil { done in
-                    repository.fetchEntity().startWithResult {
+                    repository.fetchEntityWithArrayParameters().startWithResult {
                         switch $0 {
-                        case .success: fail()
-                        case .failure(let error):
-                            switch error {
-                            case .unauthenticatedSession: done()
-                            default: fail()
-                            }
+                        case .success: done()
+                        case .failure: fail()
                         }
                     }
                 }}
-                
-            })
+            }
             
         }
         

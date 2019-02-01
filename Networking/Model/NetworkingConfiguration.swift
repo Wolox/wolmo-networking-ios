@@ -7,14 +7,10 @@
 //
 
 import Foundation
+import Alamofire
 
-/**
-    Represents a connection scheme
- */
 private enum CommunicationProtocol: String {
-    
     case http, https
-    
 }
 
 /**
@@ -49,6 +45,9 @@ public struct NetworkingConfiguration {
     
     /// Maximum retries until a polling request gives timeout. If it's not set then it will use timeout/secondsBetweenPolls
     public var maximumPollingRetries: Int? = .none
+    
+    /// Methods to be encoded as URL. The remaining methods will be encoded as JSON.
+    public var encodeAsURL: [HTTPMethod] = [ .get, .head, .delete]
     
     /**
          Initializes the networking configuration with default values.

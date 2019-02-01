@@ -22,11 +22,9 @@ public protocol CustomRepositoryErrorType: Error {
 }
 
 public extension CustomRepositoryErrorType where Self: RawRepresentable {
-    
     var name: String {
         return String(describing: rawValue)
     }
-    
 }
 
 /**
@@ -85,11 +83,11 @@ private extension ResponseError {
      */
     func matchCustomError(errors: [Int: CustomRepositoryErrorType]) -> RepositoryError? {
         if let matchingError = errors[statusCode] {
-            return RepositoryError.customError(errorName: matchingError.name, error: matchingError)
+            return .customError(errorName: matchingError.name, error: matchingError)
         }
         for key in errors.keys {
             if let matchingError = errors[key], error.localizedDescription.contains(String(key)) {
-                return RepositoryError.customError(errorName: matchingError.name, error: matchingError)
+                return .customError(errorName: matchingError.name, error: matchingError)
             }
         }
         return .none

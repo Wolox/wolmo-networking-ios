@@ -25,13 +25,7 @@ public typealias HTTPResponseProducer = SignalProducer<(URLRequest, HTTPURLRespo
     request headers returns a response of type HTTPResponseProducer.
  */
 public protocol RequestExecutorType {
-    
-    func perform(
-        method: NetworkingMethod,
-        url: URL,
-        parameters: [String: Any]?,
-        headers: [String: String]?) -> HTTPResponseProducer
-    
+    func perform(method: NetworkingMethod, url: URL, parameters: [String: Any]?, headers: [String: String]?, encodeAs: ParameterEncoding?) -> HTTPResponseProducer
 }
 
 /**
@@ -41,53 +35,69 @@ public protocol RequestExecutorType {
     otherwise fails, and returns the response.
  */
 internal final class RequestExecutor: RequestExecutorType {
-    
     private let _sessionManager: Alamofire.SessionManager
+    private let _encoding: Encoding
     
-    internal init(sessionManager: Alamofire.SessionManager) {
+    internal init(sessionManager: Alamofire.SessionManager, encoding: Encoding) {
         _sessionManager = sessionManager
+        _encoding = encoding
     }
     
-    func perform(
-        method: NetworkingMethod,
-        url: URL,
-        parameters: [String: Any]? = .none,
-        headers: [String: String]? = .none) -> HTTPResponseProducer {
-            return _sessionManager
-                .request(url,
-                         method: method.toHTTPMethod(),
-                         parameters: parameters,
-                         encoding: Encoding(),
-                         headers: headers)
+    func perform(method: NetworkingMethod, url: URL, parameters: [String: Any]? = .none,
+                 headers: [String: String]? = .none, encodeAs: ParameterEncoding? = .none) -> HTTPResponseProducer {
+        return _sessionManager
+                .request(url, method: method.toHTTPMethod(), parameters: parameters, encoding: encodeAs ?? _encoding, headers: headers)
                 .validate()
                 .response()
     }
     
 }
 
-struct Encoding: Alamofire.ParameterEncoding {
-    
+public struct Encoding: Alamofire.ParameterEncoding {
     let url: URLEncoding
     let json: JSONEncoding
+    let encodeAsURL: [HTTPMethod]
     
-    init(urlEncoding: URLEncoding = URLEncoding.default, jsonEncoding: JSONEncoding = JSONEncoding.default) {
+    init(encodeAsURL: [HTTPMethod], urlEncoding: URLEncoding = .default, jsonEncoding: JSONEncoding = .default) {
         self.url = urlEncoding
         self.json = jsonEncoding
+        self.encodeAsURL = encodeAsURL
     }
     
-    func encode(_ urlRequest: URLRequestConvertible, with parameters: Parameters?) throws -> URLRequest {
+    public func encode(_ urlRequest: URLRequestConvertible, with parameters: Parameters?) throws -> URLRequest {
         let method = urlRequest.urlRequest?.httpMethod.flatMap { HTTPMethod(rawValue: $0) } ?? .get
-        switch method {
-        case .get, .head, .delete:
+        
+        if encodeAsURL.contains(method) {
             return try url.encode(urlRequest, with: parameters)
-        default:
+        } else {
             return try json.encode(urlRequest, with: parameters)
         }
     }
     
 }
 
-internal func defaultRequestExecutor(networkingConfiguration: NetworkingConfiguration) -> RequestExecutorType {
-    let sessionManager = NetworkingSessionManager(networkingConfiguration: networkingConfiguration)
-    return RequestExecutor(sessionManager: sessionManager)
+public struct ArrayEncoding: ParameterEncoding {
+    
+    public func encode(_ urlRequest: URLRequestConvertible, with parameters: Parameters?) throws -> URLRequest {
+        var urlRequest = try urlRequest.asURLRequest()
+        
+        guard let parameters = parameters, let array = parameters[AbstractRepository.ArrayEncodingParametersKey] else {
+            return urlRequest
+        }
+            
+        if urlRequest.value(forHTTPHeaderField: "Content-Type") == nil {
+            urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        }
+            
+        urlRequest.httpBody = try JSONSerialization.data(withJSONObject: array)
+        
+        return urlRequest
+    }
+    
+}
+
+
+internal func defaultRequestExecutor(configuration: NetworkingConfiguration) -> RequestExecutorType {
+    let sessionManager = NetworkingSessionManager(configuration: configuration)
+    return RequestExecutor(sessionManager: sessionManager, encoding: Encoding(encodeAsURL: configuration.encodeAsURL))
 }

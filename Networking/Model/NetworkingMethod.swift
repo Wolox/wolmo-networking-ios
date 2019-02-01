@@ -13,9 +13,7 @@ import Alamofire
     A wrapper of Alamofire.HTTPMethod just to avoid coupling.
  */
 public enum NetworkingMethod: String {
-    
     case options, get, head, post, put, patch, delete, trace, connect
-    
 }
 
 internal extension NetworkingMethod {

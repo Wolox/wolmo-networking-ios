@@ -26,6 +26,7 @@ internal protocol EntityRepositoryType {
     func fetchDefaultFailingEntity() -> SignalProducer<Entity, RepositoryError>
     func fetchCustomFailingEntity() -> SignalProducer<Entity, RepositoryError>
     func fetchCustomFailingEntityMishandlingError() -> SignalProducer<Entity, RepositoryError>
+    func fetchEntityWithArrayParameters() -> SignalProducer<Entity, RepositoryError>
     
 }
 
@@ -88,6 +89,13 @@ internal class EntityRepository: AbstractRepository, EntityRepositoryType {
         return performRequest(method: .get, path: "not-found") {
             decode($0).toResult()
         }.mapCustomError(errors: [399: EntityRepositoryError.madeUpError])
+    }
+    
+    func fetchEntityWithArrayParameters() -> SignalProducer<Entity, RepositoryError> {
+        let parameters: [Any] = ["someParam", 1, "other", 25]
+        return performRequest(method: .get, path: "entity", parameters: parameters) {
+            decode($0).toResult()
+        }
     }
     
 }

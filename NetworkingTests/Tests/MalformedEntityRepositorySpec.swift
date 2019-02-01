@@ -13,14 +13,9 @@ import Networking
 internal class MalformedEntityRepositorySpec: QuickSpec {
     
     override func spec() {
-        
-        var sessionManager: SessionManagerType!
         var repository: MalformedEntityRepositoryType!
         
         beforeEach() {
-            sessionManager = SessionManagerMock()
-            sessionManager.login(user: UserMock())
-            
             var networkingConfiguration = NetworkingConfiguration()
             
             networkingConfiguration.useSecureConnection = true
@@ -29,9 +24,9 @@ internal class MalformedEntityRepositorySpec: QuickSpec {
             networkingConfiguration.subdomainURL = "/local-path-1.0"
             networkingConfiguration.usePinningCertificate = false
             
-            repository = MalformedEntityRepository(networkingConfiguration: networkingConfiguration,
-                                                   requestExecutor: LocalRequestExecutor(),
-                                                   sessionManager: sessionManager)
+            repository = MalformedEntityRepository(configuration: networkingConfiguration,
+                                                   executor: LocalRequestExecutor(),
+                                                   authToken: "token")
         }
         
         describe("#fetchMalformedEntity") {

@@ -22,11 +22,9 @@ internal typealias ResponseType = (URLRequest, HTTPURLResponse, Data)
     the body received in the failed response.
  */
 public struct ResponseError: Error {
-    
     public let error: NSError
     public let body: NSDictionary?
     public let statusCode: Int
-    
 }
 
 /**
@@ -55,7 +53,6 @@ internal extension Alamofire.DataRequest {
 }
 
 private extension Alamofire.DataRequest {
-    
     static let NoNetworkConnectionStatusCode = 0 // response is .none in case there is no connection
     
     func handleError(dataResponse: DefaultDataResponse, observer: Signal<ResponseType, ResponseError>.Observer) {

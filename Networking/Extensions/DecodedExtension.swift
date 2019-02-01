@@ -30,7 +30,7 @@ public extension Decoded {
 }
 
 public final class DecodedErrorHandler {
-    
+
     public static var decodedErrorHandler: ((Argo.DecodeError) -> Void) = { _ in }
     
 }

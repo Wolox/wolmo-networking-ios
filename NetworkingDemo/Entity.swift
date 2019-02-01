@@ -11,7 +11,6 @@ import Curry
 import Runes
 
 public struct Entity {
-    
     let id: Int
     let genre: String
 }
