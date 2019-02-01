@@ -35,7 +35,8 @@ internal class EntityRepositorySpec: QuickSpec {
         }
         
         describe("#fetchEntity") {
-                
+            
+            context("When not using parameters") {
                 it("fetches a single entity from JSON file") { waitUntil { done in
                     repository.fetchEntity().startWithResult {
                         switch $0 {
@@ -44,6 +45,18 @@ internal class EntityRepositorySpec: QuickSpec {
                         }
                     }
                 }}
+            }
+            
+            context("When using an array as parameters") {
+                it("fetches a single entity from JSON file") { waitUntil { done in
+                    repository.fetchEntityWithArrayParameters().startWithResult {
+                        switch $0 {
+                        case .success: done()
+                        case .failure: fail()
+                        }
+                    }
+                }}
+            }
             
         }
         

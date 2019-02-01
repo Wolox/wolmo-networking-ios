@@ -7,6 +7,7 @@
 //
 
 import ReactiveSwift
+import Alamofire
 @testable import Networking
 
 internal class LocalRequestExecutor: RequestExecutorType {
@@ -15,7 +16,7 @@ internal class LocalRequestExecutor: RequestExecutorType {
                  url: URL,
                  parameters: [String: Any]? = .none,
                  headers: [String: String]? = .none,
-                 encoding: Encoding? = .none) -> HTTPResponseProducer {
+                 encodeAs: ParameterEncoding? = .none) -> HTTPResponseProducer {
         let path = buildPath(method: method, url: url)
         
         if let filePath = jsonPathForFile(name: path) {
