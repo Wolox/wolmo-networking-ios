@@ -96,7 +96,6 @@ public struct ArrayEncoding: ParameterEncoding {
     
 }
 
-
 internal func defaultRequestExecutor(configuration: NetworkingConfiguration) -> RequestExecutorType {
     let sessionManager = NetworkingSessionManager(configuration: configuration)
     return RequestExecutor(sessionManager: sessionManager, encoding: Encoding(encodeAsURL: configuration.encodeAsURL))

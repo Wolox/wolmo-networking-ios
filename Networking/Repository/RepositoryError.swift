@@ -30,6 +30,7 @@ public extension CustomRepositoryErrorType where Self: RawRepresentable {
 /**
     Possible errors when performing a request.
  */
+// swiftlint:disable identifier_name
 public enum RepositoryError: Error {
     case invalidURL
     case requestError(ResponseError)
