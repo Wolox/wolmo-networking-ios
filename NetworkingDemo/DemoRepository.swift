@@ -15,13 +15,9 @@ internal class DemoRepository: AbstractRepository {
 
     private static let EntitiesPath = "books"
     private static let PageKey = "page"
-    
-    private static let ReadPrefixPath = "users"
-    private static let ReadSuffixPath = "notifications/read_all"
-    
     private static let FirstPage = 1
     
-    public func fetchEntities() -> SignalProducer<[Entity], RepositoryError> {
+    public func fetchEntityPage() -> SignalProducer<EntityPage, RepositoryError> {
         let path = DemoRepository.EntitiesPath
         let parameters = [DemoRepository.PageKey: DemoRepository.FirstPage]
         return performRequest(method: .get, path: path, parameters: parameters) {
@@ -29,9 +25,14 @@ internal class DemoRepository: AbstractRepository {
         }
     }
     
-    public func noAnswerEntities(userID: Int) -> SignalProducer<Void, RepositoryError> {
-        let path = DemoRepository.ReadPrefixPath / String(userID) / DemoRepository.ReadSuffixPath
-        return performRequest(method: .post, path: path) { _ in
+    public func noAnswerEntities() -> SignalProducer<Void, RepositoryError> {
+        let path = DemoRepository.EntitiesPath
+        let parameters = [ "author": "J.R.R Wolox",
+                           "title": "Books Training",
+                           "image": "some_url",
+                           "year": "2019",
+                           "genre": "Technology"]
+        return performRequest(method: .post, path: path, parameters: parameters) { _ in
             Result(value: ())
         }
     }

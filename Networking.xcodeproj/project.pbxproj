@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		B82058D41EF030640002D7D4 /* DecodableExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82058D31EF030640002D7D4 /* DecodableExtension.swift */; };
 		B83388EC21FF7DAA00085E26 /* RepositoryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83388EB21FF7DAA00085E26 /* RepositoryType.swift */; };
+		B8631640220899AC009E1EB9 /* EntityPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B863163F220899AC009E1EB9 /* EntityPage.swift */; };
 		B8CF9A7F1EE880E10063F951 /* EnumEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CF9A7E1EE880E10063F951 /* EnumEntity.swift */; };
 		B8CF9A831EE8884D0063F951 /* EnumEntityState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CF9A821EE8884D0063F951 /* EnumEntityState.swift */; };
 		B8CF9A871EE999B40063F951 /* GET-https---localhost-8080-local-path-1.0-enum-entity.json in Resources */ = {isa = PBXBuildFile; fileRef = B8CF9A851EE999B40063F951 /* GET-https---localhost-8080-local-path-1.0-enum-entity.json */; };
@@ -116,6 +117,7 @@
 /* Begin PBXFileReference section */
 		B82058D31EF030640002D7D4 /* DecodableExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DecodableExtension.swift; path = Extensions/DecodableExtension.swift; sourceTree = "<group>"; };
 		B83388EB21FF7DAA00085E26 /* RepositoryType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RepositoryType.swift; path = Repository/RepositoryType.swift; sourceTree = "<group>"; };
+		B863163F220899AC009E1EB9 /* EntityPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityPage.swift; sourceTree = "<group>"; };
 		B8CF9A7E1EE880E10063F951 /* EnumEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnumEntity.swift; path = Tests/EnumEntity.swift; sourceTree = "<group>"; };
 		B8CF9A821EE8884D0063F951 /* EnumEntityState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnumEntityState.swift; path = Tests/EnumEntityState.swift; sourceTree = "<group>"; };
 		B8CF9A851EE999B40063F951 /* GET-https---localhost-8080-local-path-1.0-enum-entity.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "GET-https---localhost-8080-local-path-1.0-enum-entity.json"; path = "Fixtures/GET-https---localhost-8080-local-path-1.0-enum-entity.json"; sourceTree = "<group>"; };
@@ -261,12 +263,13 @@
 				E1434DBF1E6A15C500D5C6D2 /* AppDelegate.swift */,
 				E1A337981E8AFBA90028494C /* NetworkingDemoLauncher.swift */,
 				E13DC65A1E6DDB870099FA75 /* DemoRepository.swift */,
+				E1434DCB1E6A15C500D5C6D2 /* Info.plist */,
+				B863163F220899AC009E1EB9 /* EntityPage.swift */,
 				E13DC65C1E6DDC100099FA75 /* Entity.swift */,
 				E13DC6611E6DE43E0099FA75 /* UserDemo.swift */,
 				E13A116E1EC38E7400DDCC0B /* StringExtension.swift */,
 				E1434DC61E6A15C500D5C6D2 /* Assets.xcassets */,
 				E1434DC81E6A15C500D5C6D2 /* LaunchScreen.storyboard */,
-				E1434DCB1E6A15C500D5C6D2 /* Info.plist */,
 			);
 			path = NetworkingDemo;
 			sourceTree = "<group>";
@@ -588,6 +591,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8631640220899AC009E1EB9 /* EntityPage.swift in Sources */,
 				E1A337991E8AFBA90028494C /* NetworkingDemoLauncher.swift in Sources */,
 				E13A116F1EC38E7400DDCC0B /* StringExtension.swift in Sources */,
 				E13DC65B1E6DDB870099FA75 /* DemoRepository.swift in Sources */,
