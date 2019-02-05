@@ -57,7 +57,7 @@ The framework allows to create agile HTTP repositories by extending [AbstractRep
 
 ### Fetching an entity
 
-In case a custom repository should fetch a single or a collection of models, they must implement `Decodable` (see [Argo](https://github.com/thoughtbot/Argo)). This way they can be automatically decoded by the framework. Check [UserDemo](NetworkingDemo/UserDemo.swift) or [Entity](NetworkingDemo/Entity.swift).
+In case a custom repository should fetch a single or a collection of models, they must implement `Decodable` (see [Argo](https://github.com/thoughtbot/Argo)). This way they can be automatically decoded by the framework. Check [User](NetworkingDemo/User.swift) or the entity [Book](NetworkingDemo/Book.swift).
 
 In case the entity is too complex, it's possible to get the error: `Expression was too complex to be solved in reasonable time`. In this case check this [Argo issue](https://github.com/thoughtbot/Argo/issues/5) for a workaround.
 
@@ -65,9 +65,9 @@ In case the entity is too complex, it's possible to get the error: `Expression w
 
 Every implemented repository is thought to return a `Result` instance (see [Result](https://github.com/antitypical/Result)) in which the value is typed in the expected response type, and the error is always a [RepositoryError](Networking/Repository/RepositoryError.swift).
 
-The basic and expected errors are implemented, and a way to add custom errors related to the project itself is provided. In order to add new errors it should be necessary to create a new `enum` which implements the protocol `CustomRepositoryErrorType` as done in [EntityRepository](NetworkingTests/Tests/EntityRepository.swift) and match the expected status code in the HTTP response with each custom error. An example of this can be found in [EntityRepository](NetworkingTests/Tests/EntityRepository.swift) in the function `fetchCustomFailingEntity`.
+The basic and expected errors are implemented, and a way to add custom errors related to the project itself is provided. In order to add new errors it should be necessary to create a new `enum` which implements the protocol `CustomRepositoryErrorType` as done in [EntityRepository](NetworkingTests/Tests/EntityRepositorySpec.swift) and match the expected status code in the HTTP response with each custom error. An example of this can be found in [EntityRepository](NetworkingTests/Tests/EntityRepositorySpec.swift) in the function `fetchCustomFailingEntity`.
 
-Also, a custom `DecodeError` (see [Argo](https://github.com/thoughtbot/Argo)) can be sent manually. An example can be found in [EntityRepository](NetworkingTests/Tests/EntityRepository.swift) in the function `fetchEntities`. This is useful in case the response body does not match exactly the return type and some kind of decoding needs to be manually performed.
+Also, a custom `DecodeError` (see [Argo](https://github.com/thoughtbot/Argo)) can be sent manually. An example can be found in [EntityRepository](NetworkingTests/Tests/EntityRepositorySpec.swift) in the function `fetchEntities`. This is useful in case the response body does not match exactly the return type and some kind of decoding needs to be manually performed.
 
 ### Error decoding reporting
 
