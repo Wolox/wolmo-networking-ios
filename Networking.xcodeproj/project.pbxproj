@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		B82058D41EF030640002D7D4 /* DecodableExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82058D31EF030640002D7D4 /* DecodableExtension.swift */; };
 		B83388EC21FF7DAA00085E26 /* RepositoryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83388EB21FF7DAA00085E26 /* RepositoryType.swift */; };
-		B8631640220899AC009E1EB9 /* EntityPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B863163F220899AC009E1EB9 /* EntityPage.swift */; };
+		B8631640220899AC009E1EB9 /* BooksPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B863163F220899AC009E1EB9 /* BooksPage.swift */; };
 		B8CF9A7F1EE880E10063F951 /* EnumEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CF9A7E1EE880E10063F951 /* EnumEntity.swift */; };
 		B8CF9A831EE8884D0063F951 /* EnumEntityState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CF9A821EE8884D0063F951 /* EnumEntityState.swift */; };
 		B8CF9A871EE999B40063F951 /* GET-https---localhost-8080-local-path-1.0-enum-entity.json in Resources */ = {isa = PBXBuildFile; fileRef = B8CF9A851EE999B40063F951 /* GET-https---localhost-8080-local-path-1.0-enum-entity.json */; };
@@ -27,9 +27,9 @@
 		E13DC6541E6DD8150099FA75 /* AbstractRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13320341E32969E008206C0 /* AbstractRepository.swift */; };
 		E13DC6551E6DD8150099FA75 /* RequestExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13320351E32969E008206C0 /* RequestExecutor.swift */; };
 		E13DC6561E6DD8150099FA75 /* NetworkingSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13320451E378582008206C0 /* NetworkingSessionManager.swift */; };
-		E13DC65B1E6DDB870099FA75 /* DemoRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13DC65A1E6DDB870099FA75 /* DemoRepository.swift */; };
-		E13DC65D1E6DDC100099FA75 /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13DC65C1E6DDC100099FA75 /* Entity.swift */; };
-		E13DC6621E6DE43E0099FA75 /* UserDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13DC6611E6DE43E0099FA75 /* UserDemo.swift */; };
+		E13DC65B1E6DDB870099FA75 /* BooksRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13DC65A1E6DDB870099FA75 /* BooksRepository.swift */; };
+		E13DC65D1E6DDC100099FA75 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13DC65C1E6DDC100099FA75 /* Book.swift */; };
+		E13DC6621E6DE43E0099FA75 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13DC6611E6DE43E0099FA75 /* User.swift */; };
 		E13E8D2B1F7FE9F60099B61B /* Alamofire.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = E157DA661E315532004586CB /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E14202311EBCF6AB0002C87D /* POST-https---localhost-8080-local-path-1.0-login.json in Resources */ = {isa = PBXBuildFile; fileRef = E14202301EBCF6AB0002C87D /* POST-https---localhost-8080-local-path-1.0-login.json */; };
 		E14202351EBCF8160002C87D /* LoginRepositorySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14202341EBCF8160002C87D /* LoginRepositorySpec.swift */; };
@@ -117,7 +117,7 @@
 /* Begin PBXFileReference section */
 		B82058D31EF030640002D7D4 /* DecodableExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DecodableExtension.swift; path = Extensions/DecodableExtension.swift; sourceTree = "<group>"; };
 		B83388EB21FF7DAA00085E26 /* RepositoryType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RepositoryType.swift; path = Repository/RepositoryType.swift; sourceTree = "<group>"; };
-		B863163F220899AC009E1EB9 /* EntityPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityPage.swift; sourceTree = "<group>"; };
+		B863163F220899AC009E1EB9 /* BooksPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksPage.swift; sourceTree = "<group>"; };
 		B8CF9A7E1EE880E10063F951 /* EnumEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnumEntity.swift; path = Tests/EnumEntity.swift; sourceTree = "<group>"; };
 		B8CF9A821EE8884D0063F951 /* EnumEntityState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnumEntityState.swift; path = Tests/EnumEntityState.swift; sourceTree = "<group>"; };
 		B8CF9A851EE999B40063F951 /* GET-https---localhost-8080-local-path-1.0-enum-entity.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "GET-https---localhost-8080-local-path-1.0-enum-entity.json"; path = "Fixtures/GET-https---localhost-8080-local-path-1.0-enum-entity.json"; sourceTree = "<group>"; };
@@ -131,9 +131,9 @@
 		E13320451E378582008206C0 /* NetworkingSessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkingSessionManager.swift; path = Repository/NetworkingSessionManager.swift; sourceTree = "<group>"; };
 		E13320471E3785DE008206C0 /* NetworkingMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkingMethod.swift; path = Model/NetworkingMethod.swift; sourceTree = "<group>"; };
 		E13A116E1EC38E7400DDCC0B /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
-		E13DC65A1E6DDB870099FA75 /* DemoRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoRepository.swift; sourceTree = "<group>"; };
-		E13DC65C1E6DDC100099FA75 /* Entity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
-		E13DC6611E6DE43E0099FA75 /* UserDemo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDemo.swift; sourceTree = "<group>"; };
+		E13DC65A1E6DDB870099FA75 /* BooksRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BooksRepository.swift; sourceTree = "<group>"; };
+		E13DC65C1E6DDC100099FA75 /* Book.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
+		E13DC6611E6DE43E0099FA75 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		E14202301EBCF6AB0002C87D /* POST-https---localhost-8080-local-path-1.0-login.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "POST-https---localhost-8080-local-path-1.0-login.json"; path = "Fixtures/POST-https---localhost-8080-local-path-1.0-login.json"; sourceTree = "<group>"; };
 		E14202341EBCF8160002C87D /* LoginRepositorySpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginRepositorySpec.swift; path = Tests/LoginRepositorySpec.swift; sourceTree = "<group>"; };
 		E14202371EBCF9650002C87D /* EntityRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EntityRepository.swift; path = Repositories/EntityRepository.swift; sourceTree = "<group>"; };
@@ -262,11 +262,11 @@
 			children = (
 				E1434DBF1E6A15C500D5C6D2 /* AppDelegate.swift */,
 				E1A337981E8AFBA90028494C /* NetworkingDemoLauncher.swift */,
-				E13DC65A1E6DDB870099FA75 /* DemoRepository.swift */,
+				E13DC65A1E6DDB870099FA75 /* BooksRepository.swift */,
 				E1434DCB1E6A15C500D5C6D2 /* Info.plist */,
-				B863163F220899AC009E1EB9 /* EntityPage.swift */,
-				E13DC65C1E6DDC100099FA75 /* Entity.swift */,
-				E13DC6611E6DE43E0099FA75 /* UserDemo.swift */,
+				B863163F220899AC009E1EB9 /* BooksPage.swift */,
+				E13DC65C1E6DDC100099FA75 /* Book.swift */,
+				E13DC6611E6DE43E0099FA75 /* User.swift */,
 				E13A116E1EC38E7400DDCC0B /* StringExtension.swift */,
 				E1434DC61E6A15C500D5C6D2 /* Assets.xcassets */,
 				E1434DC81E6A15C500D5C6D2 /* LaunchScreen.storyboard */,
@@ -591,13 +591,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B8631640220899AC009E1EB9 /* EntityPage.swift in Sources */,
+				B8631640220899AC009E1EB9 /* BooksPage.swift in Sources */,
 				E1A337991E8AFBA90028494C /* NetworkingDemoLauncher.swift in Sources */,
 				E13A116F1EC38E7400DDCC0B /* StringExtension.swift in Sources */,
-				E13DC65B1E6DDB870099FA75 /* DemoRepository.swift in Sources */,
+				E13DC65B1E6DDB870099FA75 /* BooksRepository.swift in Sources */,
 				E1434DC01E6A15C500D5C6D2 /* AppDelegate.swift in Sources */,
-				E13DC65D1E6DDC100099FA75 /* Entity.swift in Sources */,
-				E13DC6621E6DE43E0099FA75 /* UserDemo.swift in Sources */,
+				E13DC65D1E6DDC100099FA75 /* Book.swift in Sources */,
+				E13DC6621E6DE43E0099FA75 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

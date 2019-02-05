@@ -1,5 +1,5 @@
 //
-//  EntityPage.swift
+//  BooksPage.swift
 //  NetworkingDemo
 //
 //  Created by Nahuel Gladstein on 04/02/2019.
@@ -10,15 +10,15 @@ import Argo
 import Curry
 import Runes
 
-public struct EntityPage {
-    let data: [Entity]
+public struct BooksPage {
+    let data: [Book]
     let currentPage: Int
 }
 
-extension EntityPage: Argo.Decodable {
+extension BooksPage: Argo.Decodable {
     
-    public static func decode(_ json: JSON) -> Decoded<EntityPage> {
-        return curry(EntityPage.init)
+    public static func decode(_ json: JSON) -> Decoded<BooksPage> {
+        return curry(BooksPage.init)
             <^> json <|| "data"
             <*> json <| ["page", "position", "current"]
     }

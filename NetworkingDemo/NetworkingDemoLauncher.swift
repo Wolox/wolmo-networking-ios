@@ -12,7 +12,7 @@ import AlamofireNetworkActivityIndicator
 import AlamofireNetworkActivityLogger
 
 class NetworkingDemoLauncher {
-    private let _fakeUser = UserDemo(sessionToken: "fakeToken", id: 1)
+    private let _fakeUser = User(sessionToken: "fakeToken", id: 1)
     
     func launch() {
         NetworkActivityLogger.shared.startLogging()
@@ -27,16 +27,18 @@ class NetworkingDemoLauncher {
 private extension NetworkingDemoLauncher {
     
     func createRepositoryAndPerformRequests() {
-        let repository = DemoRepository(configuration: networkingConfiguration, defaultHeaders: ["Authorization": _fakeUser.sessionToken ?? ""])
+        let repository = BooksRepository(configuration: networkingConfiguration, defaultHeaders: ["Authorization": _fakeUser.sessionToken ?? ""])
         
-        repository.fetchEntityPage().startWithResult {
+        repository.fetchBooksPage().startWithResult {
             switch $0 {
-            case .success(let entityPage): print("\(entityPage.data)")
+            case .success(let bookPage): print("\(bookPage.data)")
             case .failure(let error):  print("\(error)")
             }
         }
         
-        repository.noAnswerEntities().startWithResult {
+        let book = Book(title: "Books Training", author: "J.R.R. Wolox", genre: "Technology", image: "some_url", year: "2019")
+        
+        repository.addBook(book).startWithResult {
             switch $0 {
             case .success: print("success")
             case .failure(let error):  print("\(error)")
