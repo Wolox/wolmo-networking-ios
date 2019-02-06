@@ -12,10 +12,7 @@ import AlamofireNetworkActivityIndicator
 import AlamofireNetworkActivityLogger
 
 class NetworkingDemoLauncher {
-    // Provide a valid session token for the demo app to work properly.
-    static let sessionToken = ""
-    
-    private let _fakeUser = UserDemo(sessionToken: NetworkingDemoLauncher.sessionToken, id: 1)
+    private let _fakeUser = User(sessionToken: "fakeToken", id: 1)
     
     func launch() {
         NetworkActivityLogger.shared.startLogging()
@@ -30,16 +27,18 @@ class NetworkingDemoLauncher {
 private extension NetworkingDemoLauncher {
     
     func createRepositoryAndPerformRequests() {
-        let repository = DemoRepository(configuration: networkingConfiguration, defaultHeaders: ["Authorization": _fakeUser.sessionToken ?? ""])
+        let repository = BooksRepository(configuration: networkingConfiguration, defaultHeaders: ["Authorization": _fakeUser.sessionToken ?? ""])
         
-        repository.fetchEntities().startWithResult {
+        repository.fetchBooksPage().startWithResult {
             switch $0 {
-            case .success(let entities): print("\(entities)")
+            case .success(let bookPage): print("\(bookPage.data)")
             case .failure(let error):  print("\(error)")
             }
         }
         
-        repository.noAnswerEntities(userID: _fakeUser.id).startWithResult {
+        let book = Book(title: "Books Training", author: "J.R.R. Wolox", genre: "Technology", image: "some_url", year: "2019")
+        
+        repository.addBook(book).startWithResult {
             switch $0 {
             case .success: print("success")
             case .failure(let error):  print("\(error)")
@@ -53,10 +52,7 @@ fileprivate extension NetworkingDemoLauncher {
     
     var networkingConfiguration: NetworkingConfiguration {
         var config = NetworkingConfiguration()
-        config.useSecureConnection = true
-        config.domainURL = "wbooks-api-stage.herokuapp.com"
-        config.subdomainURL = "/api/v1"
-        config.usePinningCertificate = false
+        config.domainURL = "swift-training-backend.herokuapp.com"
         return config
     }
     
