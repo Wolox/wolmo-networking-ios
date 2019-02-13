@@ -41,7 +41,7 @@ brew install carthage
 ```
 To download wolmo-networking-iOS, add this to your Cartfile:
 ```
-github "Wolox/wolmo-networking-ios" ~> 1.1.0
+github "Wolox/wolmo-networking-ios" ~> 2.0.0
 ```
 
 ### Manually
