@@ -96,7 +96,7 @@ private extension AbstractRepository {
         case AbstractRepository.NoNetworkConnectionStatusCode:
             return SignalProducer(error: .noNetworkConnection)
         case AbstractRepository.UnauthorizedStatusCode:
-            return SignalProducer(error: .unauthenticatedSession)
+            return SignalProducer(error: .unauthenticatedSession(error))
         case NSURLErrorTimedOut:
             return SignalProducer(error: .timeout)
         default:
