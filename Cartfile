@@ -1,6 +1,6 @@
 github "ReactiveCocoa/ReactiveCocoa" ~> 8.0.2
 github "thoughtbot/Argo" ~> 4.1.2
-github "thoughtbot/Curry" ~> 3.0.0
-github "Alamofire/Alamofire" ~> 4.5.1
-github "Alamofire/AlamofireNetworkActivityIndicator" ~> 2.2.0
+github "thoughtbot/Curry" ~> 4.0.1
+github "Alamofire/Alamofire" ~> 4.8.1
+github "Alamofire/AlamofireNetworkActivityIndicator" ~> 2.3.0
 github "konkab/AlamofireNetworkActivityLogger" "master"
