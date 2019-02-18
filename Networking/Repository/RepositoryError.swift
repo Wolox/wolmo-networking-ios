@@ -34,7 +34,7 @@ public enum RepositoryError: Error {
     case invalidURL
     case requestError(ResponseError)
     case noNetworkConnection
-    case unauthenticatedSession
+    case unauthenticatedSession(ResponseError)
     case jsonError(Error)
     case decodeError(Argo.DecodeError)
     case timeout
