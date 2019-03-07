@@ -63,14 +63,14 @@ extension AbstractRepository: RepositoryType {
         return performPollingRequest(method: method, path: path, parameters: parameters.asParameters(), headers: headers, encodeAs: ArrayEncoding(), decoder: decoder)
     }
     
-    public func performRequest(method: NetworkingMethod, path: String, parameters: [String: Any]? = .none,
+    public func performRequestRaw(method: NetworkingMethod, path: String, parameters: [String: Any]? = .none,
                                headers: [String: String]? = .none, encodeAs: ParameterEncoding? = .none) -> SignalProducer<RawDataResponse, RepositoryError> {
         return perform(method: method, path: path, parameters: parameters, headers: headers, encodeAs: encodeAs)
     }
     
-    public func performRequestWithArray(method: NetworkingMethod, path: String, parameters: [Any],
+    public func performRequestRawWithArray(method: NetworkingMethod, path: String, parameters: [Any],
                                headers: [String: String]? = .none) -> SignalProducer<RawDataResponse, RepositoryError> {
-        return performRequest(method: method, path: path, parameters: parameters.asParameters(), headers: headers, encodeAs: ArrayEncoding())
+        return performRequestRaw(method: method, path: path, parameters: parameters.asParameters(), headers: headers, encodeAs: ArrayEncoding())
     }
     
 }

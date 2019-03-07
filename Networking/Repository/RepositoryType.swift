@@ -93,10 +93,10 @@ public protocol RepositoryType {
      A SignalProducer where its value is a tuple of type
      (URLRequest, HTTPURLResponse, Data) and its error a RepositoryError.
      */
-    func performRequest(method: NetworkingMethod, path: String, parameters: [String: Any]?,
+    func performRequestRaw(method: NetworkingMethod, path: String, parameters: [String: Any]?,
                         headers: [String: String]?, encodeAs: ParameterEncoding?) -> SignalProducer<RawDataResponse, RepositoryError>
     
     // Same but taking an Array instead of a Dictionary
-    func performRequestWithArray(method: NetworkingMethod, path: String, parameters: [Any], headers: [String: String]?) -> SignalProducer<RawDataResponse, RepositoryError>
+    func performRequestRawWithArray(method: NetworkingMethod, path: String, parameters: [Any], headers: [String: String]?) -> SignalProducer<RawDataResponse, RepositoryError>
     
 }
