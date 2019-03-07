@@ -47,7 +47,7 @@ extension AbstractRepository: RepositoryType {
             }
     }
     
-    public func performRequest<T>(method: NetworkingMethod, path: String, parameters: [Any],
+    public func performRequestWithArray<T>(method: NetworkingMethod, path: String, parameters: [Any],
                                   headers: [String: String]? = .none, decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError> {
         return performRequest(method: method, path: path, parameters: parameters.asParameters(), headers: headers, encodeAs: ArrayEncoding(), decoder: decoder)
     }
@@ -58,7 +58,7 @@ extension AbstractRepository: RepositoryType {
         return tryPollingRequest(method: method, path: path, tryNumber: 0, parameters: parameters, headers: headers, encodeAs: encodeAs, decoder: decoder)
     }
     
-    public func performPollingRequest<T>(method: NetworkingMethod, path: String, parameters: [Any],
+    public func performPollingRequestWithArray<T>(method: NetworkingMethod, path: String, parameters: [Any],
                                          headers: [String: String]? = .none, decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError> {
         return performPollingRequest(method: method, path: path, parameters: parameters.asParameters(), headers: headers, encodeAs: ArrayEncoding(), decoder: decoder)
     }
@@ -68,7 +68,7 @@ extension AbstractRepository: RepositoryType {
         return perform(method: method, path: path, parameters: parameters, headers: headers, encodeAs: encodeAs)
     }
     
-    public func performRequest(method: NetworkingMethod, path: String, parameters: [Any],
+    public func performRequestWithArray(method: NetworkingMethod, path: String, parameters: [Any],
                                headers: [String: String]? = .none) -> SignalProducer<RawDataResponse, RepositoryError> {
         return performRequest(method: method, path: path, parameters: parameters.asParameters(), headers: headers, encodeAs: ArrayEncoding())
     }

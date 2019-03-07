@@ -50,7 +50,7 @@ public protocol RepositoryType {
                            decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError>
     
     // Same but taking an Array instead of a Dictionary
-    func performRequest<T>(method: NetworkingMethod, path: String, parameters: [Any],
+    func performRequestWithArray<T>(method: NetworkingMethod, path: String, parameters: [Any],
                            headers: [String: String]?, decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError>
     
     /**
@@ -75,7 +75,7 @@ public protocol RepositoryType {
                                   decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError>
     
     // Same but taking an Array instead of a Dictionary
-    func performPollingRequest<T>(method: NetworkingMethod, path: String, parameters: [Any],
+    func performPollingRequestWithArray<T>(method: NetworkingMethod, path: String, parameters: [Any],
                                   headers: [String: String]?, decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError>
     
     /**
@@ -97,6 +97,6 @@ public protocol RepositoryType {
                         headers: [String: String]?, encodeAs: ParameterEncoding?) -> SignalProducer<RawDataResponse, RepositoryError>
     
     // Same but taking an Array instead of a Dictionary
-    func performRequest(method: NetworkingMethod, path: String, parameters: [Any], headers: [String: String]?) -> SignalProducer<RawDataResponse, RepositoryError>
+    func performRequestWithArray(method: NetworkingMethod, path: String, parameters: [Any], headers: [String: String]?) -> SignalProducer<RawDataResponse, RepositoryError>
     
 }
