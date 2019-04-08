@@ -78,6 +78,7 @@ extension AbstractRepository: RepositoryType {
 private extension AbstractRepository {
     private static let NoNetworkConnectionStatusCode = 0
     private static let UnauthorizedStatusCode = 401
+    private static let NoContent = 204
     
     func buildURL(path: String) -> URL? {
         return _configuration.baseURL.appendingPathComponent(path)
@@ -97,6 +98,8 @@ private extension AbstractRepository {
             return SignalProducer(error: .noNetworkConnection)
         case AbstractRepository.UnauthorizedStatusCode:
             return SignalProducer(error: .unauthenticatedSession(error))
+        case AbstractRepository.NoContent:
+            return SignalProducer(error: .noContent)
         case NSURLErrorTimedOut:
             return SignalProducer(error: .timeout)
         default:
