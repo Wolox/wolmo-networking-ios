@@ -14,6 +14,8 @@
 		B8CF9A831EE8884D0063F951 /* EnumEntityState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CF9A821EE8884D0063F951 /* EnumEntityState.swift */; };
 		B8CF9A871EE999B40063F951 /* GET-https---localhost-8080-local-path-1.0-enum-entity.json in Resources */ = {isa = PBXBuildFile; fileRef = B8CF9A851EE999B40063F951 /* GET-https---localhost-8080-local-path-1.0-enum-entity.json */; };
 		B8CF9A891EE9B1940063F951 /* GET-https---localhost-8080-local-path-1.0-failing-enum-entity.json in Resources */ = {isa = PBXBuildFile; fileRef = B8CF9A881EE9B1940063F951 /* GET-https---localhost-8080-local-path-1.0-failing-enum-entity.json */; };
+		B8E9E18E228B4C850011EE2B /* NetworkingInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E9E18D228B4C850011EE2B /* NetworkingInterceptor.swift */; };
+		B8E9E190228B528E0011EE2B /* DemoInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E9E18F228B528E0011EE2B /* DemoInterceptor.swift */; };
 		E111AE0C1E92D96000DE0C33 /* AlamofireNetworkActivityLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E111AE0B1E92D96000DE0C33 /* AlamofireNetworkActivityLogger.framework */; };
 		E13A116F1EC38E7400DDCC0B /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13A116E1EC38E7400DDCC0B /* StringExtension.swift */; };
 		E13DC6431E6DD4E40099FA75 /* Networking.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1434DD41E6A177F00D5C6D2 /* Networking.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -122,6 +124,8 @@
 		B8CF9A821EE8884D0063F951 /* EnumEntityState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnumEntityState.swift; path = Tests/EnumEntityState.swift; sourceTree = "<group>"; };
 		B8CF9A851EE999B40063F951 /* GET-https---localhost-8080-local-path-1.0-enum-entity.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "GET-https---localhost-8080-local-path-1.0-enum-entity.json"; path = "Fixtures/GET-https---localhost-8080-local-path-1.0-enum-entity.json"; sourceTree = "<group>"; };
 		B8CF9A881EE9B1940063F951 /* GET-https---localhost-8080-local-path-1.0-failing-enum-entity.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "GET-https---localhost-8080-local-path-1.0-failing-enum-entity.json"; path = "Fixtures/GET-https---localhost-8080-local-path-1.0-failing-enum-entity.json"; sourceTree = "<group>"; };
+		B8E9E18D228B4C850011EE2B /* NetworkingInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NetworkingInterceptor.swift; path = Model/NetworkingInterceptor.swift; sourceTree = "<group>"; };
+		B8E9E18F228B528E0011EE2B /* DemoInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoInterceptor.swift; sourceTree = "<group>"; };
 		E111AE0B1E92D96000DE0C33 /* AlamofireNetworkActivityLogger.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AlamofireNetworkActivityLogger.framework; path = Carthage/Build/iOS/AlamofireNetworkActivityLogger.framework; sourceTree = SOURCE_ROOT; };
 		E12A242D1E677ACB00CCF53F /* GET-https---localhost-8080-local-path-1.0-failing-entity.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "GET-https---localhost-8080-local-path-1.0-failing-entity.json"; path = "Fixtures/GET-https---localhost-8080-local-path-1.0-failing-entity.json"; sourceTree = "<group>"; };
 		E13320341E32969E008206C0 /* AbstractRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AbstractRepository.swift; path = Repository/AbstractRepository.swift; sourceTree = "<group>"; };
@@ -242,6 +246,7 @@
 			children = (
 				E13320431E36AEF5008206C0 /* NetworkingConfiguration.swift */,
 				E13320471E3785DE008206C0 /* NetworkingMethod.swift */,
+				B8E9E18D228B4C850011EE2B /* NetworkingInterceptor.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -270,6 +275,7 @@
 				E13A116E1EC38E7400DDCC0B /* StringExtension.swift */,
 				E1434DC61E6A15C500D5C6D2 /* Assets.xcassets */,
 				E1434DC81E6A15C500D5C6D2 /* LaunchScreen.storyboard */,
+				B8E9E18F228B528E0011EE2B /* DemoInterceptor.swift */,
 			);
 			path = NetworkingDemo;
 			sourceTree = "<group>";
@@ -595,6 +601,7 @@
 				E1A337991E8AFBA90028494C /* NetworkingDemoLauncher.swift in Sources */,
 				E13A116F1EC38E7400DDCC0B /* StringExtension.swift in Sources */,
 				E13DC65B1E6DDB870099FA75 /* BooksRepository.swift in Sources */,
+				B8E9E190228B528E0011EE2B /* DemoInterceptor.swift in Sources */,
 				E1434DC01E6A15C500D5C6D2 /* AppDelegate.swift in Sources */,
 				E13DC65D1E6DDC100099FA75 /* Book.swift in Sources */,
 				E13DC6621E6DE43E0099FA75 /* User.swift in Sources */,
@@ -611,6 +618,7 @@
 				E13DC6531E6DD8150099FA75 /* DecodedExtension.swift in Sources */,
 				B83388EC21FF7DAA00085E26 /* RepositoryType.swift in Sources */,
 				E1C50C611E6F589D000A71BA /* RepositoryError.swift in Sources */,
+				B8E9E18E228B4C850011EE2B /* NetworkingInterceptor.swift in Sources */,
 				E13DC6541E6DD8150099FA75 /* AbstractRepository.swift in Sources */,
 				E13DC6551E6DD8150099FA75 /* RequestExecutor.swift in Sources */,
 				E13DC6561E6DD8150099FA75 /* NetworkingSessionManager.swift in Sources */,

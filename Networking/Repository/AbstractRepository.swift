@@ -42,8 +42,9 @@ extension AbstractRepository: RepositoryType {
                                   headers: [String: String]? = .none, encodeAs: ParameterEncoding? = .none,
                                   decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError> {
         return perform(method: method, path: path, parameters: parameters, headers: headers, encodeAs: encodeAs)
-            .flatMap(.concat) { _, _, data in
-                self.deserializeData(data: data, decoder: decoder)
+            .flatMap(.concat) { (request: URLRequest, response: HTTPURLResponse, data: Data) -> SignalProducer<T, RepositoryError> in
+            self._configuration.interceptor?.intercept(request: request, response: response, data: data)
+                return self.deserializeData(data: data, decoder: decoder)
             }
     }
     
@@ -84,10 +85,12 @@ private extension AbstractRepository {
     }
     
     func deserializeData<T>(data: Data, decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError> {
-        return SignalProducer {
-            JSONSerialization.privateJsonObject(with: data)
+        return SignalProducer { () -> Result<T, RepositoryError> in
+            let json = JSONSerialization.privateJsonObject(with: data)
                 .mapError { .jsonError($0) }
-                .flatMap { decoder($0).mapError { .decodeError($0) } }
+                .flatMap { decoder($0).mapError { RepositoryError.decodeError($0) } }
+            
+            return json
         }
     }
     
