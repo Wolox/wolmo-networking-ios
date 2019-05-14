@@ -53,6 +53,7 @@ fileprivate extension NetworkingDemoLauncher {
     var networkingConfiguration: NetworkingConfiguration {
         var config = NetworkingConfiguration()
         config.domainURL = "swift-training-backend.herokuapp.com"
+        config.interceptor = DemoInterceptor()
         return config
     }
     
