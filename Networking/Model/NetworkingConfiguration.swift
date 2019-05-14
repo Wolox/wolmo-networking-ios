@@ -49,7 +49,8 @@ public struct NetworkingConfiguration {
     /// Methods to be encoded as URL. The remaining methods will be encoded as JSON.
     public var encodeAsURL: [HTTPMethod] = [ .get, .head, .delete]
     
-    /// Interceptor to catch request, response and data and operate with it before deserializing.
+    /// Interceptor to catch request, response and data and operate with it before deserializing. It can be used to retrieve
+    ///  the access token from the headers of the response.
     public var interceptor: NetworkingInterceptor? = .none
     
     /**

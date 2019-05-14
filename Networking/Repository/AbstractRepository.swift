@@ -85,12 +85,10 @@ private extension AbstractRepository {
     }
     
     func deserializeData<T>(data: Data, decoder: @escaping Decoder<T>) -> SignalProducer<T, RepositoryError> {
-        return SignalProducer { () -> Result<T, RepositoryError> in
-            let json = JSONSerialization.privateJsonObject(with: data)
+        return SignalProducer {
+            JSONSerialization.privateJsonObject(with: data)
                 .mapError { .jsonError($0) }
-                .flatMap { decoder($0).mapError { RepositoryError.decodeError($0) } }
-            
-            return json
+                .flatMap { decoder($0).mapError { .decodeError($0) } }
         }
     }
     
