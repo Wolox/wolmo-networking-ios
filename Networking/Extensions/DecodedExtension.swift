@@ -7,7 +7,6 @@
 //
 
 import Argo
-import enum Result.Result
 
 /**
     Decoded extension wrapping self as a Result instance.
