@@ -30,6 +30,7 @@ bundle_install ()
   echo ""
   echo " → Installing gems"
   echo ""
+  #workaround for CI failing
   gem uninstall bundler --force
   gem install bundler --force
   if type bundle > /dev/null
