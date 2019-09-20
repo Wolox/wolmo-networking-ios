@@ -26,6 +26,9 @@ print_gem_install_cmd ()
 
 bundle_install ()
 {
+  # workaround for CI
+  gem uninstall bundler --force
+  gem install bundler --force
   echo ""
   echo " → Installing gems"
   echo ""
