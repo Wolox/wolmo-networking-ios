@@ -2,7 +2,6 @@
 
 set -e
 
-source script/common/check_xcode_version
 if [ -f script/script_hooks/bootstrap ] && [ -z $DISABLE_BOOTSTRAP_HOOKS ]
 then
   source script/script_hooks/bootstrap
@@ -30,9 +29,6 @@ bundle_install ()
   echo ""
   echo " → Installing gems"
   echo ""
-  #workaround for CI failing
-  gem uninstall bundler --force
-  gem install bundler --force
   if type bundle > /dev/null
   then
     bundle install
@@ -63,7 +59,6 @@ install_git_hooks ()
     echo ""
   fi
 }
-
 bootstrap_carthage ()
 {
   echo ""
@@ -179,7 +174,11 @@ main ()
   echo " Bootstrapping $PROJECT_NAME"
   echo ""
 
-  check_xcode_version
+  if [ -z "$DISABLE_XCODE_CHECK" ]
+  then
+    script/common/check_xcode_version $REQUIRED_XCODE_VERSION
+  fi
+
   install_git_hooks
 
   before_install_hooks
@@ -188,7 +187,6 @@ main ()
   then
     bundle_install
   fi
-
   if [ -f Cartfile.resolved ]
   then
     install_carthage
