@@ -8,9 +8,8 @@
 
 import Alamofire
 import ReactiveSwift
-import enum Result.Result
 
-internal typealias JSONResult = Result<AnyObject, NSError>
+internal typealias JSONResult = Swift.Result<AnyObject, NSError>
 
 /**
     Tuple that represents the parameters of a request and a response.

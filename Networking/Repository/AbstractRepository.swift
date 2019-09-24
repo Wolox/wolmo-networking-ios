@@ -9,7 +9,6 @@
 import ReactiveSwift
 import Alamofire
 import Argo
-import enum Result.Result
 
 open class AbstractRepository {
     private let _configuration: NetworkingConfiguration
