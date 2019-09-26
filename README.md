@@ -1,6 +1,6 @@
 ## WolMo - Networking iOS
 
-[![Build Status](https://www.bitrise.io/app/ee14c324bf9e92ed.svg?token=RS3nJlQST8L2nG6tI_AsYg&branch=master)](https://www.bitrise.io/app/ee14c324bf9e92ed)
+[![Build Status](https://app.bitrise.io/app/ee14c324bf9e92ed.svg?token=RS3nJlQST8L2nG6tI_AsYg&branch=master)](https://app.bitrise.io/app/ee14c324bf9e92ed)
 [![GitHub release](https://img.shields.io/github/release/Wolox/wolmo-networking-ios.svg)](https://github.com/Wolox/wolmo-networking-ios/releases)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 ![Swift 3](https://img.shields.io/badge/Swift-3-orange.svg)
