@@ -9,14 +9,13 @@
 import ReactiveSwift
 import Alamofire
 import Argo
-import enum Result.Result
 
 /**
  Typealias to model a closure used to decode a fetched entity.
  Its type matches the entity type.
  Its error is a DecodeError, in case the response does not match what the model expected.
  */
-public typealias Decoder<T> = (AnyObject) -> Result<T, Argo.DecodeError>
+public typealias Decoder<T> = (AnyObject) -> Swift.Result<T, Argo.DecodeError>
 
 /**
  Typealias to model a tuple of request, response and data.
